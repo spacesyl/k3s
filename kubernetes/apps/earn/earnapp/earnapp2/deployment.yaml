@@ -1,0 +1,42 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: earnapp2
+  namespace: earn
+  labels:
+    app: earnapp2
+spec:
+  selector:
+    matchLabels:
+      app: earnapp2
+      tier: frontend
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: earnapp2
+        tier: frontend
+    spec:
+      # renovate: registryUrl=https://github.com/fazalfarhan01/EarnApp-Docker
+      containers:
+        - name: earnapp
+          image: fazalfarhan01/earnapp:lite-1.294.218
+          imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: "0.5"
+              memory: 128Mi
+            requests:
+              cpu: "0.1"
+              memory: 16Mi
+          env:
+            - name: EARNAPP_UUID
+              valueFrom:
+                secretKeyRef:
+                  name: earnapp-secrets
+                  key: earnappUuid2
+      nodeSelector:
+        network: internal
