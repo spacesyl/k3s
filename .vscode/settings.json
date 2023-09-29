@@ -10,5 +10,6 @@
         "ansible": "**/ansible/*.yaml",
         "Kubernetes": "**/kubernetes/*.yaml"
     },
-    "sops.defaults.ageKeyFile": "age.key"
+    "sops.defaults.ageKeyFile": "age.key",
+    "ansible.python.interpreterPath": "/home/e-syl.home/s0001/RemoteData/code/k3s/.venv/bin/python"
 }
