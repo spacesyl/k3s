@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chrony
+  namespace: networking
+  labels:
+    app: chrony
+spec:
+  selector:
+    matchLabels:
+      app: chrony
+      tier: frontend
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: chrony
+        tier: frontend
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - chrony
+            topologyKey: "kubernetes.io/hostname"
+      containers:
+        - name: chrony
+          image: cturra/ntp
+          resources:
+            limits:
+              cpu: "0.5"
+              memory: 64Mi
+            requests:
+              cpu: "0.1"
+              memory: 16Mi
+          ports:
+            - containerPort: 123
+              protocol: UDP
