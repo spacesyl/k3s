@@ -5,6 +5,8 @@ metadata:
   namespace: services
   labels:
     app: chrony
+  annotations:
+    io.cilium/lb-ipam-ips: "10.17.8.5"
 spec:
   ports:
     - name: ntp-udp
@@ -15,5 +17,3 @@ spec:
     app: chrony
     tier: frontend
   type: LoadBalancer
-  annotations:
-    io.cilium/lb-ipam-ips: "10.17.8.5"
