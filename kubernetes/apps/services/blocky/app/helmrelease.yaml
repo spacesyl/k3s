@@ -38,30 +38,35 @@ spec:
         ports:
           http:
             port: 4000
-      dns-tcp:
+      dns:
         enabled: true
         type: LoadBalancer
-        annotations:
-          io.cilium/lb-ipam-ips: "10.17.8.6"
-        externalTrafficPolicy: Local
-        ports:
-          dns-tcp:
-            enabled: true
-            port: 53
-            protocol: TCP
-            targetPort: 53
-      dns-udp:
-        enabled: true
-        type: LoadBalancer
+        externalTrafficPolicy: Cluster
         annotations:
           io.cilium/lb-ipam-ips: "10.17.8.4"
-        externalTrafficPolicy: Local
+        monitor:
+          enabled: false
         ports:
           dns-udp:
             enabled: true
             port: 53
             protocol: UDP
             targetPort: 53
+          dns-tcp:
+            enabled: true
+            port: 53
+            protocol: TCP
+            targetPort: 53
+          dns-dot:
+            enabled: true
+            port: 853
+            protocol: TCP
+            targetPort: 853
+          dns-https:
+            enabled: true
+            port: 443
+            protocol: TCP
+            targetPort: 443
     persistence:
       config:
         enabled: true
