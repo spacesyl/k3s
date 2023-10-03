@@ -14,5 +14,5 @@ spec:
   selector:
     app: chrony
     tier: frontend
-  type: LoadBalancer
-  loadBalancerIP: "10.17.8.5"
+  annotations:
+    io.cilium/lb-ipam-ips: "10.17.8.5"
