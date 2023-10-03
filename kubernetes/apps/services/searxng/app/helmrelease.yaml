@@ -57,6 +57,7 @@ spec:
         ingressClassName: internal
         annotations:
           hajimari.io/enable: "true"
+          hajimari.io/icon: mdi:search-web
         hosts:
           - host: &host "search.${SECRET_DOMAIN}"
             paths:
