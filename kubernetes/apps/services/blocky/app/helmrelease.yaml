@@ -41,8 +41,8 @@ spec:
       dns-tcp:
         enabled: true
         type: LoadBalancer
-        externalIPs:
-          - 10.17.8.4
+        annotations:
+          io.cilium/lb-ipam-ips: "10.17.8.4"
         externalTrafficPolicy: Local
         ports:
           dns-tcp:
@@ -53,8 +53,8 @@ spec:
       dns-udp:
         enabled: true
         type: LoadBalancer
-        externalIPs:
-          - 10.17.8.4
+        annotations:
+          io.cilium/lb-ipam-ips: "10.17.8.4"
         externalTrafficPolicy: Local
         ports:
           dns-udp:
