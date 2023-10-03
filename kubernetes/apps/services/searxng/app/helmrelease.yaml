@@ -34,7 +34,7 @@ spec:
       replicas: 1
     image:
       repository: docker.io/searxng/searxng
-      tag: 2023.7.22-65d8b1a31
+      tag: 2023.10.1-d56b31d67
     podAnnotations:
       setGateway: "true"
     env:
