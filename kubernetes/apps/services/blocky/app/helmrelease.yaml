@@ -87,13 +87,13 @@ spec:
             blocking:
               blackLists:
                 ads:
-                  - https://dbl.oisd.nl/
-                  # - https://raw.githubusercontent.com/ookangzheng/dbl-oisd-nl/master/dbl.txt
+                  # - https://dbl.oisd.nl/
+                  - https://raw.githubusercontent.com/ookangzheng/dbl-oisd-nl/master/dbl.txt
                   - https://s3.amazonaws.com/lists.disconnect.me/simple_ad.txt
-                  - https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
+                  # - https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
                   - http://sysctl.org/cameleon/hosts
                   - https://s3.amazonaws.com/lists.disconnect.me/simple_tracking.txt
-                  - https://raw.githubusercontent.com/kboghdady/youTube_ads_4_pi-hole/master/black.list
+                  # - https://raw.githubusercontent.com/kboghdady/youTube_ads_4_pi-hole/master/black.list
                 special:
                   - https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews/hosts
               clientGroupsBlock:
