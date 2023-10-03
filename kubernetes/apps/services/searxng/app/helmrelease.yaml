@@ -42,6 +42,11 @@ spec:
       SEARXNG_BASE_URL: "https://search.${SECRET_DOMAIN}"
       SEARXNG_URL: "https://search.${SECRET_DOMAIN}"
       SEARXNG_PORT: &http "8080"
+      SEARXNG_SECRET:
+        valueFrom:
+          secretKeyRef:
+            name: searxng-secrets
+            key: searxng-secret1
     service:
       main:
         ports:
