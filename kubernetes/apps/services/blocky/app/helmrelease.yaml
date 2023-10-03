@@ -42,7 +42,7 @@ spec:
         enabled: true
         type: LoadBalancer
         annotations:
-          io.cilium/lb-ipam-ips: "10.17.8.4"
+          io.cilium/lb-ipam-ips: "10.17.8.6"
         externalTrafficPolicy: Local
         ports:
           dns-tcp:
