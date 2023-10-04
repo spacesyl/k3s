@@ -67,50 +67,38 @@ spec:
             port: 443
             protocol: TCP
             targetPort: 443
+
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: nginx-internal
+        hosts:
+          - host: &host blocky.${SECRET_DOMAIN}
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - *host
+            secretName: blocky-cert-tls
+
     persistence:
       config:
         enabled: true
         type: configMap
         name: &config blocky-config
-        mountPath: /app/config.yml
         subPath: config.yml
-    configMaps:
-      config:
+        mountPath: /app/config.yml
+        readOnly: true
+      tls:
         enabled: true
-        data:
-          config.yml: |-
-            upstream:
-              default:
-                - tcp-tls:one.one.one.one:853
-                - tcp-tls:dns.quad9.net:853
-            conditional:
-              mapping:
-                ${SECRET_INTERNAL_DOMAIN}: tcp+udp:10.17.0.4
-                ${SECRET_DOMAIN}: tcp+udp:10.17.8.99
-                8.17.10.in-addr.arpa: tcp+udp:10.17.0.4
-                0.17.10.in-addr.arpa: tcp+udp:10.17.0.4
-            blocking:
-              blackLists:
-                ads:
-                  # - https://dbl.oisd.nl/
-                  - https://raw.githubusercontent.com/ookangzheng/dbl-oisd-nl/master/dbl.txt
-                  - https://s3.amazonaws.com/lists.disconnect.me/simple_ad.txt
-                  # - https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
-                  - http://sysctl.org/cameleon/hosts
-                  - https://s3.amazonaws.com/lists.disconnect.me/simple_tracking.txt
-                  # - https://raw.githubusercontent.com/kboghdady/youTube_ads_4_pi-hole/master/black.list
-                special:
-                  - https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews/hosts
-              clientGroupsBlock:
-                default:
-                - ads
-                - special
-            logLevel: info
-            httpPort: 4000
-            clientLookup:
-              upstream: tcp+udp:10.17.0.4
+        type: secret
+        name: wildcard-cert-tls
+        readOnly: true
+
     podAnnotations:
       configmap.reloader.stakater.com/reload: *config
+      secret.reloader.stakater.com/reload: blocky-cert-tls
     topologySpreadConstraints:
       - maxSkew: 1
         topologyKey: kubernetes.io/hostname
