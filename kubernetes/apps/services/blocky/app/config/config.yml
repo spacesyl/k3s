@@ -23,12 +23,12 @@ bootstrapDns:
 ede:
   enable: true
 
-# redis:
-#   address: redis.database.svc:6379
-#   database: 2
-#   required: true
-#   connectionAttempts: 10
-#   connectionCooldown: 3s
+redis:
+  address: redis.databases.svc:6379
+  database: 2
+  required: true
+  connectionAttempts: 10
+  connectionCooldown: 3s
 
 blocking:
   blackLists:
