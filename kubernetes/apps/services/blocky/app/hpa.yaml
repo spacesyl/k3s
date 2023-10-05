@@ -3,7 +3,7 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: blocky
-  namespace: networking
+  namespace: services
 spec:
   maxReplicas: 5
   metrics:
