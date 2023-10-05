@@ -78,11 +78,11 @@ prometheus:
   path: /metrics
 
 ports:
-  https: 443
-  tls: 853
+#   https: 443
+#   tls: 853
   http: 4000
-certFile: /tls/tls.crt
-keyFile: /tls/tls.key
+# certFile: /tls/tls.crt
+# keyFile: /tls/tls.key
 log:
   level: info
   format: json
