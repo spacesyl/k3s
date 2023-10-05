@@ -93,7 +93,7 @@ spec:
       tls:
         enabled: true
         type: secret
-        name: wildcard-cert-tls
+        name: block-cert-tls
         readOnly: true
 
     podAnnotations:
