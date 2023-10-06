@@ -77,9 +77,9 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
-        # tls:
-        #   - hosts:
-        #       - *host
+        tls:
+          - hosts:
+              - *host
         #     secretName: blocky-cert-tls
 
     persistence:
