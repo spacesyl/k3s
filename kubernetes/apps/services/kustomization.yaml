@@ -5,4 +5,4 @@ resources:
   - ./namespace.yaml
   - ./blocky/ks.yaml
   - ./chrony/ks.yaml
-# - ./searxng/ks.yaml
+  - ./searxng/ks.yaml
