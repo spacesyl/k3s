@@ -205,7 +205,7 @@ spec:
               infinite_scroll: true
               default_theme: "simple"
               theme_args:
-                simple_style: "dark"
+                simple_style: "light"
             enabled_plugins:
               - 'Hash plugin'
               - 'Search on category select'
