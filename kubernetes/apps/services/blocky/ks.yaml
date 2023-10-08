@@ -5,6 +5,8 @@ metadata:
   name: cluster-apps-blocky
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: cluster-apps-redis
   path: ./kubernetes/apps/services/blocky/app
   prune: true
   sourceRef:
