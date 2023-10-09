@@ -49,6 +49,9 @@ spec:
       enabled: true
       nodeSelector:
         openebs.io/storage: "true"
+      csiNode:
+        nodeSelector:
+          openebs.io/storage: "true"
     openebs-ndm:
       enabled: true
       nodeSelector:
