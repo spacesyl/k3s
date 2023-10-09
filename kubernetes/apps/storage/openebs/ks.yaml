@@ -5,7 +5,7 @@ metadata:
   name: cluster-apps-openebs
   namespace: flux-system
 spec:
-  path: ./kubernetes/apps/default/openebs/app
+  path: ./kubernetes/apps/storage/openebs/app
   prune: true
   sourceRef:
     kind: GitRepository
