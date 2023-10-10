@@ -67,6 +67,6 @@ spec:
           openebs.io/storage: "true"
       deviceClass:
         enabled: false
-      hostpathClass:
-        nodeAffinityLabels:
-          - openebs.io/storage: "true"
+      # hostpathClass:
+      #   nodeAffinityLabels:
+      #     - openebs.io/storage: "true"
