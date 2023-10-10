@@ -11,8 +11,8 @@ spec:
   storage:
     size: 5Gi
     storageClass: openebs-hostpath
-  # superuserSecret:
-  #   name: cnpg-su-secret
+  superuserSecret:
+    name: cnpg-su-secret
 
   affinity:
     enablePodAntiAffinity: true
