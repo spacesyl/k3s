@@ -15,8 +15,8 @@ spec:
     name: cnpg-su-secret
 
   affinity:
-    # enablePodAntiAffinity: true
-    # topologyKey: kubernetes.io/hostname
+    enablePodAntiAffinity: true
+    topologyKey: kubernetes.io/hostname
     nodeSelector:
       openebs.io/storage: "true"
 
