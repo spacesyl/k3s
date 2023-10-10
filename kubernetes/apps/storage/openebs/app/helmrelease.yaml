@@ -69,4 +69,4 @@ spec:
         enabled: false
       hostpathClass:
         nodeAffinityLabels:
-          - openebs.io/storage
+          - openebs.io/storage: "true"
