@@ -68,12 +68,6 @@ spec:
       deviceClass:
         enabled: false
       hostpathClass:
-        # nodeAffinityLabels:
-        #   - openebs.io/storage: "true"
-        allowedTopologies:
-        - matchLabelExpressions:
-          - key: kubernetes.io/hostname
-            values:
-            - k8s4
-            - k8s5
-            - k8s6
+        nodeAffinityLabels:
+          - openebs.io/storage=true
+
