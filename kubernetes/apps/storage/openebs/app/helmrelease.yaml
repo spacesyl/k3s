@@ -54,8 +54,12 @@ spec:
           openebs.io/storage: "true"
     openebs-ndm:
       enabled: true
-      nodeSelector:
-        openebs.io/storage: "true"
+      ndm:
+        nodeSelector:
+          openebs.io/storage: "true"
+      ndmOperator:
+        nodeSelector:
+          openebs.io/storage: "true"
     localpv-provisioner:
       enabled: true
       nodeSelector:
