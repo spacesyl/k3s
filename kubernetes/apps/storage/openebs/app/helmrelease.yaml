@@ -62,5 +62,11 @@ spec:
           openebs.io/storage: "true"
     localpv-provisioner:
       enabled: true
-      nodeSelector:
-        openebs.io/storage: "true"
+      localpv:
+        nodeSelector:
+          openebs.io/storage: "true"
+      deviceClass:
+        enabled: false
+      hostpathClass:
+        nodeAffinityLabels:
+          - openebs.io/storage
