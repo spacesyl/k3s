@@ -25,36 +25,17 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    initContainers:
-      init-db:
-        image: ghcr.io/onedr0p/postgres-init:14.9
-        imagePullPolicy: IfNotPresent
-        envFrom:
-          - secretRef:
-              name: authentik-secret
     global:
       storageClass: openebs-jiva-default
     envValueFrom:
-      # AUTHENTIK_SECRET_KEY:
-      #   secretKeyRef:
-      #     name: authentik-secret
-      #     key: AUTHENTIK_SECRET_KEY
-      # AUTHENTIK_POSTGRESQL__HOST:
-      #   secretKeyRef:
-      #     name: authentik-secret
-      #     key: AUTHENTIK_POSTGRESQL__HOST
-      # AUTHENTIK_POSTGRESQL__NAME:
-      #   secretKeyRef:
-      #     name: authentik-secret
-      #     key: AUTHENTIK_POSTGRESQL__NAME
-      # AUTHENTIK_POSTGRESQL__USER:
-      #   secretKeyRef:
-      #     name: authentik-secret
-      #     key: AUTHENTIK_POSTGRESQL__USER
-      # AUTHENTIK_POSTGRESQL__PASSWORD:
-      #   secretKeyRef:
-      #     name: authentik-secret
-      #     key: AUTHENTIK_POSTGRESQL__PASSWORD
+      AUTHENTIK_POSTGRESQL__USER:
+        secretKeyRef:
+          name: cnpg-su-secret
+          key: username
+      AUTHENTIK_POSTGRESQL__PASSWORD:
+        secretKeyRef:
+          name: cnpg-su-secret
+          key: password
     replicas: 2
     annotations:
       secret.reloader.stakater.com/reload: authentik-secret
@@ -65,11 +46,15 @@ spec:
         send_pii: false
       outposts:
         docker_image_base: ghcr.io/goauthentik/%(type)s:%(version)s
+      postgresql:
+        host: cnpg-authentik-rw.databases.svc
+      redis:
+        host: redis.databases.svc
     ingress:
       enabled: true
       ingressClassName: external
       hosts:
-        - host: &host id.ok8.sh
+        - host: &host id.${SECRET_DOMAIN}
           paths:
             - path: /
       tls:
