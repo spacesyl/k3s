@@ -25,6 +25,8 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    nodeSelector:
+      openebs.io/storage: "true"
     global:
       storageClass: openebs-jiva-default
     envValueFrom:
