@@ -28,6 +28,10 @@ spec:
     global:
       storageClass: openebs-jiva-default
     envValueFrom:
+      AUTHENTIK_SECRET_KEY:
+        secretKeyRef:
+          name: authentik-secret
+          key: SECRET_KEY
       AUTHENTIK_POSTGRESQL__USER:
         secretKeyRef:
           name: cnpg-su-secret
