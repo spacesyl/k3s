@@ -2,7 +2,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cluster-apps-blocky
+  name: cluster-apps-authentik
   namespace: flux-system
 spec:
   dependsOn:
