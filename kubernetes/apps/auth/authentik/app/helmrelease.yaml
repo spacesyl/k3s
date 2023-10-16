@@ -25,13 +25,13 @@ spec:
   uninstall:
     keepHistory: false
   dependsOn:
-    - name: cnpg-authentik-rw
+    - name: cloudnative-pg
       namespace: databases
   values:
-    nodeSelector:
-      openebs.io/storage: "true"
-    global:
-      storageClass: openebs-jiva-default
+    # nodeSelector:
+    #   openebs.io/storage: "true"
+    # global:
+    #   storageClass: openebs-jiva-default
     envValueFrom:
       AUTHENTIK_SECRET_KEY:
         secretKeyRef:
