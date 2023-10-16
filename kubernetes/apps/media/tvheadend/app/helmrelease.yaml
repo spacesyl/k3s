@@ -74,6 +74,7 @@ spec:
         enabled: true
         size: 20Gi
         storageClass: openebs-hostpath
+        accessMode: RWO
         mountPath: /recordings
       timeshift:
         enabled: true
