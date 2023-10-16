@@ -25,7 +25,7 @@ spec:
   uninstall:
     keepHistory: false
   dependsOn:
-    - name: cnpg-authentik
+    - name: cnpg-authentik-rw
       namespace: databases
   values:
     nodeSelector:
