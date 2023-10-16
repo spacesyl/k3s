@@ -1,0 +1,81 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: &app tvheadend
+  namespace: media
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: app-template
+      version: 1.5.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 15m
+  values:
+    nodeSelector:
+      openebs.io/storage: "true"
+    controller:
+    global:
+      nameOverride: *app
+    image:
+      repository: ghcr.io/onedr0p/tvheadend
+      tag: 4.3.10008
+    env:
+      TZ: "${TZ}"
+    service:
+      main:
+        ports:
+          http:
+            port: 9981
+          htsp:
+            port: 9982
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: internal
+        annotations:
+          nginx.ingress.kubernetes.io/configuration-snippet: |
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            send_timeout 100m;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "Upgrade";
+        hosts:
+          - host: &host tv.${SECRET_DOMAIN}
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - secretName: tvheadend-tls
+            hosts:
+              - *host
+    securityContext:
+      seLinuxOptions:
+        level: s0
+    podSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+      fsGroupChangePolicy: "OnRootMismatch"
+      supplementalGroups:
+        - 44
+        - 109
+    persistence:
+      config:
+        enabled: true
+        size: 500Mi
+        storageClass: openebs-hostpath
+      recordings:
+        enabled: true
+        size: 20Gi
+        storageClass: openebs-hostpath
+        mountPath: /recordings
+      timeshift:
+        enabled: true
+        type: emptyDir
+        mountPath: /timeshift
