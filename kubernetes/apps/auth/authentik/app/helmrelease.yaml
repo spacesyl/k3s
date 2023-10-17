@@ -28,23 +28,13 @@ spec:
     - name: cloudnative-pg
       namespace: databases
   values:
-    # nodeSelector:
-    #   openebs.io/storage: "true"
-    # global:
-    #   storageClass: openebs-jiva-default
-    envValueFrom:
-      AUTHENTIK_SECRET_KEY:
-        secretKeyRef:
-          name: authentik-secret
-          key: SECRET_KEY
-      AUTHENTIK_POSTGRESQL__USER:
-        secretKeyRef:
-          name: cnpg-su-secret
-          key: username
-      AUTHENTIK_POSTGRESQL__PASSWORD:
-        secretKeyRef:
-          name: cnpg-su-secret
-          key: password
+    initContainers:
+      init-db:
+        image: ghcr.io/onedr0p/postgres-init:14.9
+        imagePullPolicy: IfNotPresent
+        envFrom:
+          - secretRef:
+              name: authentik-secret
     annotations:
       secret.reloader.stakater.com/reload: authentik-secret
     authentik:
@@ -54,10 +44,11 @@ spec:
         send_pii: false
       outposts:
         docker_image_base: ghcr.io/goauthentik/%(type)s:%(version)s
-      postgresql:
-        host: cnpg-authentik-rw.databases.svc
       redis:
         host: redis.databases.svc
+    envFrom:
+      - secretRef:
+          name: authentik-secret
     ingress:
       enabled: true
       ingressClassName: external
