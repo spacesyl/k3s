@@ -29,4 +29,5 @@ spec:
       shared_buffers: 512MB
   monitoring:
     enablePodMonitor: true
-
+  superuserSecret:
+    name: cnpg-su-secret
