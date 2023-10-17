@@ -29,6 +29,4 @@ spec:
       shared_buffers: 512MB
   monitoring:
     enablePodMonitor: true
-  bootstrap:
-    initdb:
-      database: authentik
+
