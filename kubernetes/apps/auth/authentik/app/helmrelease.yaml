@@ -45,7 +45,6 @@ spec:
         secretKeyRef:
           name: cnpg-su-secret
           key: password
-    replicas: 2
     annotations:
       secret.reloader.stakater.com/reload: authentik-secret
     authentik:
@@ -75,3 +74,8 @@ spec:
       enabled: false
     geoip:
       enabled: false
+    autoscaling:
+      server:
+        enabled: true
+      worker:
+        enabled: true
