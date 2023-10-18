@@ -26,15 +26,22 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    env:
+      TZ: ${TZ}
     auth:
       enabled: false
       sentinel: false
     master:
       persistence:
         enabled: false
-    replica:
-      persistence:
-        enabled: false
+      resources:
+        requests:
+          cpu: 250m
+          memory: 16Mi
+        limits:
+          cpu: 500m
+          memory: 32Mi
+
     sentinel:
       enabled: true
       masterSet: redis-master
@@ -48,3 +55,21 @@ spec:
       serviceMonitor:
         enabled: true
         interval: 1m
+
+    replica:
+      replicaCount: 1
+      persistence:
+        enabled: false
+      autoscaling:
+        enabled: true
+        targetCPU: 50
+        targetMemory: 90
+        minReplicas: 1
+        maxReplicas: 3
+      resources:
+        requests:
+          cpu: 250m
+          memory: 16Mi
+        limits:
+          cpu: 500m
+          memory: 32Mi
