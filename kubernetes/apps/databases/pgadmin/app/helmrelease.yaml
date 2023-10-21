@@ -1,0 +1,99 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: &app pgadmin
+  namespace: databases
+spec:
+  interval: 15m
+  chart:
+    spec:
+      # renovate: registryUrl=https://helm.runix.net chart=pgadmin4
+      chart: pgadmin4
+      version: 1.18.2
+      sourceRef:
+        kind: HelmRepository
+        name: runix
+        namespace: flux-system
+
+  maxHistory: 3
+
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+
+  uninstall:
+    keepHistory: false
+
+  values:
+    image:
+      registry: docker.io
+      repository: dpage/pgadmin4
+      tag: "7.8"
+
+    # pgadmin upgrades get stuck on the PV if we use RollingUpdate
+    strategy:
+      type: Recreate
+
+    existingSecret: *app
+
+    podAnnotations:
+      secret.reloader.stakater.com/reload: *app
+
+    # containerSecurityContext:
+    #   privileged: true
+    #   capabilities:
+    #     add:
+    #       - NET_ADMIN
+    #       - NET_RAW
+
+    # env:
+    #   email: "${SECRET_EMAIL}"
+    #   password:
+    #     valueFrom:
+    #       secretKeyRef:
+    #         name: *app
+    #         key: password
+
+    ingress:
+      enabled: true
+      ingressClassName: internal
+      annotations:
+        hajimari.io/enable: "true"
+        hajimari.io/appName: "PGAdmin (PostgreSQL)"
+        hajimari.io/icon: simple-icons:adminer
+        hajimari.io/group: Databases
+        hajimari.io/instance: "admin"
+
+      hosts:
+        - host: &host "pgadmin.${SECRET_DOMAIN}"
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+        - secretName: "${SECRET_DOMAIN/./-}-tls"
+          hosts:
+            - *host
+
+    persistentVolume:
+      enabled: true
+      storageClass: openebs-jiva-csi-default
+      accessModes:
+        - ReadWriteOnce
+      size: 200Mi
+
+    resources:
+      requests:
+        cpu: 15m
+        memory: 283M
+      limits:
+        memory: 283M
+
+    nodeSelector:
+      openebs.io/storage: "true"
