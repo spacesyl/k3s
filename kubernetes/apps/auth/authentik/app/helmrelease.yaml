@@ -46,14 +46,11 @@ spec:
         docker_image_base: ghcr.io/goauthentik/%(type)s:%(version)s
       redis:
         host: redis.databases.svc
-    envFrom:
-      - secretRef:
-          name: authentik-secret
     ingress:
       enabled: true
-        annotations:
-          hajimari.io/enable: "true"
-          hajimari.io/icon: mdi:id-card
+      annotations:
+        hajimari.io/enable: "true"
+        hajimari.io/icon: mdi:id-card
       ingressClassName: external
       hosts:
         - host: &host id.${SECRET_DOMAIN}
@@ -62,6 +59,9 @@ spec:
       tls:
         - hosts:
             - *host
+    envFrom:
+      - secretRef:
+          name: authentik-secret
     postgresql:
       enabled: false
     redis:
