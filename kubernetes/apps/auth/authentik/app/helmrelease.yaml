@@ -51,6 +51,9 @@ spec:
           name: authentik-secret
     ingress:
       enabled: true
+        annotations:
+          hajimari.io/enable: "true"
+          hajimari.io/icon: mdi:id-card
       ingressClassName: external
       hosts:
         - host: &host id.${SECRET_DOMAIN}
