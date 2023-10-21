@@ -31,3 +31,6 @@ spec:
     enablePodMonitor: true
   superuserSecret:
     name: cnpg-su-secret
+  bootstrap:
+    initdb:
+      database: authentik
