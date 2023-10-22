@@ -83,7 +83,7 @@ spec:
 
     persistentVolume:
       enabled: true
-      storageClass: openebs-jiva-csi-default
+      storageClass: openebs-hostpath
       accessModes:
         - ReadWriteOnce
       size: 200Mi
