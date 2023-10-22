@@ -11,8 +11,7 @@ spec:
     kind: GitRepository
     name: flux-system
   dependsOn:
-    - name: storage-rook-ceph-cluster
-    - name: system-external-secrets-stores
+    - name: cluster-apps-cloudnative-pg-clusters
   wait: false
   interval: 30m
   retryInterval: 1m
