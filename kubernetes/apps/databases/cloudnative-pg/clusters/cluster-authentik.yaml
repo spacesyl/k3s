@@ -34,3 +34,6 @@ spec:
   bootstrap:
     initdb:
       database: authentik
+      owner: authentik
+      secret:
+        name: authentik-secret
