@@ -4,4 +4,4 @@ kind: Kustomization
 namespace: k8s-tools
 resources:
   - ./pki.yaml
-  - ./helm-release.yaml
+  - ./helmrelease.yaml
