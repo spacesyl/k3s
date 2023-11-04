@@ -8,7 +8,7 @@ spec:
   dependsOn:
     - name: cluster-apps-redis
     - name: cluster-apps-cloudnative-pg-clusters
-  path: ./kubernetes/apps/auth/authentik/app
+  path: ./kubernetes/apps/security/authentik/app
   prune: true
   sourceRef:
     kind: GitRepository
