@@ -9,7 +9,7 @@ spec:
   imageName: ghcr.io/cloudnative-pg/postgresql:15.4-14
   primaryUpdateStrategy: unsupervised
   storage:
-    size: 5Gi
+    size: 1Gi
     storageClass: openebs-hostpath
   affinity:
     enablePodAntiAffinity: true
