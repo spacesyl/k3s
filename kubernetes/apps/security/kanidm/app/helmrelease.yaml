@@ -85,13 +85,13 @@ spec:
       - name: data
         mountPath: /data
         accessMode: ReadWriteOnce
-        size: 20Gi
-        storageClass: block
+        size: 500Mi
+        storageClass: openebs-hostpath
       - name: backup
         mountPath: /backup
         accessMode: ReadWriteOnce
-        size: 20Gi
-        storageClass: block
+        size: 500Mi
+        storageClass: openebs-hostpath
     persistence:
       config:
         enabled: true
