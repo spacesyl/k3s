@@ -9,14 +9,15 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.2.0
       sourceRef:
         name: bjw-s
         kind: HelmRepository
         namespace: flux-system
   values:
-    nodeSelector:
-      openebs.io/storage: "true"
+    defaultPodOptions:
+      nodeSelector:
+        openebs.io/storage: "true"
     automountServiceAccountToken: false
     controller:
       type: statefulset
