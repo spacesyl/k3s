@@ -5,9 +5,9 @@ metadata:
   name: &app kanidm
   namespace: security
 spec:
+  interval: 10m
   chart:
     spec:
-      interval: 10m
       chart: app-template
       version: 1.5.1
       sourceRef:
