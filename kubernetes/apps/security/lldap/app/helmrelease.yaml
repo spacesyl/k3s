@@ -39,6 +39,26 @@ spec:
             envFrom: &envFrom
               - secretRef:
                   name: lldap-secret
+            env:
+              - name: INIT_POSTGRES_SUPER_PASS
+                valueFrom:
+                  secretKeyRef:
+                    name: cnpg-su-secret
+                    key: password
+              - name: INIT_POSTGRES_USER
+                valueFrom:
+                  secretKeyRef:
+                    name: lldap-secret-db
+                    key: username
+              - name: INIT_POSTGRES_PASS
+                valueFrom:
+                  secretKeyRef:
+                    name: lldap-secret-db
+                    key: password
+              - name: INIT_POSTGRES_DBNAME
+                value: lldap
+              - name: INIT_POSTGRES_HOST
+                value: cnpg-lldap-rw.databases.svc.cluster.local
         containers:
           main:
             image:
@@ -55,23 +75,6 @@ spec:
               # LLDAP_SMTP_OPTIONS__ENABLE_PASSWORD_RESET: true
               # LLDAP_SMTP_OPTIONS__FROM: LLDAP Admin <lldap@${SECRET_DOMAIN}>
               # LLDAP_SMTP_OPTIONS__SERVER: smtp-relay.networking.svc.cluster.local
-              INIT_POSTGRES_SUPER_PASS:
-                valueFrom:
-                  secretKeyRef:
-                    name: cnpg-su-secret
-                    key: password
-              INIT_POSTGRES_USER:
-                valueFrom:
-                  secretKeyRef:
-                    name: lldap-secret-db
-                    key: username
-              INIT_POSTGRES_PASS:
-                valueFrom:
-                  secretKeyRef:
-                    name: lldap-secret-db
-                    key: password
-              INIT_POSTGRES_DBNAME: lldap
-              INIT_POSTGRES_HOST: cnpg-lldap-rw.databases.svc.cluster.local
             envFrom: *envFrom
             resources:
               requests:
