@@ -1,0 +1,40 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: cnpg-lldap
+  namespace: databases
+spec:
+  instances: 3
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.0-10
+  primaryUpdateStrategy: unsupervised
+  storage:
+    size: 500Mi
+    storageClass: openebs-hostpath
+  affinity:
+    enablePodAntiAffinity: true
+    topologyKey: kubernetes.io/hostname
+    nodeSelector:
+      openebs.io/storage: "true"
+  resources:
+    requests:
+      cpu: 100m
+      memory: 1Gi
+    limits:
+      cpu: 500m
+      memory: 2Gi
+  postgresql:
+    parameters:
+      max_connections: "300"
+      shared_buffers: 512MB
+  monitoring:
+    enablePodMonitor: true
+  superuserSecret:
+    name: cnpg-su-secret
+  enableSuperuserAccess: true
+  bootstrap:
+    initdb:
+      database: lldap
+      owner: lldap
+      secret:
+        name: lldap-secret
