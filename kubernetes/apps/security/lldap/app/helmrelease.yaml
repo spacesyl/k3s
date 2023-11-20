@@ -105,16 +105,14 @@ spec:
     ingress:
       main:
         enabled: true
-        className: internal
+        ingressClassName: internal
         annotations:
           hajimari.io/icon: mdi:account-lock
         hosts:
-          - host: &host lldap.${SECRET_DOMAIN}
+          - host: &host "lldap.${SECRET_DOMAIN}"
             paths:
               - path: /
-                service:
-                  name: main
-                  port: http
+                pathType: Prefix
         tls:
           - hosts:
               - *host
