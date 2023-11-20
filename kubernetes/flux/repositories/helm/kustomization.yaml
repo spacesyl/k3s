@@ -10,6 +10,7 @@ resources:
   - ./coredns.yaml
   - ./csi-driver-nfs.yaml
   - ./deliveryhero.yaml
+  - ./democratic-csi.yaml
   - ./emberstack.yaml
   - ./external-dns.yaml
   - ./grafana.yaml
