@@ -5,3 +5,4 @@ namespace: security
 resources:
   - ./secret.sops.yaml
   - ./helmrelease.yaml
+  - ./hpa.yaml
