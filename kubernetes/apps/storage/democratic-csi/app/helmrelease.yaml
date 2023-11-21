@@ -70,7 +70,7 @@ spec:
       extraVolumes:
         - name: local-storage
           hostPath:
-            path: /var/openebs
+            path: /var/csi
             type: DirectoryOrCreate
 
     driver:
