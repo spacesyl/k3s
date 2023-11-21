@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: cluster-apps-openebs
+    - name: cluster-apps-dcsi
   path: ./kubernetes/apps/databases/cloudnative-pg/operator
   prune: true
   sourceRef:
