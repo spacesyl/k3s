@@ -116,9 +116,9 @@ spec:
                 service:
                   name: main
                   port: http
-        # tls:
-        #   - hosts:
-        #       - *host
+        tls:
+          - hosts:
+              - *host
     persistence:
       data:
         type: emptyDir
