@@ -8,3 +8,5 @@ resources:
   # - ./cluster-authentik.yaml
   - ./cluster-lldap-secret.sops.yaml
   - ./cluster-lldap.yaml
+  - ./cluster-authelia-secret.sops.yaml
+  - ./cluster-authelia.yaml
