@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./openebs/ks.yaml
+  - ./democratic-csi/ks.yaml
