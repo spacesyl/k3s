@@ -83,7 +83,7 @@ spec:
 
     persistentVolume:
       enabled: true
-      storageClass: openebs-hostpath
+      storageClass: local-hostpath
       accessModes:
         - ReadWriteOnce
       size: 200Mi
