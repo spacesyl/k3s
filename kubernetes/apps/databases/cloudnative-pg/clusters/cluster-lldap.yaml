@@ -10,7 +10,7 @@ spec:
   primaryUpdateStrategy: unsupervised
   storage:
     size: 500Mi
-    storageClass: openebs-hostpath
+    storageClass: local-hostpath
   affinity:
     enablePodAntiAffinity: true
     topologyKey: kubernetes.io/hostname
