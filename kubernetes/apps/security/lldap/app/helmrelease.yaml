@@ -35,7 +35,7 @@ spec:
           init-db:
             image:
               repository: ghcr.io/onedr0p/postgres-init
-              tag: '15.5'
+              tag: 15.5
             envFrom: &envFrom
               - secretRef:
                   name: lldap-secret
@@ -128,5 +128,13 @@ spec:
         ports:
           http:
             port: *httpPort
+          ldap:
+            port: *ldapPort
+      second:
+        controller: main
+        annotations:
+          coredns.io/hostname: "idm.${SECRET_DOMAIN}"
+          io.cilium/lb-ipam-ips: 10.17.8.6
+        ports:
           ldap:
             port: *ldapPort
