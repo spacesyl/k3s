@@ -63,7 +63,7 @@ spec:
           main:
             image:
               repository: ghcr.io/lldap/lldap
-              tag: v0.5.0
+              tag: 2023-11-05-alpine
             env:
               - name: TZ
                 value: ${TZ}
@@ -130,11 +130,14 @@ spec:
             port: *httpPort
           ldap:
             port: *ldapPort
-      second:
+      ldap:
         controller: main
+        type: LoadBalancer
         annotations:
           coredns.io/hostname: "idm.${SECRET_DOMAIN}"
           io.cilium/lb-ipam-ips: 10.17.8.6
+        labels:
+          io.cilium/lb-ipam-layer2: "true"
         ports:
           ldap:
             port: *ldapPort
