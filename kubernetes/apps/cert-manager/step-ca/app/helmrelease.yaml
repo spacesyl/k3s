@@ -134,3 +134,7 @@ spec:
       db:
         enabled: true
         persistent: false
+    ca:
+      db:
+        enabled: true
+        persistent: false
