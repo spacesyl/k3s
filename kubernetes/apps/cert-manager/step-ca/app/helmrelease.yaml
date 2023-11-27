@@ -1,0 +1,136 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: step-ca
+  namespace: cert-manager
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: step-ca
+      version: 1.25.0
+      sourceRef:
+        kind: HelmRepository
+        name: step-ca
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    inject:
+      enabled: true
+      # Config contains the configuration files ca.json and defaults.json
+      config:
+        files:
+          ca.json:
+            root: /home/step/certs/root_ca.crt
+            federateRoots: []
+            crt: /home/step/certs/intermediate_ca.crt
+            key: /home/step/secrets/intermediate_ca_key
+            address: :9000
+            dnsNames:
+              - step-certificates.cert-manager.svc.cluster.local
+            logger:
+              format: json
+            db:
+              type: badgerv2
+              dataSource: /home/step/db
+            authority:
+              enableAdmin: false
+              provisioners:
+                - {"type":"JWK","name":"${SECRET_ACME_EMAIL}","key":{"use":"sig","kty":"EC","kid":"k1UGBQKI1QYSbif5mnZkJaClP10HESBdWPYg5q_dF8E","crv":"P-256","alg":"ES256","x":"4H3jCIevCZoq7_7p6UiEI5mP7Q2QjxKQSwcKD4CLQbI","y":"GR7dRIJWLTO3RH2syquBBAOGAeV0UIzFLfzrdA0rhXM"},"encryptedKey":"eyJhbGciOiJQQkVTMi1IUzI1NitBMTI4S1ciLCJjdHkiOiJqd2sranNvbiIsImVuYyI6IkEyNTZHQ00iLCJwMmMiOjYwMDAwMCwicDJzIjoiLWFPekduSWZQTE1HYTJSQ3Qxc0RfQSJ9.nnMvdRFFFV8cem5VYdDAfsQ_ivr_0IaPQI-_zdlhIQDlqS_fv3r6ZQ.nER7EK85SCMI6Wcd.jcaY0T-0RINNgXWmALoBdk-IoNliF5_ZtejNvEAF5oHY5OtVCe5FeXTLgMM27S_Ef6gUOZVEiJJMrVq8_grHgmRsQW9YTHqMZMsUiQekG1ZQGMeOeVPQt_S_vJfg6aM5DlXF60B9xvqmD5MF-5-ZpbPAxo0uNCax2WQoYpQph1l0zXfolWMjyWzMJRB2gJvL2LeTiIz5afEsOPr-C1BSenW_SkepbTze2LNznxI89JnU8q6kHi_u2KD-NVHm4jsCReG_2ZeovNmn9ARsmCtYgbmTrAeqMrmVc0cyMw0A70meF7G92QqptNZmbR0ywdXiScqiBs7yTWxLqG9Ijwo.kvjbdzdLamAqUyCtdyoaMA","options":{"x509":{},"ssh":{}}}
+            tls:
+              cipherSuites:
+                - TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256
+                - TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
+              minVersion: 1.2
+              maxVersion: 1.3
+              renegotiation: false
+
+          defaults.json:
+            ca-url: https://step-certificates.cert-manager.svc.cluster.local
+            ca-config: /home/step/config/ca.json
+            fingerprint: 960393c190a3c186b35e9058493b911b2419ce99cade6d26e5297b57f1a2a92e
+            root: /home/step/certs/root_ca.crt
+
+      # Certificates contains the root and intermediate certificate and
+      # optionally the SSH host and user public keys
+      certificates:
+        # intermediate_ca contains the text of the intermediate CA Certificate
+        intermediate_ca: |
+          -----BEGIN CERTIFICATE-----
+          MIIBwDCCAWegAwIBAgIRAI+FOPVLth89IL3fQv6YwUkwCgYIKoZIzj0EAwIwKjEP
+          MA0GA1UEChMGaG9tZUNBMRcwFQYDVQQDEw5ob21lQ0EgUm9vdCBDQTAeFw0yMzEx
+          MjcyMTI5MjhaFw0zMzExMjQyMTI5MjhaMDIxDzANBgNVBAoTBmhvbWVDQTEfMB0G
+          A1UEAxMWaG9tZUNBIEludGVybWVkaWF0ZSBDQTBZMBMGByqGSM49AgEGCCqGSM49
+          AwEHA0IABNbf9wFbc7XmNL4NlwAWTgFlrdd9vpj6zknTqyH5C2BVVNxdvWduuVPO
+          O85Gppx6LjFtgCtR2rlkoNjVevDKGTejZjBkMA4GA1UdDwEB/wQEAwIBBjASBgNV
+          HRMBAf8ECDAGAQH/AgEAMB0GA1UdDgQWBBSnn409us6k5Wt8YaWIYryANWwsDzAf
+          BgNVHSMEGDAWgBQTc4SbvBLxF/dZDY6WMPwahoczfjAKBggqhkjOPQQDAgNHADBE
+          AiAVN39SdYxIdKRLjngxFg7U2hRqkTG4ECdHc+IP0TBWdwIgGezAe8oihAhNJZJ2
+          c9espi0kTMsb6/gy4s7Xjel4IVY=
+          -----END CERTIFICATE-----
+
+
+        # root_ca contains the text of the root CA Certificate
+        root_ca: |
+          -----BEGIN CERTIFICATE-----
+          MIIBmTCCAT6gAwIBAgIRAJ8JwAohHhXum5NE1ynaC1QwCgYIKoZIzj0EAwIwKjEP
+          MA0GA1UEChMGaG9tZUNBMRcwFQYDVQQDEw5ob21lQ0EgUm9vdCBDQTAeFw0yMzEx
+          MjcyMTI5MjdaFw0zMzExMjQyMTI5MjdaMCoxDzANBgNVBAoTBmhvbWVDQTEXMBUG
+          A1UEAxMOaG9tZUNBIFJvb3QgQ0EwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAARD
+          GUkOOeoR5mZM6kClXklMM3j7ReMbCfx+IQwD2eDtsl+TPYxTE30Mh7BN3gZNI+9p
+          fxDUoCz5vY9uGNdf1dS6o0UwQzAOBgNVHQ8BAf8EBAMCAQYwEgYDVR0TAQH/BAgw
+          BgEB/wIBATAdBgNVHQ4EFgQUE3OEm7wS8Rf3WQ2OljD8GoaHM34wCgYIKoZIzj0E
+          AwIDSQAwRgIhAKrwCneip3VpYSY/DSOGJ9HFc5ZSfAbwUbiI7MeuutjeAiEA+PrC
+          AGCkmeoG2egsjM61K9KL3jVElugF4t9H2Mtuecg=
+          -----END CERTIFICATE-----
+
+
+      # Secrets contains the root and intermediate keys and optionally the SSH
+      # private keys
+      secrets:
+        # ca_password contains the password used to encrypt x509.intermediate_ca_key, ssh.host_ca_key and ssh.user_ca_key
+        # This value must be base64 encoded.
+        ca_password: ${CA_PASSWORD}
+        provisioner_password: ${CA_PASSWORD}
+
+        x509:
+          # intermediate_ca_key contains the contents of your encrypted intermediate CA key
+          intermediate_ca_key: |
+            -----BEGIN EC PRIVATE KEY-----
+            Proc-Type: 4,ENCRYPTED
+            DEK-Info: AES-256-CBC,eac3a937f8a47c1f044fad2f8a58c502
+
+            uE2yRxXxXHYvEvdhO+wHEXVnj1BXI4oqbXwEcfUhoaR52uHqXW0k0LI6o5B1YM1m
+            zZAgQou6qd1+cLykdbqPVyer8kT6TLQi/CEiCwV5Sn0CtMcOD6YDt6NrP2AjFA2y
+            MrzWHV0T43herk9ZbV+WLSyf7CkceWtI6kbKP1Al8oM=
+            -----END EC PRIVATE KEY-----
+
+
+          # root_ca_key contains the contents of your encrypted root CA key
+          # Note that this value can be omitted without impacting the functionality of step-certificates
+          # If supplied, this should be encrypted using a unique password that is not used for encrypting
+          # the intermediate_ca_key, ssh.host_ca_key or ssh.user_ca_key.
+          root_ca_key: |
+            -----BEGIN EC PRIVATE KEY-----
+            Proc-Type: 4,ENCRYPTED
+            DEK-Info: AES-256-CBC,1403688902d5f41313894fa485e49ec0
+
+            gn2KH6r6hPQiGxyk+2udOXP9MNh4eIsK1enU+kXb+t2UdFccj7I5BNB4TyRy6ZfZ
+            P7vZxey11NHzqfxktuwvzrKm1cKMXSA5pPMS4rkEzuabTOPrJzOMRxvl9CRRB2Rh
+            h5euAE4SjltWXsf6MDdTw0uVeoYJYG3PSzRM1FFUonw=
+            -----END EC PRIVATE KEY-----
+    service:
+      targetPort: 9000
+      db:
+        enabled: true
+        persistent: false
