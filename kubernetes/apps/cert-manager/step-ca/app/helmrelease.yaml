@@ -8,7 +8,7 @@ spec:
   interval: 30m
   chart:
     spec:
-      chart: step-ca
+      chart: step-certificates
       version: 1.25.0
       sourceRef:
         kind: HelmRepository
