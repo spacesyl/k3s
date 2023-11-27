@@ -25,4 +25,5 @@ resources:
   - ./prometheus-community.yaml
   - ./runix.yaml
   - ./stakater.yaml
+  - ./step-ca.yaml
   - ./weave-gitops.yaml
