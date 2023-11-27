@@ -73,11 +73,14 @@ spec:
           http:
             port: 5555
       ldap:
+        controller: main
         type: LoadBalancer
         externalTrafficPolicy: Cluster
         annotations:
           io.cilium/lb-ipam-ips: 10.17.8.6
           coredns.io/hostname: "ldap.${SECRET_DOMAIN}"
+        # labels:
+        #   io.cilium/lb-ipam-layer2: "true"
         ports:
           ldap:
             enabled: true
