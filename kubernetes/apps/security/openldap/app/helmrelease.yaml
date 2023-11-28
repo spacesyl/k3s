@@ -56,3 +56,5 @@ spec:
     image:
       repository: bitnami/openldap
       tag: 2.6.6
+    service:
+      LoadBalancerIP: 10.17.8.6
