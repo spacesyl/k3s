@@ -6,3 +6,4 @@ resources:
   # - ./authentik/ks.yaml
   # - ./kanidm/ks.yaml
   # - ./lldap/ks.yaml
+  - ./openldap/ks.yaml
