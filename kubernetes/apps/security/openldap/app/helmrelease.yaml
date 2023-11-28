@@ -59,3 +59,8 @@ spec:
       enabled : false
     nodeSelector:
       openebs.io/storage: "true"
+    replication:
+      enabled: false
+    image:
+      repository: bitnami/openldap
+      tag: 2.6.6
