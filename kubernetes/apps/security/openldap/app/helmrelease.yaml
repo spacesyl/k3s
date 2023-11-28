@@ -30,7 +30,9 @@ spec:
       enabled: false
     replicaCount: 1
     persistence:
-      enabled: false
+      enabled: true
+      size: 500Mi
+      storageClass: local-hostpath
     phpldapadmin:
       enabled: true
       env:
@@ -55,3 +57,5 @@ spec:
               - *host
     ltb-passwd:
       enabled : false
+    nodeSelector:
+      openebs.io/storage: "true"
