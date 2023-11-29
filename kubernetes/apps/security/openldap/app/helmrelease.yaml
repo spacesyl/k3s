@@ -30,9 +30,9 @@ spec:
       enabled: false
     replicaCount: 1
     persistence:
-      enabled: true
-      size: 500Mi
-      storageClass: local-hostpath
+      enabled: false
+      # size: 500Mi
+      # storageClass: local-hostpath
     phpldapadmin:
       enabled: true
       env:
