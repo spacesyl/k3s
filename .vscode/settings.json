@@ -1,15 +1,27 @@
 {
+    "ansible.ansible.path": ".venv/bin/ansible",
+    "ansible.python.activationScript": ".venv/bin/activate",
+    "ansible.python.interpreterPath": ".venv/bin/python3",
+    "ansible.validation.enabled": true,
+    "ansible.validation.lint.arguments": "-c ansible/.ansible-lint",
+    "ansible.validation.lint.enabled": true,
+    "ansible.validation.lint.path": ".venv/bin/ansible-lint",
     "files.associations": {
         "*.json5": "jsonc",
-        "**/ansible/**/*.yaml": "ansible",
-        "**/ansible/**/*.sops.yaml": "yaml",
-        "**/ansible/**/inventory/**/*.yaml": "yaml",
-        "**/kubernetes/**/*.sops.toml": "plaintext"
-    },
-    "yaml.schemas": {
-        "ansible": "**/ansible/*.yaml",
-        "Kubernetes": "**/kubernetes/*.yaml"
+        "./ansible/**/*.yaml": "ansible",
+        "./ansible/**/*.sops.yaml": "yaml",
+        "./ansible/**/inventory/**/*.yaml": "yaml",
+        "./kubernetes/**/*.sops.toml": "plaintext"
     },
     "sops.defaults.ageKeyFile": "age.key",
-    "ansible.python.interpreterPath": "/home/e-syl.home/s0001/RemoteData/code/k3s/.venv/bin/python"
+    "yaml.schemas": {
+        "ansible": "./ansible/*.yaml",
+        "Kubernetes": "./kubernetes/*.yaml"
+    },
+    "vs-kubernetes": {
+        "vs-kubernetes.kubeconfig": "./kubeconfig",
+        "vs-kubernetes.knownKubeconfigs": [
+          "./kubeconfig"
+      ]
+    }
 }
