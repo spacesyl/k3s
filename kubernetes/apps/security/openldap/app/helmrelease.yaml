@@ -45,10 +45,10 @@ spec:
           hajimari.io/icon: mdi:account-lock
         hosts:
         - phpldapadmin.${SECRET_DOMAIN}
-        # tls:
-        #   - secretName: phpldapadmin-secret
-        #     hosts:
-        #       - *host
+        tls:
+          - secretName: phpldapadmin-secret
+            hosts:
+            - phpldapadmin.${SECRET_DOMAIN}
     ltb-passwd:
       enabled : false
     # nodeSelector:
