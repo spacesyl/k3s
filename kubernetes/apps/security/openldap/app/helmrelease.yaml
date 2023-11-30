@@ -24,7 +24,7 @@ spec:
       retries: 3
   values:
     global:
-      ldapDomain: "home.arpa"
+      ldapDomain: "${SECRET_DOMAIN}"
       existingSecret: openldap-secret
     customTLS:
       enabled: false
@@ -51,8 +51,8 @@ spec:
         #       - *host
     ltb-passwd:
       enabled : false
-    nodeSelector:
-      openebs.io/storage: "true"
+    # nodeSelector:
+    #   openebs.io/storage: "true"
     image:
       repository: bitnami/openldap
       tag: 2.6.6
