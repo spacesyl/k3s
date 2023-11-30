@@ -46,9 +46,9 @@ spec:
         hosts:
         - phpldapadmin.${SECRET_DOMAIN}
         tls:
-          - secretName: phpldapadmin-secret
-            hosts:
-            - phpldapadmin.${SECRET_DOMAIN}
+        - secretName: phpldapadmin-secret
+          hosts:
+          - phpldapadmin.${SECRET_DOMAIN}
     ltb-passwd:
       enabled : false
     # nodeSelector:
