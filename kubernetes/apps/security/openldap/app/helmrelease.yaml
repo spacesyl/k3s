@@ -60,3 +60,6 @@ spec:
       type: LoadBalancer
       annotations:
         io.cilium/lb-ipam-ips: 10.17.8.6
+    initTLSSecret:
+      tls_enabled: true
+      secret: openldap-tls
