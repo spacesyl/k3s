@@ -38,32 +38,32 @@ spec:
       owner: authentik
       secret:
         name: authentik-secret-db
-  backup:
-    retentionPolicy: 30d
-    barmanObjectStore:
-      data:
-        compression: bzip2
-      wal:
-        compression: bzip2
-        maxParallel: 8
-      destinationPath: s3://cloudnative-pg/
-      endpointURL: https://gateway.storjshare.io
-      serverName: *app
-      s3Credentials:
-        accessKeyId:
-          name: cnpg-su-secret
-          key: accessKey
-        secretAccessKey:
-          name: cnpg-su-secret
-          key: secretKey
----
-apiVersion: postgresql.cnpg.io/v1
-kind: ScheduledBackup
-metadata:
-  name: postgres
-spec:
-  schedule: "@daily"
-  immediate: true
-  backupOwnerReference: self
-  cluster:
-    name: cnpg-authentik
+#   backup:
+#     retentionPolicy: 30d
+#     barmanObjectStore:
+#       data:
+#         compression: bzip2
+#       wal:
+#         compression: bzip2
+#         maxParallel: 8
+#       destinationPath: s3://cloudnative-pg/
+#       endpointURL: https://gateway.storjshare.io
+#       serverName: *app
+#       s3Credentials:
+#         accessKeyId:
+#           name: cnpg-su-secret
+#           key: accessKey
+#         secretAccessKey:
+#           name: cnpg-su-secret
+#           key: secretKey
+# ---
+# apiVersion: postgresql.cnpg.io/v1
+# kind: ScheduledBackup
+# metadata:
+#   name: postgres
+# spec:
+#   schedule: "@daily"
+#   immediate: true
+#   backupOwnerReference: self
+#   cluster:
+#     name: cnpg-authentik
