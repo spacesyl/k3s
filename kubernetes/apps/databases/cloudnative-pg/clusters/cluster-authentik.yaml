@@ -2,7 +2,7 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: cnpg-authentik
+  name: &app cnpg-authentik
   namespace: databases
 spec:
   instances: 3
@@ -38,3 +38,21 @@ spec:
       owner: authentik
       secret:
         name: authentik-secret-db
+  backup:
+    retentionPolicy: 30d
+    barmanObjectStore:
+      data:
+        compression: bzip2
+      wal:
+        compression: bzip2
+        maxParallel: 8
+      destinationPath: s3://cloudnative-pg/
+      endpointURL: hhttps://gateway.storjshare.io
+      serverName: *app
+      s3Credentials:
+        accessKeyId:
+          name: cnpg-su-secret
+          key: accessKey
+        secretAccessKey:
+          name: cnpg-su-secret
+          key: secretKey
