@@ -82,17 +82,16 @@ spec:
     envFrom:
       - secretRef:
           name: authentik-secret
+    envValueFrom:
+      AUTHENTIK_POSTGRESQL__NAME:
+        secretKeyRef:
+          name: authentik-secret-db
+          key: username
+      AUTHENTIK_POSTGRESQL__PASSWORD:
+        secretKeyRef:
+          name: authentik-secret-db
+          key: password
     env:
-      - name: AUTHENTIK_POSTGRESQL__NAME
-        valueFrom:
-          secretKeyRef:
-            name: authentik-secret-db
-            key: username
-      - name: AUTHENTIK_POSTGRESQL__PASSWORD
-        valueFrom:
-          secretKeyRef:
-            name: authentik-secret-db
-            key: password
       - name: AUTHENTIK_POSTGRESQL__HOST
         value: cnpg-authentik-rw.databases.svc.cluster.local
       - name: AUTHENTIK_POSTGRESQL__NAME
