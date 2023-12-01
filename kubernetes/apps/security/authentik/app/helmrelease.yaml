@@ -89,10 +89,8 @@ spec:
           name: authentik-secret-db
           key: password
     env:
-      - name: AUTHENTIK_POSTGRESQL__HOST
-        value: cnpg-authentik-rw.databases.svc.cluster.local
-      - name: AUTHENTIK_POSTGRESQL__NAME
-        value: authentik
+      AUTHENTIK_POSTGRESQL__HOST: cnpg-authentik-rw.databases.svc.cluster.local
+      AUTHENTIK_POSTGRESQL__NAME: authentik
     postgresql:
       enabled: false
     redis:
