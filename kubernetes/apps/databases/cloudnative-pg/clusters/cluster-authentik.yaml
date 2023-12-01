@@ -56,3 +56,14 @@ spec:
         secretAccessKey:
           name: cnpg-su-secret
           key: secretKey
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: postgres
+spec:
+  schedule: "@daily"
+  immediate: true
+  backupOwnerReference: self
+  cluster:
+    name: cnpg-authentik
