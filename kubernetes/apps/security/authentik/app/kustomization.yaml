@@ -4,4 +4,4 @@ kind: Kustomization
 namespace: security
 resources:
   - ./secret.sops.yaml
-  - ./helmrelease.yaml
+  # - ./helmrelease.yaml
