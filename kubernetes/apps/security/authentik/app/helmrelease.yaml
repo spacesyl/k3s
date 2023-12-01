@@ -35,6 +35,26 @@ spec:
         envFrom:
           - secretRef:
               name: authentik-secret
+        env:
+          - name: INIT_POSTGRES_SUPER_PASS
+            valueFrom:
+              secretKeyRef:
+                name: cnpg-su-secret
+                key: password
+          - name: INIT_POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: authentik-secret-db
+                key: username
+          - name: INIT_POSTGRES_PASS
+            valueFrom:
+              secretKeyRef:
+                name: authentik-secret-db
+                key: password
+          - name: INIT_POSTGRES_DBNAME
+            value: authentik
+          - name: INIT_POSTGRES_HOST
+            value: cnpg-authentik-rw.databases.svc.cluster.local
     annotations:
       secret.reloader.stakater.com/reload: authentik-secret
     authentik:
@@ -62,6 +82,21 @@ spec:
     envFrom:
       - secretRef:
           name: authentik-secret
+    env:
+      - name: AUTHENTIK_POSTGRESQL__NAME
+        valueFrom:
+          secretKeyRef:
+            name: authentik-secret-db
+            key: username
+      - name: AUTHENTIK_POSTGRESQL__PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: authentik-secret-db
+            key: password
+      - name: AUTHENTIK_POSTGRESQL__HOST
+        value: cnpg-authentik-rw.databases.svc.cluster.local
+      - name: AUTHENTIK_POSTGRESQL__NAME
+        value: authentik
     postgresql:
       enabled: false
     redis:
