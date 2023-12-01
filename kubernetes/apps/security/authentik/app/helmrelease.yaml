@@ -32,7 +32,7 @@ spec:
       init-db:
         image: ghcr.io/onedr0p/postgres-init:15.5
         imagePullPolicy: IfNotPresent
-        envFrom:
+        envFrom: &envFrom
           - secretRef:
               name: authentik-secret
         env:
