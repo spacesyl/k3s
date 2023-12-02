@@ -7,6 +7,9 @@ metadata:
   labels:
     substitution.flux.home.arpa/enabled: 'true'
 spec:
+  dependsOn:
+    - name: cluster-apps-nginx-internal
+    - name: cluster-apps-nginx-external
   path: './kubernetes/apps/security/glauth/app/'
   prune: true
   sourceRef:

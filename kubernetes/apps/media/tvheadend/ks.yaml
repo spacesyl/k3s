@@ -5,6 +5,9 @@ metadata:
   name: cluster-apps-tvheadend
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: cluster-apps-nginx-internal
+    - name: cluster-apps-nginx-external
   path: ./kubernetes/apps/media/tvheadend/app
   prune: true
   sourceRef:

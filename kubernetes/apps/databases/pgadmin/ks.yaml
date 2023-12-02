@@ -12,6 +12,8 @@ spec:
     name: home-kubernetes
   dependsOn:
     - name: cluster-apps-cloudnative-pg-clusters
+    - name: cluster-apps-nginx-internal
+    - name: cluster-apps-nginx-external
   wait: false
   interval: 30m
   retryInterval: 1m

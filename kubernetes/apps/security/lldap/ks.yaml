@@ -7,6 +7,8 @@ metadata:
 spec:
   dependsOn:
     - name: cluster-apps-cloudnative-pg-clusters
+    - name: cluster-apps-nginx-internal
+    - name: cluster-apps-nginx-external
   path: ./kubernetes/apps/security/lldap/app
   prune: true
   sourceRef:

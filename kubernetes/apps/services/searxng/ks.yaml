@@ -5,6 +5,9 @@ metadata:
   name: cluster-apps-searxng
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: cluster-apps-nginx-internal
+    - name: cluster-apps-nginx-external
   path: ./kubernetes/apps/services/searxng/app
   prune: true
   sourceRef:

@@ -8,6 +8,8 @@ spec:
   dependsOn:
     - name: cluster-apps-redis
     - name: cluster-apps-cloudnative-pg-clusters
+    - name: cluster-apps-nginx-internal
+    - name: cluster-apps-nginx-external
   path: ./kubernetes/apps/security/authentik/app
   prune: true
   sourceRef:
