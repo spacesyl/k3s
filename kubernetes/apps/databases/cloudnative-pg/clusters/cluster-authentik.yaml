@@ -6,7 +6,7 @@ metadata:
   namespace: databases
 spec:
   instances: 3
-  imageName: ghcr.io/cloudnative-pg/postgresql:16.1-4
+  imageName: ghcr.io/cloudnative-pg/postgresql:15.5-4
   primaryUpdateStrategy: unsupervised
   storage:
     size: 1Gi
@@ -38,24 +38,24 @@ spec:
       owner: authentik
       secret:
         name: authentik-secret-db
-#   backup:
-#     retentionPolicy: 30d
-#     barmanObjectStore:
-#       data:
-#         compression: bzip2
-#       wal:
-#         compression: bzip2
-#         maxParallel: 8
-#       destinationPath: s3://cloudnative-pg/
-#       endpointURL: https://gateway.storjshare.io
-#       serverName: *app
-#       s3Credentials:
-#         accessKeyId:
-#           name: cnpg-su-secret
-#           key: accessKey
-#         secretAccessKey:
-#           name: cnpg-su-secret
-#           key: secretKey
+  backup:
+    retentionPolicy: 30d
+    barmanObjectStore:
+      data:
+        compression: bzip2
+      wal:
+        compression: bzip2
+        maxParallel: 8
+      destinationPath: s3://backup/
+      endpointURL: https://gateway.storjshare.io
+      serverName: *app
+      s3Credentials:
+        accessKeyId:
+          name: cnpg-su-secret
+          key: accessKey
+        secretAccessKey:
+          name: cnpg-su-secret
+          key: secretKey
 # ---
 # apiVersion: postgresql.cnpg.io/v1
 # kind: ScheduledBackup
