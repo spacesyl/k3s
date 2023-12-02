@@ -85,3 +85,41 @@ spec:
 
     nodeSelector:
       openebs.io/storage: "true"
+
+    serverDefinitions:
+      enabled: true
+      servers:
+        "1":
+          Name: "Authentik DB"
+          Group: "K8S Cloudnative PG"
+          Port: 5432
+          Username:
+            valueFrom:
+              secretKeyRef:
+                name: cnpg-su-secret
+                key: username
+          Host: cnpg-authentik-rw.databases.svc.cluster.local
+          SSLMode: prefer
+          MaintenanceDB: app
+          SSLCompression: 0
+          Timeout: 10
+          UseSSHTunnel: 0
+          TunnelPort": "22"
+          TunnelAuthentication: 0
+        "2":
+          Name: "Lldap DB"
+          Group: "K8S Cloudnative PG"
+          Port: 5432
+          Username:
+            valueFrom:
+              secretKeyRef:
+                name: cnpg-su-secret
+                key: username
+          Host: cnpg-lldap-rw.databases.svc.cluster.local
+          SSLMode: prefer
+          MaintenanceDB: app
+          SSLCompression: 0
+          Timeout: 10
+          UseSSHTunnel: 0
+          TunnelPort": "22"
+          TunnelAuthentication: 0
