@@ -46,20 +46,8 @@ spec:
     podAnnotations:
       secret.reloader.stakater.com/reload: *app
 
-    # containerSecurityContext:
-    #   privileged: true
-    #   capabilities:
-    #     add:
-    #       - NET_ADMIN
-    #       - NET_RAW
-
-    # env:
-    #   email: "${SECRET_EMAIL}"
-    #   password:
-    #     valueFrom:
-    #       secretKeyRef:
-    #         name: *app
-    #         key: password
+    env:
+      TZ: ${TZ}
 
     ingress:
       enabled: true
