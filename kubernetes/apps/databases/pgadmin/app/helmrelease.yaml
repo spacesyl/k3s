@@ -86,32 +86,32 @@ spec:
     nodeSelector:
       openebs.io/storage: "true"
 
-    serverDefinitions:
-      enabled: true
-      servers:
-        "1":
-          Name: "Authentik DB"
-          Group: "K8S Cloudnative PG"
-          Port: 5432
-          Host: cnpg-authentik-rw.databases.svc.cluster.local
-          Username: ${PG_SU_USER}
-          SSLMode: prefer
-          MaintenanceDB: app
-          SSLCompression: 0
-          Timeout: 10
-          UseSSHTunnel: 0
-          TunnelPort": "22"
-          TunnelAuthentication: 0
-        "2":
-          Name: "Lldap DB"
-          Group: "K8S Cloudnative PG"
-          Port: 5432
-          Host: cnpg-lldap-rw.databases.svc.cluster.local
-          Username: ${PG_SU_USER}
-          SSLMode: prefer
-          MaintenanceDB: app
-          SSLCompression: 0
-          Timeout: 10
-          UseSSHTunnel: 0
-          TunnelPort": "22"
-          TunnelAuthentication: 0
+    # serverDefinitions:
+    #   enabled: true
+    #   servers:
+    #     "1":
+    #       Name: "Authentik DB"
+    #       Group: "K8S Cloudnative PG"
+    #       Port: 5432
+    #       Host: cnpg-authentik-rw.databases.svc.cluster.local
+    #       Username: ${PG_SU_USER}
+    #       SSLMode: prefer
+    #       MaintenanceDB: app
+    #       SSLCompression: 0
+    #       Timeout: 10
+    #       UseSSHTunnel: 0
+    #       TunnelPort": "22"
+    #       TunnelAuthentication: 0
+    #     "2":
+    #       Name: "Lldap DB"
+    #       Group: "K8S Cloudnative PG"
+    #       Port: 5432
+    #       Host: cnpg-lldap-rw.databases.svc.cluster.local
+    #       Username: ${PG_SU_USER}
+    #       SSLMode: prefer
+    #       MaintenanceDB: app
+    #       SSLCompression: 0
+    #       Timeout: 10
+    #       UseSSHTunnel: 0
+    #       TunnelPort": "22"
+    #       TunnelAuthentication: 0
