@@ -62,7 +62,7 @@ spec:
       outposts:
         docker_image_base: ghcr.io/goauthentik/%(type)s:%(version)s
       redis:
-        host: redis.databases.svc
+        host: redis.databases.svc.cluster.local
     ingress:
       enabled: true
       annotations:
