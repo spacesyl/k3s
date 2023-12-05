@@ -21,6 +21,7 @@ resources:
   - ./k8tz.yaml
   - ./kubernetes-dashboard.yaml
   - ./metrics-server.yaml
+  - ./minio.yaml
   - ./openebs.yaml
   - ./openldap.yaml
   - ./prometheus-community.yaml
