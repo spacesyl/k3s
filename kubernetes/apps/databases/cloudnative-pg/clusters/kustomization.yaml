@@ -5,7 +5,7 @@ namespace: databases
 resources:
   - ./cluster-su-secret.sops.yaml
   - ./cluster-authentik-secret.sops.yaml
-  # - ./cluster-authentik.yaml
+  - ./cluster-authentik.yaml
   - ./cluster-lldap-secret.sops.yaml
   # - ./cluster-lldap.yaml
   - ./cluster-authelia-secret.sops.yaml
