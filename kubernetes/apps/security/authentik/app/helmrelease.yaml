@@ -90,7 +90,7 @@ spec:
           key: password
     env:
       AUTHENTIK_POSTGRESQL__HOST: cnpg-authentik-rw.databases.svc.cluster.local
-      AUTHENTIK_POSTGRESQL__NAME: authentik
+      # AUTHENTIK_POSTGRESQL__NAME: authentik
     postgresql:
       enabled: false
     redis:
