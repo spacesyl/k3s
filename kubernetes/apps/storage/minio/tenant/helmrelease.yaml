@@ -2,7 +2,8 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: minio
+  name: minio-tenant
+  namespace: storage
 spec:
   interval: 12h
   maxHistory: 3
