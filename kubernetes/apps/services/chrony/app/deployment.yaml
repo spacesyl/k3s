@@ -31,7 +31,7 @@ spec:
             topologyKey: "kubernetes.io/hostname"
       containers:
         - name: chrony
-          image: dockurr/chrony:4.4
+          image: dockurr/chrony:4.5
           resources:
             limits:
               cpu: "0.5"
