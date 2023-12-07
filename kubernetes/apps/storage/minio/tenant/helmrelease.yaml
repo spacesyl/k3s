@@ -29,6 +29,8 @@ spec:
       name: minio-root
     tenant:
       name: backups
+      configuration:
+        name: minio-root
       buckets:
         - name: backups-authentik
       pools:
