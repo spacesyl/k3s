@@ -26,10 +26,12 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    operator:
+      replicaCount: 1
     console:
       ingress:
         enabled: true
-        ingressClassName: nginx
+        ingressClassName: internal
         host: minio.${SECRET_DOMAIN}
         path: /
         pathType: Prefix
