@@ -43,3 +43,13 @@ spec:
             openebs.io/storage: "true"
       users:
         - name: minio-users
+    ingress:
+      console:
+        enabled: true
+        ingressClassName: "internal"
+        host: minio-console.${SECRET_DOMAIN}
+        path: /
+        pathType: Prefix
+        tls:
+          - hosts:
+              - minio-console.${SECRET_DOMAIN}-tls
