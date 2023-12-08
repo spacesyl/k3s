@@ -67,6 +67,24 @@
       vars:
         stale_containers_state: disabled
 
+    - name: Delete data dirs
+      ansible.builtin.file:
+        state: absent
+        path: "{{ item }}"
+      loop:
+        - /data/k3s/
+        - /data/openebs/
+        - /data/csi/
+
+    - name: Recreate data dirs
+      ansible.builtin.file:
+        state: directory
+        path: "{{ item }}"
+      loop:
+        - /data/k3s/
+        - /data/openebs/
+        - /data/csi/
+
     - name: Reboot
       ansible.builtin.reboot:
         msg: Rebooting nodes
