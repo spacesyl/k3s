@@ -17,9 +17,12 @@ kubernetes:
         k8s4:
           ansible_user: root
           ansible_host: 10.17.8.24
+          node-label: "openebs.io/storage=true"
         k8s5:
           ansible_user: root
           ansible_host: 10.17.8.25
+          node-label: "openebs.io/storage=true"
         k8s6:
           ansible_user: root
           ansible_host: 10.17.8.26
+          node-label: "openebs.io/storage=true"
