@@ -40,7 +40,7 @@ spec:
           main:
             image:
               repository: docker.io/searxng/searxng
-              tag: 2023.12.11-8a4104b99
+              tag: 2023.11.1-b5a8ddfec
             resources:
               requests:
                 cpu: 50m
