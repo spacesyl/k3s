@@ -1,5 +1,5 @@
 ---
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: &app pgadmin
@@ -35,7 +35,7 @@ spec:
     image:
       registry: docker.io
       repository: dpage/pgadmin4
-      tag: "8.0"
+      tag: "8.1"
 
     # pgadmin upgrades get stuck on the PV if we use RollingUpdate
     strategy:
