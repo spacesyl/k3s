@@ -57,7 +57,7 @@ spec:
                   secretKeyRef:
                     name: searxng-secrets
                     key: SEARXNG_SECRET
-              SEARXNG_REDIS_URL: "redis.databases.svc.cluster.local"
+              SEARXNG_REDIS_URL: "redis://redis.databases.svc.cluster.local:6379"
     service:
       main:
         ports:
