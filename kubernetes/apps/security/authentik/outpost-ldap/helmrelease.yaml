@@ -1,0 +1,92 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: &app authentik-ldap
+  namespace: security
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 2.4.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    controllers:
+      main:
+        replicas: 1
+        strategy: RollingUpdate
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          main:
+            image:
+              repository: ghcr.io/goauthentik/ldap
+              tag: "2023.10.4"
+            env:
+              TZ: "${TZ}"
+              AUTHENTIK_HOST: "https://id.${SECRET_DOMAIN}"
+              AUTHENTIK_TOKEN:
+                valueFrom:
+                  secretKeyRef:
+                    name: authentik-ldap
+                    key: token
+            resources:
+              requests:
+                cpu: 50m
+                memory: 128Mi
+              limits:
+                memory: 512Mi
+        pod:
+          topologySpreadConstraints:
+            - maxSkew: 1
+              topologyKey: kubernetes.io/hostname
+              whenUnsatisfiable: DoNotSchedule
+              labelSelector:
+                matchLabels:
+                  app.kubernetes.io/name: *app
+    service:
+      main:
+        type: LoadBalancer
+        annotations:
+          coredns.io/hostname: "ldap.${SECRET_DOMAIN}"
+          io.cilium/lb-ipam-ips: 10.17.8.6
+        labels:
+          io.cilium/lb-ipam-layer2: "true"
+        ports:
+          http:
+            enabled: false
+          ldap-tcp:
+            enabled: true
+            port: 389
+            targetPort: 3389
+            protocol: TCP
+          ldap-udp:
+            enabled: true
+            port: 389
+            targetPort: 3389
+            protocol: UDP
+          ldaps-tcp:
+            enabled: true
+            port: 636
+            targetPort: 6636
+            protocol: TCP
+          ldaps-udp:
+            enabled: true
+            port: 636
+            targetPort: 6636
+            protocol: UDP
+
