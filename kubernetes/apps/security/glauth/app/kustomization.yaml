@@ -5,6 +5,7 @@ kind: Kustomization
 namespace: security
 resources:
   - helmrelease.yaml
+  - tls.yaml
   - hpa.yaml
 secretGenerator:
   - name: glauth-secret
