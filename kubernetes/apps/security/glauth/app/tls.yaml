@@ -1,0 +1,18 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: glauth
+  namespace: security
+spec:
+  secretName: glauth-tls
+  issuerRef:
+    name: letsencrypt-staging
+    kind: ClusterIssuer
+  privateKey:
+    algorithm: ECDSA
+    size: 384
+  commonName: ${SECRET_DOMAIN}
+  dnsNames:
+    - ${SECRET_DOMAIN}
+    - '*.${SECRET_DOMAIN}'
