@@ -10,6 +10,7 @@ spec:
   dependsOn:
     - name: cluster-apps-nginx-internal
     - name: cluster-apps-nginx-external
+    - name: cluster-apps-cert-manager-issuers
   path: './kubernetes/apps/security/glauth/app/'
   prune: true
   sourceRef:
