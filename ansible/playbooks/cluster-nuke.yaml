@@ -76,15 +76,6 @@
         - /data/openebs/
         - /data/csi/
 
-    - name: Recreate data dirs
-      ansible.builtin.file:
-        state: directory
-        path: "{{ item }}"
-      loop:
-        - /data/k3s/
-        - /data/openebs/
-        - /data/csi/
-
     - name: Reboot
       ansible.builtin.reboot:
         msg: Rebooting nodes
