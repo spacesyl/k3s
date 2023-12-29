@@ -10,9 +10,13 @@ spec:
     name: letsencrypt-staging
     kind: ClusterIssuer
   privateKey:
-    algorithm: ECDSA
-    size: 384
-  commonName: ${SECRET_DOMAIN}
+    rotationPolicy: Always
+    algorithm: RSA
+    encoding: PKCS1
+    size: 2048
+  usages:
+    - server auth
+    - client auth
+  commonName: "ldap.${SECRET_DOMAIN}"
   dnsNames:
-    - ${SECRET_DOMAIN}
-    - '*.${SECRET_DOMAIN}'
+    - "ldap.${SECRET_DOMAIN}"
