@@ -86,6 +86,7 @@ spec:
             enabled: true
             port: 389
           ldaps:
+            enabled: true
             port: 636
 
     serviceMonitor:
