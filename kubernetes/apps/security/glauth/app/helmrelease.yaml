@@ -113,3 +113,14 @@ spec:
           - path: /config/users.toml
             subPath: users.toml
             readOnly: true
+      tls:
+        enabled: true
+        type: secret
+        name: glauth-tls
+        globalMounts:
+          - path: /tls/fullchain.pem
+            subPath: tls.crt
+            readOnly: true
+          - path: /tls/privkey.pem
+            subPath: tls.key
+            readOnly: true
