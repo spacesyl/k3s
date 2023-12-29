@@ -119,9 +119,9 @@ spec:
         type: secret
         name: glauth-tls
         globalMounts:
-          - path: /tls/fullchain.pem
+          - path: /tls/glauth.crt
             subPath: tls.crt
             readOnly: true
-          - path: /tls/privkey.pem
+          - path: /tls/glauth.key
             subPath: tls.key
             readOnly: true
