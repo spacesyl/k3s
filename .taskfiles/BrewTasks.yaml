@@ -18,6 +18,8 @@ tasks:
         cloudflared
         fluxcd/tap/flux
         helm
+        jq
+        k9s
         kubernetes-cli
         kustomize
         sops
