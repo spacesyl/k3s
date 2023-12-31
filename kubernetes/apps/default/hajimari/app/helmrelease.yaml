@@ -3,7 +3,6 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: hajimari
-  namespace: default
 spec:
   interval: 30m
   chart:
@@ -40,7 +39,6 @@ spec:
         matchNames:
           - default
           - monitoring
-          - services
     ingress:
       main:
         enabled: true
