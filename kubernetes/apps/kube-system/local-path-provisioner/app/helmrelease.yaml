@@ -57,7 +57,7 @@ spec:
       config:
         driver: local-hostpath
         local-hostpath:
-          shareBasePath: &storagePath "/var/lib/rancher/k3s/local-hostpath"
+          shareBasePath: &storagePath "/data/csi"
           controllerBasePath: *storagePath
           dirPermissionsMode: "0770"
           dirPermissionsUser: 0
@@ -74,3 +74,5 @@ spec:
           hostPath:
             path: *storagePath
             type: DirectoryOrCreate
+      nodeSelector:
+        openebs.io/storage: "true"
