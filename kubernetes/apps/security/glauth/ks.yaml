@@ -2,15 +2,15 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cluster-apps-glauth
+  name: &app glauth
   namespace: flux-system
   labels:
     substitution.flux.home.arpa/enabled: 'true'
 spec:
   dependsOn:
-    - name: cluster-apps-nginx-internal
-    - name: cluster-apps-nginx-external
-    - name: cluster-apps-cert-manager-issuers
+    - name: nginx-internal
+    - name: nginx-external
+    - name: manager-issuers
   path: './kubernetes/apps/security/glauth/app/'
   prune: true
   sourceRef:
