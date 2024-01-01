@@ -8,6 +8,7 @@ spec:
   dependsOn:
     - name: nginx-internal
     - name: nginx-external
+    - name: redis
   path: ./kubernetes/apps/services/searxng/app
   prune: true
   sourceRef:
