@@ -3,7 +3,6 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: glauth
-  namespace: security
 spec:
   secretName: glauth-tls
   issuerRef:

@@ -3,7 +3,6 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: glauth
-  namespace: security
 spec:
   maxReplicas: 3
   metrics:
