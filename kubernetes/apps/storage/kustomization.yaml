@@ -5,3 +5,4 @@ resources:
   - ./local-path-provisioner/ks.yaml
   # - ./openebs/ks.yaml
   # - ./minio/ks.yaml
+  - ./snapshot-controller/ks.yaml
