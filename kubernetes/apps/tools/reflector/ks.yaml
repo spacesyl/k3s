@@ -2,11 +2,11 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cluster-apps-reflector
+  name: &app reflector
   namespace: flux-system
 spec:
   targetNamespace: tools
-  path: ./kubernetes/apps/kube-system/reflector/app
+  path: ./kubernetes/apps/tools/reflector/app
   prune: true
   sourceRef:
     kind: GitRepository
