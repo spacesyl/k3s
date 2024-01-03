@@ -2,14 +2,17 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app local-path-provisioner
+  name: &app kubernetes-dashboard
   namespace: flux-system
 spec:
-  targetNamespace: storage
+  targetNamespace: observability
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/apps/storage/local-path-provisioner/app
+  dependsOn:
+    - name: cert-manager
+    - name: metrics-server
+  path: ./kubernetes/apps/observability/kubernetes-dashboard/app
   prune: true
   sourceRef:
     kind: GitRepository
