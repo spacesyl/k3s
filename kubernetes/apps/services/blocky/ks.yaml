@@ -5,6 +5,7 @@ metadata:
   name: &app blocky
   namespace: flux-system
 spec:
+  targetNamespace: services
   dependsOn:
     - name: redis
     - name: nginx-internal
