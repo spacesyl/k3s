@@ -7,11 +7,11 @@ metadata:
 spec:
   targetNamespace: tools
   interval: 10m
-  path: "./kubernetes/apps/k8s-tools/k8tz/app"
+  path: "./kubernetes/apps/tools/k8tz/app"
   prune: true
   sourceRef:
     kind: GitRepository
     name: home-kubernetes
   wait: true
   dependsOn:
-    - name: cluster-apps-cert-manager
+    - name: cert-manager
