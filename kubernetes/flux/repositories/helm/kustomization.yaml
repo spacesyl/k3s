@@ -9,6 +9,7 @@ resources:
   - ./coredns.yaml
   - ./csi-driver-nfs.yaml
   - ./cloudnative-pg.yaml
+  - ./deliveryhero.yaml
   - ./democratic-csi.yaml
   - ./descheduler.yaml
   - ./emberstack.yaml
