@@ -79,8 +79,8 @@ prometheus:
 
 ports:
   dns: 53
-  # https: 443
-  # tls: 853
+  https: 443
+  tls: 853
   http: 4000
 certFile: /tls/tls.crt
 keyFile: /tls/tls.key
