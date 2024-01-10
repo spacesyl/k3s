@@ -83,7 +83,7 @@ spec:
       tls:
         enabled: true
         type: secret
-        name: blocky-tls
+        name: blocky-doh
         globalMounts:
           - path: /tls/tls.crt
             subPath: tls.crt
