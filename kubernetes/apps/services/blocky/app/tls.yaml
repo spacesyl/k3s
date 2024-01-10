@@ -1,0 +1,13 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: blocky
+spec:
+  secretName: blocky-tls
+  issuerRef:
+    name: letsencrypt-production
+    kind: ClusterIssuer
+  commonName: ${SECRET_DOMAIN}
+  dnsNames:
+    - dns.${SECRET_DOMAIN}
