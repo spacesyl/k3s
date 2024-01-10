@@ -84,7 +84,13 @@ spec:
         enabled: true
         type: secret
         name: blocky-tls
-        readOnly: true
+        globalMounts:
+          - path: /tls/tls.crt
+            subPath: tls.crt
+            readOnly: true
+          - path: /tls/tls.key
+            subPath: tls.key
+            readOnly: true
     service:
       main:
         ports:
