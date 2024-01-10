@@ -80,6 +80,11 @@ spec:
           - path: /app/config.yml
             subPath: config.yml
             readOnly: true
+      tls:
+        enabled: true
+        type: secret
+        name: blocky-tls
+        readOnly: true
     service:
       main:
         ports:

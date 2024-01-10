@@ -78,6 +78,7 @@ prometheus:
   path: /metrics
 
 ports:
+  dns: 53
 #   https: 443
 #   tls: 853
   http: 4000
