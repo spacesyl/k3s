@@ -37,4 +37,4 @@ spec:
       database: authelia
       owner: authelia
       secret:
-        name: authelia-secret-db
+        name: pg-authelia-secret
