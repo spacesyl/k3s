@@ -30,7 +30,7 @@ spec:
   monitoring:
     enablePodMonitor: true
   superuserSecret:
-    name: cnpg-su-secret
+    name: pg-su-secret
   enableSuperuserAccess: true
   bootstrap:
     initdb:
