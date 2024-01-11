@@ -71,12 +71,14 @@ spec:
         enabled: true
         size: 500Mi
         storageClass: local-hostpath
+        accessMode: RWO
         globalMounts:
           - path: /config
       recordings:
         enabled: true
         size: 20Gi
         storageClass: local-hostpath
+        accessMode: RWO
         globalMounts:
           - path: /recordings
       timeshift:
