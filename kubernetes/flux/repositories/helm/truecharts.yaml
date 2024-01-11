@@ -6,5 +6,5 @@ metadata:
   namespace: flux-system
 spec:
   interval: 60m
-  url: https://charts.truecharts.org
+  url: https://github.com/truecharts/catalog
   timeout: 3m
