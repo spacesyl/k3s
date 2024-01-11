@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.4.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -49,7 +49,9 @@ spec:
           - host: &host tv.${SECRET_DOMAIN}
             paths:
               - path: /
-                pathType: Prefix
+                service:
+                  name: main
+                  port: http
         tls:
           - secretName: tvheadend-tls
             hosts:
@@ -69,14 +71,17 @@ spec:
       config:
         enabled: true
         size: 500Mi
-        storageClass: openebs-hostpath
+        storageClass: local-hostpath
+        globalMounts:
+          - path: /config
       recordings:
         enabled: true
         size: 20Gi
-        storageClass: openebs-hostpath
-        accessMode: RWO
-        mountPath: /recordings
+        storageClass: local-hostpath
+        globalMounts:
+          - path: /recordings
       timeshift:
         enabled: true
         type: emptyDir
-        mountPath: /timeshift
+        globalMounts:
+          - path: /timeshift
