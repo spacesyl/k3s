@@ -17,14 +17,20 @@ spec:
   values:
     nodeSelector:
       openebs.io/storage: "true"
-    controller:
-    global:
-      nameOverride: *app
-    image:
-      repository: ghcr.io/onedr0p/tvheadend
-      tag: 4.3.10009
-    env:
-      TZ: "${TZ}"
+    controllers:
+      main:
+        replicas: 1
+        strategy: RollingUpdate
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          main:
+            image:
+              repository: ghcr.io/onedr0p/tvheadend
+              tag: 4.3.10009
+            env:
+              - name: TZ
+                value: ${TZ}
     service:
       main:
         ports:
