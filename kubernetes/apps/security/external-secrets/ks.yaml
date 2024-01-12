@@ -28,6 +28,8 @@ metadata:
   name: &app external-secrets-doppler
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: external-secrets-operator
   targetNamespace: &namespace security
   path: './kubernetes/apps/security/external-secrets/doppler/'
   prune: true
