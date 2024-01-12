@@ -12,4 +12,8 @@ kubeconfig
 # Ansible
 .venv*
 # Taskfile
-.tasks
+.task
+# intellij
+.idea
+# wiki
+wiki

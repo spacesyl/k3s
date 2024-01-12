@@ -1,6 +1,6 @@
 # Deploy a Kubernetes cluster backed by Flux
 
-Welcome to my highly opinionated template for deploying a single Kubernetes ([k3s](https://k3s.io)) cluster with [Ansible](https://www.ansible.com) and using [Flux](https://toolkit.fluxcd.io) to manage its state.
+Welcome to my highly opinionated template for deploying a single Kubernetes ([k3s](https://k3s.io) or [k0s](https://github.com/k0sproject/k0s)) cluster with [Ansible](https://www.ansible.com) and using [Flux](https://toolkit.fluxcd.io) to manage its state.
 
 ## 👋 Introduction
 
@@ -182,68 +182,70 @@ Once you have installed Debian on your nodes, there are six stages to getting a 
     task init
     ```
 
-2. Setup Age private / public key
+2. Choose between `k3s` or `k0s` for your Kubernetes distribution and fillout the appropriate vars in `bootstrap/vars/config.yaml`
+
+3. Setup Age private / public key
 
     📍 _Using [SOPS](https://github.com/getsops/sops) with [Age](https://github.com/FiloSottile/age) allows us to encrypt secrets and use them in Ansible and Flux._
 
-    2a. Create a Age private / public key (this file is gitignored)
+    3a. Create a Age private / public key (this file is gitignored)
 
       ```sh
       age-keygen -o age.key
       ```
 
-    2b. Fill out the appropriate vars in `bootstrap/vars/config.yaml`
+    3b. Fill out the appropriate vars in `bootstrap/vars/config.yaml`
 
-3. Create Cloudflare API Token
+4. Create Cloudflare API Token
 
     📍 _To use `cert-manager` with the Cloudflare DNS challenge you will need to create a API Token._
 
-   3a. Head over to Cloudflare and create a API Token by going [here](https://dash.cloudflare.com/profile/api-tokens).
+   4a. Head over to Cloudflare and create a API Token by going [here](https://dash.cloudflare.com/profile/api-tokens).
 
-   3b. Under the `API Tokens` section click the blue `Create Token` button.
+   4b. Under the `API Tokens` section click the blue `Create Token` button.
 
-   3c. Click the blue `Use template` button for the `Edit zone DNS` template.
+   4c. Click the blue `Use template` button for the `Edit zone DNS` template.
 
-   3d. Name your token something like `home-kubernetes`
+   4d. Name your token something like `home-kubernetes`
 
-   3e. Under `Permissions`, click `+ Add More` and add each permission below:
+   4e. Under `Permissions`, click `+ Add More` and add each permission below:
 
     ```text
     Zone - DNS - Edit
     Account - Cloudflare Tunnel - Read
     ```
 
-   3f. Limit the permissions to a specific account and zone resources.
+   4f. Limit the permissions to a specific account and zone resources.
 
-   3g. Fill out the appropriate vars in `bootstrap/vars/config.yaml`
+   4g. Fill out the appropriate vars in `bootstrap/vars/config.yaml`
 
-4. Create Cloudflare Tunnel
+5. Create Cloudflare Tunnel
 
     📍 _To expose services to the internet you will need to create a [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/)._
 
-    4a. Authenticate cloudflared to your domain
+    5a. Authenticate cloudflared to your domain
 
       ```sh
       cloudflared tunnel login
       ```
 
-    4b. Create the tunnel
+    5b. Create the tunnel
 
       ```sh
       cloudflared tunnel create k8s
       ```
 
-    4c. In the `~/.cloudflared` directory there will be a json file with details you need. Ignore the `cert.pem` file.
+    5c. In the `~/.cloudflared` directory there will be a json file with details you need. Ignore the `cert.pem` file.
 
-    4d. Fill out the appropriate vars in `bootstrap/vars/config.yaml`
+    5d. Fill out the appropriate vars in `bootstrap/vars/config.yaml`
 
-5. Complete filling out the rest of the `bootstrap/vars/config.yaml` configuration file.
+6. Complete filling out the rest of the `bootstrap/vars/config.yaml` configuration file.
 
-    5a. Ensure `bootstrap_acme_production_enabled` is set to `false`.
+    6a. Ensure `bootstrap_acme_production_enabled` is set to `false`.
 
-    5b. [Optional] Update `bootstrap/vars/addons.yaml` and enable applications you would like included.
+    6b. [Optional] Update `bootstrap/vars/addons.yaml` and enable applications you would like included.
 
-6. Once done run the following command which will verify and generate all the files needed to continue.
+7. Once done run the following command which will verify and generate all the files needed to continue.
 
     ```sh
     task configure
@@ -258,7 +260,7 @@ Once you have installed Debian on your nodes, there are six stages to getting a 
 > └─📁 apps          # Apps deployed into the cluster grouped by namespace
 > ```
 
-### ⚡ Stage 4: Prepare your nodes for k3s
+### ⚡ Stage 4: Prepare your nodes for Kubernetes
 
 📍 _Here we will be running an Ansible playbook to prepare your nodes for running a Kubernetes cluster._
 
@@ -282,9 +284,7 @@ Once you have installed Debian on your nodes, there are six stages to getting a 
     task ansible:run playbook=cluster-prepare
     ```
 
-### ⛵ Stage 5: Use Ansible to install k3s
-
-📍 _Here we will be running a Ansible Playbook to install [k3s](https://k3s.io/) with [this](https://galaxy.ansible.com/xanmanning/k3s) Ansible galaxy role. If you run into problems, you can run `task ansible:run playbook=cluster-nuke` to destroy the k3s cluster and start over from this point._
+### ⛵ Stage 5: Install Kubernetes
 
 1. Verify Ansible can view your config
 
@@ -298,11 +298,19 @@ Once you have installed Debian on your nodes, there are six stages to getting a 
     task ansible:ping
     ```
 
-3. Install k3s with Ansible
+3. Install Kubernetes depending on the distribution you chose
 
-    ```sh
-    task ansible:run playbook=cluster-installation
-    ```
+    * Install k3s
+
+      ```sh
+      task ansible:run playbook=cluster-installation
+      ```
+
+    * Install k0s
+
+      ```sh
+      task k0s:apply
+      ```
 
 4. Verify the nodes are online
 
@@ -431,6 +439,22 @@ By default Flux will periodically check your git repository for changes. In orde
     ```
 
 3. Navigate to the settings of your repository on Github, under "Settings/Webhooks" press the "Add webhook" button. Fill in the webhook url and your `bootstrap_flux_github_webhook_token` secret and save.
+
+#### 💥 Nuke
+
+There might be a situation where you want to destroy your Kubernetes cluster. This will completely clean the OS of all traces of the Kubernetes distribution you chose and then reboot the nodes.
+
+* Nuke k3s
+
+    ```sh
+    task ansible:run playbook=cluster-nuke
+    ```
+
+* Nuke k0s
+
+    ```sh
+    task k0s:reset
+    ```
 
 ### 🤖 Renovate
 
