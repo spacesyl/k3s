@@ -31,7 +31,7 @@ spec:
     ipam:
       mode: kubernetes
     ipv4NativeRoutingCIDR: "{{ cluster_cidr }}"
-    k8sServiceHost: "{{ kube_vip_addr }}"
+    k8sServiceHost: "{{ kubeapi_addr }}"
     k8sServicePort: 6443
     kubeProxyReplacement: true
     kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
@@ -49,6 +49,6 @@ spec:
       replicas: 1
       rollOutPods: true
     rollOutCiliumPods: true
+    routingMode: native
     securityContext:
       privileged: true
-    tunnel: disabled

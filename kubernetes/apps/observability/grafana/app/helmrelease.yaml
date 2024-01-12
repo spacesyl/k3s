@@ -24,7 +24,7 @@ spec:
   uninstall:
     keepHistory: false
   dependsOn:
-    - name: local-path-provisioner
+    - name: openebs
       namespace: storage
   values:
     deploymentStrategy:
@@ -159,15 +159,22 @@ spec:
     ingress:
       enabled: true
       ingressClassName: internal
-      annotations:
-        hajimari.io/icon: simple-icons:grafana
-      hosts:
+            annotations:
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/icon: grafana.png
+        gethomepage.dev/name: Grafana
+        gethomepage.dev/group: Observability
+        gethomepage.dev/widget.type: grafana
+        gethomepage.dev/widget.url: http://grafana.observability
+        gethomepage.dev/widget.username: '{{`{{ HOMEPAGE_VAR_GRAFANA_USERNAME }}`}}'
+        gethomepage.dev/widget.password: '{{`{{ HOMEPAGE_VAR_GRAFANA_PASSWORD }}`}}'
+            hosts:
         - &host "grafana.${SECRET_DOMAIN}"
       tls:
         - hosts:
             - *host
     persistence:
       enabled: true
-      storageClassName: local-hostpath
+      storageClassName: openebs-hostpath
     testFramework:
       enabled: false
