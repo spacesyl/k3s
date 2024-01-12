@@ -17,3 +17,5 @@ kubeconfig
 .idea
 # wiki
 wiki
+# k0s config
+k0s-config.yaml
