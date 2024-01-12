@@ -51,27 +51,25 @@ spec:
 
     ingress:
       enabled: true
-      ingressClassName: internal
+      className: internal
       annotations:
-        hajimari.io/enable: "true"
-        hajimari.io/appName: "PGAdmin (PostgreSQL)"
-        hajimari.io/icon: simple-icons:adminer
-        hajimari.io/group: Databases
-        hajimari.io/instance: "admin"
-
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/group: Home
+        gethomepage.dev/name: PG-Admin
+        gethomepage.dev/icon: flux-cd.png
       hosts:
         - host: &host "pgadmin.${SECRET_DOMAIN}"
           paths:
             - path: /
               pathType: Prefix
       tls:
-        - secretName: "${SECRET_DOMAIN/./-}-tls"
+        - secretName: "pgadmin-tls"
           hosts:
             - *host
 
     persistentVolume:
       enabled: true
-      storageClass: local-hostpath
+      storageClass: openebs-hostpath
       accessModes:
         - ReadWriteOnce
       size: 200Mi
