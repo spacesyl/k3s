@@ -99,11 +99,12 @@ spec:
       dns:
         controller: main
         type: LoadBalancer
+        externalTrafficPolicy: Cluster
         annotations:
           io.cilium/lb-ipam-ips: 10.17.8.4
           external-dns.alpha.kubernetes.io/hostname: dns.${SECRET_DOMAIN}
-        labels:
-          io.cilium/lb-ipam-layer2: "true"
+        # labels:
+        #   io.cilium/lb-ipam-layer2: "true"
         ports:
           dns-tcp:
             enabled: true
