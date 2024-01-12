@@ -7,6 +7,7 @@ metadata:
 spec:
   dependsOn:
     - name: openebs
+    - name: external-secrets-doppler
   path: ./kubernetes/apps/databases/cloudnative-pg/operator
   prune: true
   sourceRef:
