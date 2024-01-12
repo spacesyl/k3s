@@ -77,14 +77,14 @@ spec:
         enabled: true
         size: 500Mi
         storageClass: openebs-hostpath
-        accessMode: RWO
+        accessMode: ReadWriteOnce
         globalMounts:
           - path: /config
       recordings:
         enabled: true
         size: 20Gi
         storageClass: openebs-hostpath
-        accessMode: RWO
+        accessMode: ReadWriteOnce
         globalMounts:
           - path: /recordings
       timeshift:
