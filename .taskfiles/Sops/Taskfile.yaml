@@ -1,0 +1,37 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: "3"
+
+tasks:
+
+  age-keygen:
+    desc: Initialize Age Key for Sops
+    cmd: age-keygen --output {{.ROOT_DIR}}/age.key
+    status:
+      - test -f "{{.ROOT_DIR}}/age.key"
+
+  encrypt:
+    desc: Encrypt a secret
+    aliases: ["e"]
+    summary: |
+      Args:
+        file: Path to file to encrypt (required)
+    cmd: sops --encrypt --in-place {{.file}}
+    vars:
+      claim: '{{ or .file (fail "Argument (file) is required") }}'
+    preconditions:
+      - { msg: "Sops config not found", sh: "test -f {{.ROOT_DIR}}/.sops.yaml" }
+      - { msg: "Age key not found",     sh: "test -f {{.ROOT_DIR}}/age.key" }
+
+  decrypt:
+    desc: Decrypt a secret
+    aliases: ["d"]
+    summary: |
+      Args:
+        file: Path to file to decrypt (required)
+    cmd: sops --decrypt --in-place {{.SECRET}}
+    vars:
+      claim: '{{ or .file (fail "Argument (file) is required") }}'
+    preconditions:
+      - { msg: "Sops config not found", sh: "test -f {{.ROOT_DIR}}/.sops.yaml" }
+      - { msg: "Age key not found",     sh: "test -f {{.ROOT_DIR}}/age.key" }
