@@ -149,7 +149,7 @@ Once you have installed Debian on your nodes, there are six stages to getting a 
     ```sh
     # Homebrew
     brew install go-task
-    # Arch / Yay
+    # or, Arch / Yay
     yay -S go-task
     ```
 
@@ -297,19 +297,7 @@ Once you have installed Debian on your nodes, there are six stages to getting a 
 
 ### ⛵ Stage 5: Install Kubernetes
 
-1. Verify Ansible can view your config
-
-    ```sh
-    task ansible:list
-    ```
-
-2. Verify Ansible can ping your nodes
-
-    ```sh
-    task ansible:ping
-    ```
-
-3. Install Kubernetes depending on the distribution you chose
+1. Install Kubernetes depending on the distribution you chose
 
     ```sh
     # Install k3s
@@ -318,7 +306,7 @@ Once you have installed Debian on your nodes, there are six stages to getting a 
     task k0s:apply
     ```
 
-4. Verify the nodes are online
+2. Verify the nodes are online
 
     📍 _If this command **fails** you likely haven't configured `direnv` as mentioned previously in the guide._
 
@@ -329,7 +317,7 @@ Once you have installed Debian on your nodes, there are six stages to getting a 
     # k8s-1          Ready    worker                      1h      v1.27.3+k3s1
     ```
 
-5. The `kubeconfig` for interacting with your cluster should have been created in the root of your repository.
+3. The `kubeconfig` for interacting with your cluster should have been created in the root of your repository.
 
 ### 🔹 Stage 6: Install Flux in your cluster
 
@@ -625,6 +613,14 @@ If this repo is too hot to handle or too cold to hold check out these following 
 - [danmanners/aws-argo-cluster-template](https://github.com/danmanners/aws-argo-cluster-template) - _A community opinionated template for deploying Kubernetes clusters on-prem and in AWS using Pulumi, SOPS, Sealed Secrets, GitHub Actions, Renovate, Cilium and more!_
 - [ricsanfre/pi-cluster](https://github.com/ricsanfre/pi-cluster) - _Pi Kubernetes Cluster. Homelab kubernetes cluster automated with Ansible and ArgoCD_
 - [techno-tim/k3s-ansible](https://github.com/techno-tim/k3s-ansible) - _The easiest way to bootstrap a self-hosted High Availability Kubernetes cluster. A fully automated HA k3s etcd install with kube-vip, MetalLB, and more_
+
+## ⭐ Stargazers
+
+<div align="center">
+
+[![Star History Chart](https://api.star-history.com/svg?repos=onedr0p/flux-cluster-template&type=Date)](https://star-history.com/#onedr0p/flux-cluster-template&Date)
+
+</div>
 
 ## 🤝 Thanks
 
