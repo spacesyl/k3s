@@ -30,9 +30,4 @@ spec:
         name: openebs-hostpath
         isDefaultClass: false
         basePath: "/data/csi"
-        nodeSelector:
-          openebs.io/storage: "true"
-    ndm:
-      nodeSelector:
-        openebs.io/storage: "true"
-  
+

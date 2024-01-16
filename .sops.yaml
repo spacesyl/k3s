@@ -9,8 +9,3 @@ creation_rules:
     key_groups:
       - age:
           - "age1rcpk958jus0pazdt4d0gc0mhqhqn55ajtq7s04e5fx24lhygv5uq5x0z5q"
-  # https://github.com/ansible-collections/community.sops/issues/153
-  - path_regex: /dev/stdin
-    key_groups:
-      - age:
-          - "age1rcpk958jus0pazdt4d0gc0mhqhqn55ajtq7s04e5fx24lhygv5uq5x0z5q"
