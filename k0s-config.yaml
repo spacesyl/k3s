@@ -5,36 +5,36 @@ metadata:
   name: k0s-cluster
 spec:
   hosts:
-    - role: controller+worker
+    - role: "controller+worker"
       ssh:
-        address: 10.17.8.12
-        user: root
+        address: "10.17.8.12"
+        user: "root"
       installFlags:
         - --disable-components=metrics-server
-    - role: controller+worker
+    - role: "controller+worker"
       ssh:
-        address: 10.17.8.13
-        user: root
+        address: "10.17.8.13"
+        user: "root"
       installFlags:
         - --disable-components=metrics-server
-    - role: controller+worker
+    - role: "controller+worker"
       ssh:
-        address: 10.17.8.11
-        user: root
+        address: "10.17.8.11"
+        user: "root"
       installFlags:
         - --disable-components=metrics-server
     - role: worker
       ssh:
-        address: 10.17.8.24
-        user: root
+        address: "10.17.8.24"
+        user: "root"
     - role: worker
       ssh:
-        address: 10.17.8.25
-        user: root
+        address: "10.17.8.25"
+        user: "root"
     - role: worker
       ssh:
-        address: 10.17.8.26
-        user: root
+        address: "10.17.8.26"
+        user: "root"
   k0s:
     # renovate: datasource=github-releases depName=k0sproject/k0s
     version: "v1.28.5+k0s.0"
@@ -53,13 +53,13 @@ spec:
             bind-address: "0.0.0.0"
         api:
           sans:
-            - 10.17.8.98
-            - 10.17.8.12
-            - k8s2
-            - 10.17.8.13
-            - k8s3
-            - 10.17.8.11
-            - k8s1
+            - "10.17.8.98"
+            - "10.17.8.12"
+            - "k8s2"
+            - "10.17.8.13"
+            - "k8s3"
+            - "10.17.8.11"
+            - "k8s1"
         extensions:
           helm:
             repositories:
@@ -102,7 +102,7 @@ spec:
                     leaseRetryPeriod: 1s
                   loadBalancer:
                     algorithm: maglev
-                    mode: dsr
+                    mode: "dsr"
                   localRedirectPolicy: true
                   operator:
                     replicas: 1
