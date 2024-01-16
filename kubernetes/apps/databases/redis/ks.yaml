@@ -6,12 +6,15 @@ metadata:
   namespace: flux-system
 spec:
   targetNamespace: databases
-  path: ./kubernetes/apps/databases/redis/app
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  path: ./kubernetes/main/apps/databases/redis/app
   prune: true
   sourceRef:
     kind: GitRepository
     name: home-kubernetes
-  wait: true
+  wait: false
   interval: 30m
   retryInterval: 1m
   timeout: 15m
