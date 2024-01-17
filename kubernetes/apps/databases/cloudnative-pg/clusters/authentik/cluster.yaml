@@ -2,7 +2,7 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: cnpg-lldap
+  name: cnpg-authentik
   namespace: databases
 spec:
   instances: 3
@@ -10,7 +10,7 @@ spec:
   primaryUpdateStrategy: unsupervised
   storage:
     size: 500Mi
-    storageClass: local-hostpath
+    storageClass: openebs-hostpath
   affinity:
     enablePodAntiAffinity: true
     topologyKey: kubernetes.io/hostname
@@ -30,11 +30,11 @@ spec:
   monitoring:
     enablePodMonitor: true
   superuserSecret:
-    name: cnpg-su-secret
+    name: pg-su-secret
   enableSuperuserAccess: true
   bootstrap:
     initdb:
-      database: lldap
-      owner: lldap
+      database: authentik
+      owner: authentik
       secret:
-        name: lldap-secret-db
+        name: pg-authentik-secret
