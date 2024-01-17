@@ -33,6 +33,12 @@ spec:
     replica:
       persistence:
         enabled: false
+      autoscaling:
+        enabled: true
+        minReplicas: 1
+        maxReplicas: 3
+        targetCPU: "75"
+        targetMemory: "80"
     sentinel:
       enabled: true
       masterSet: redis-master
