@@ -4,6 +4,6 @@ kind: Kustomization
 namespace: databases
 resources:
   - ./su-externalsecret.yaml
-  # - ./authelia
+  - ./authelia
   # - ./authentik
   # - ./lldap
