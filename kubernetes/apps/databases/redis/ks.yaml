@@ -6,6 +6,8 @@ metadata:
   namespace: flux-system
 spec:
   targetNamespace: databases
+  dependsOn:
+    - name: metrics-server
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
