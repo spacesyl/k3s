@@ -5,4 +5,4 @@ resources:
   - ./namespace.yaml
   - ./redis/ks.yaml
   - ./cloudnative-pg/ks.yaml
-  - ./pgadmin/ks.yaml
+  # - ./pgadmin/ks.yaml
