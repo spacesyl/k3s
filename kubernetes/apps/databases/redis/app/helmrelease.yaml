@@ -30,10 +30,24 @@ spec:
     master:
       persistence:
         enabled: false
+      resources:
+        requests:
+          cpu: 100m
+          memory: 10Mi
+        limits:
+          cpu: 250m
+          memory: 100Mi
     replica:
       persistence:
         enabled: false
       # replicaCount: 1
+      resources:
+        requests:
+          cpu: 100m
+          memory: 10Mi
+        limits:
+          cpu: 250m
+          memory: 100Mi
       autoscaling:
         enabled: true
         minReplicas: 1
