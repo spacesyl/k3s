@@ -4,7 +4,7 @@ kind: Kustomization
 namespace: databases
 resources:
   - ./su-externalsecret.yaml
-  - authelia/*.yaml
+  - ./authelia
   # - ./cluster-su-secret.sops.yaml
   # - ./cluster-authentik-secret.sops.yaml
   # - ./cluster-authentik.yaml
