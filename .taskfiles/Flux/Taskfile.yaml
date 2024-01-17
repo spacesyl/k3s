@@ -46,11 +46,6 @@ tasks:
       | \
       kubectl apply --kubeconfig {{.KUBECONFIG_FILE}} --server-side \
           --field-manager=kustomize-controller -f -
-    preconditions:
-      - sh: command -v flux
-      - sh: command -v kubectl
-      - sh: test -f {{.KUBECONFIG_FILE}}
-      - sh: test -f {{.KUBERNETES_DIR}}/apps/{{.path}}/ks.yaml
     vars:
       path: '{{ or .path (fail "Argument (path) is required") }}'
       ns: '{{.ns | default "flux-system"}}'
