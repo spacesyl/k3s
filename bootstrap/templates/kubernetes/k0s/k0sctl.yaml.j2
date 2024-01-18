@@ -22,13 +22,35 @@ spec:
           perm: 0644
           user: root
           group: root
-      hooks:
+      #% if loop.first %#
+      hooks: &hooks
         apply:
           before:
+            - sudo mv ~/unprivileged-ports.toml /etc/k0s/containerd.d/unprivileged-ports.toml
             #% if spegel.enabled | default(false) %#
             - sudo mv ~/spegel.toml /etc/k0s/containerd.d/spegel.toml
             #% endif %#
-            - sudo mv ~/unprivileged-ports.toml /etc/k0s/containerd.d/unprivileged-ports.toml
+        reset:
+          before:
+            - sudo ip link delete cilium_host > /dev/null 2>&1 || true
+            - sudo ip link delete cilium_net > /dev/null 2>&1 || true
+            - sudo ip link delete cilium_vxlan > /dev/null 2>&1 || true
+            - sudo iptables -t nat -F
+            - sudo iptables -t mangle -F
+            - sudo iptables -t filter -F
+            - sudo iptables -t raw -F
+            - sudo iptables -X
+            - sudo ip6tables -t nat -F
+            - sudo ip6tables -t mangle -F
+            - sudo ip6tables -t filter -F
+            - sudo ip6tables -t raw -F
+            - sudo ip6tables -X
+            - sudo rm -rf /etc/cni/net.d
+          after:
+            - sudo shutdown -r now
+      #% else %#
+      hooks: *hooks
+      #% endif %#
     #% endfor %#
     #% if bootstrap_nodes.worker | default([]) | length > 0 %#
     #% for item in bootstrap_nodes.worker %#
@@ -42,13 +64,7 @@ spec:
           perm: 0644
           user: root
           group: root
-      hooks:
-        apply:
-          before:
-            #% if spegel.enabled | default(false) %#
-            - sudo mv ~/spegel.toml /etc/k0s/containerd.d/spegel.toml
-            #% endif %#
-            - sudo mv ~/unprivileged-ports.toml /etc/k0s/containerd.d/unprivileged-ports.toml
+      hooks: *hooks
     #% endfor %#
     #% endif %#
   k0s:
@@ -86,14 +102,12 @@ spec:
             #% endif %#
             #% endfor %#
         network:
+          provider: custom
           kubeProxy:
             disabled: true
-          #%  if bootstrap_nodes.master | length > 1 %#
           nodeLocalLoadBalancing:
             enabled: true
             type: EnvoyProxy
-          #% endif %#
-          provider: custom
         extensions:
           helm:
             repositories:
@@ -106,56 +120,7 @@ spec:
                 version: "1.14.5"
                 namespace: kube-system
                 values: |2
-                  autoDirectNodeRoutes: true
-                  bpf:
-                    masquerade: true
-                  bgp:
-                    enabled: false
-                  cluster:
-                    name: home-cluster
-                    id: 1
-                  containerRuntime:
-                    integration: containerd
-                    socketPath: /var/run/k0s/containerd.sock
-                  endpointRoutes:
-                    enabled: true
-                  hubble:
-                    enabled: false
-                  ipam:
-                    mode: kubernetes
-                  ipv4NativeRoutingCIDR: "#{ bootstrap_cluster_cidr }#"
-                  #% if bootstrap_ipv6_enabled | default(false) %#
-                  ipv6NativeRoutingCIDR: "#{ bootstrap_cluster_cidr_v6 }#"
-                  ipv6:
-                    enabled: true
-                  #% endif %#
-                  #% if bootstrap_nodes.master | length > 1 or bootstrap_kube_api_addr | default('') %#
-                  k8sServiceHost: "#{ bootstrap_kube_api_addr }#"
-                  #% else %#
-                  k8sServiceHost: "#{ bootstrap_nodes.master[0].address }#"
-                  #% endif %#
-                  k8sServicePort: 6443
-                  kubeProxyReplacement: true
-                  kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
-                  l2announcements:
-                    #% if bootstrap_ipv6_enabled | default(false) %#
-                    enabled: false
-                    #% else %#
-                    enabled: true
-                    # https://github.com/cilium/cilium/issues/26586
-                    leaseDuration: 120s
-                    leaseRenewDeadline: 60s
-                    leaseRetryPeriod: 1s
-                    #% endif %#
-                  loadBalancer:
-                    algorithm: maglev
-                    mode: "#{ bootstrap_cilium_loadbalancer_mode | default('dsr', true) }#"
-                  localRedirectPolicy: true
-                  operator:
-                    replicas: 1
-                    rollOutPods: true
-                  rollOutCiliumPods: true
-                  routingMode: native
-                  securityContext:
-                    privileged: true
+                  #% filter indent(width=18, first=True) %#
+                  #% include 'partials/cilium-values-init.yaml.partial' %#
+                  #% endfilter %#
 #% endif %#
