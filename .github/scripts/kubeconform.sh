@@ -1,0 +1,1 @@
+../../.taskfiles/Kubernetes/kubeconform.sh
