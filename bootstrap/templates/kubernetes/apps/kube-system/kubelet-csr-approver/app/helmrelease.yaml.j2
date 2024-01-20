@@ -24,6 +24,7 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    providerRegex: |
-      ^k(m|w)\d\d?$
+    #% filter indent(width=4, first=True) %#
+    #% include 'partials/kubelet-csr-approver-values.partial.yaml.j2' %#
+    #% endfilter %#
 #% endif %#
