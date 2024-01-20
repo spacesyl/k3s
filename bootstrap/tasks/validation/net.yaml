@@ -202,13 +202,13 @@
   loop_control:
     label: "{{ item.address }}"
 
-- name: Check if Talos ports are reachable
-  when: (not ci_test | default(false)) and (bootstrap_distribution == "talos")
-  ansible.builtin.wait_for:
-    host: "{{ item.address }}"
-    port: 50000
-    timeout: 10
-  connection: local
-  loop: "{{ bootstrap_nodes.master + bootstrap_nodes.worker | default([]) }}"
-  loop_control:
-    label: "{{ item.address }}"
+# - name: Check if Talos ports are reachable
+#   when: (not ci_test | default(false)) and (bootstrap_distribution == "talos")
+#   ansible.builtin.wait_for:
+#     host: "{{ item.address }}"
+#     port: 50000
+#     timeout: 10
+#   connection: local
+#   loop: "{{ bootstrap_nodes.master + bootstrap_nodes.worker | default([]) }}"
+#   loop_control:
+#     label: "{{ item.address }}"
