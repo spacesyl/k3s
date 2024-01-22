@@ -177,3 +177,5 @@ spec:
       storageClassName: openebs-hostpath
     testFramework:
       enabled: false
+    nodeSelector:
+      openebs.io/storage: "true"
