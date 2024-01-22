@@ -15,7 +15,7 @@
       block:
         - name: Locale | Set timezone
           community.general.timezone:
-            name: "{{ timezone | default('Etc/UTC') }}"
+            name: "Europe/Paris"
 
     - name: Packages
       block:
@@ -32,7 +32,7 @@
         - name: User Configuration | SSH keys
           ansible.posix.authorized_key:
             user: "{{ ansible_user }}"
-            key: "https://github.com/{{ github_username }}.keys"
+            key: "https://github.com/spacesyl.keys"
         - name: User Configuration | Silence login
           ansible.builtin.file:
             dest: "{{ '/home/' + ansible_user if ansible_user != 'root' else '/root' }}/.hushlogin"
