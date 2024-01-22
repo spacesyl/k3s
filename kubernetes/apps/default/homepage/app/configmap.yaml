@@ -76,15 +76,3 @@ data:
           dateStyle: long
           timeStyle: short
           hourCycle: h23
-    - kubernetes:
-        cluster:
-          cpu: true
-          label: cluster
-          memory: true
-          show: true
-          showLabel: false
-        nodes:
-          cpu: true
-          memory: true
-          show: false
-          showLabel: true
