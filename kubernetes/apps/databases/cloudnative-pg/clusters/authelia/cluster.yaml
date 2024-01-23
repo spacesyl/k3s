@@ -38,9 +38,6 @@ spec:
       owner: authelia
       secret:
         name: pg-authelia-secret
-  envFrom:
-  - secretRef:
-      name: pg-su-secret
   backup:
     retentionPolicy: 30d
     barmanObjectStore: &barmanObjectStore
