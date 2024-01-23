@@ -26,8 +26,8 @@ spec:
     keepHistory: false
   dependsOn:
     - name: redis
-      namespace: dbms
-    - name: lldap
+      namespace: databases
+    - name: glauth
       namespace: security
   values:
     controllers:
