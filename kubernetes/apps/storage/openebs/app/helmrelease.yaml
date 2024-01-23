@@ -24,13 +24,13 @@ spec:
     keepHistory: false
   values:
     localprovisioner:
+      nodeSelector:
+        openebs.io/storage: "true"
       hostpathClass:
         enabled: true
         name: openebs-hostpath
         isDefaultClass: false
         basePath: "/data/csi"
-        nodeSelector:
-          openebs.io/storage: "true"
     ndm:
       nodeSelector:
         openebs.io/storage: "true"
