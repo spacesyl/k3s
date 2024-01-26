@@ -9,7 +9,7 @@ spec:
   repo: https://helm.cilium.io/
   chart: cilium
   # renovate: datasource=helm depName=cilium repository=https://helm.cilium.io
-  version: "1.14.6"
+  version: 1.14.6
   targetNamespace: kube-system
   bootstrap: true
   valuesContent: |-
@@ -43,7 +43,7 @@ spec:
       leaseRetryPeriod: 1s
     loadBalancer:
       algorithm: maglev
-      mode: "dsr"
+      mode: dsr
     localRedirectPolicy: true
     operator:
       replicas: 1
