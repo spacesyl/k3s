@@ -4,7 +4,7 @@ authentication_backend:
     disable: true
   refresh_interval: 1m
   ldap:
-    address: ldap://glauth-ldap:389
+    url: ldap://glauth-ldap:389
     implementation: custom
     timeout: 5s
     start_tls: false
