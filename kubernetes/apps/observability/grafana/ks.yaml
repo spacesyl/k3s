@@ -6,6 +6,10 @@ metadata:
   namespace: flux-system
 spec:
   targetNamespace: observability
+  dependsOn:
+    - name: openebs
+    - name: external-secrets-doppler
+    - name: nginx-internal
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
