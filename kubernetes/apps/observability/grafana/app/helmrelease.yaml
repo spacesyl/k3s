@@ -179,3 +179,5 @@ spec:
       enabled: false
     nodeSelector:
       openebs.io/storage: "true"
+    annotations:
+      reloader.stakater.com/auto: "true"
