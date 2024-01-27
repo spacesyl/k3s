@@ -1,0 +1,202 @@
+---
+apiVersion: k0sctl.k0sproject.io/v1beta1
+kind: Cluster
+metadata:
+  name: home-kubernetes
+spec:
+  hosts:
+    - role: controller+worker
+      ssh:
+        address: "10.17.8.12"
+        user: "root"
+      installFlags:
+        - --disable-components=metrics-server
+        - --no-taints
+      files:
+        - name: bootstrap-scripts
+          src: scripts
+      hooks:
+        apply:
+          before:
+            - bash apply-system.sh "k8s2"
+            - bash apply-kube-vip.sh
+        reset:
+          before:
+            - bash reset-cilium.sh
+          after:
+            - bash reset-system.sh
+    - role: controller+worker
+      ssh:
+        address: "10.17.8.13"
+        user: "root"
+      installFlags:
+        - --disable-components=metrics-server
+        - --no-taints
+      files:
+        - name: bootstrap-scripts
+          src: scripts
+      hooks:
+        apply:
+          before:
+            - bash apply-system.sh "k8s3"
+            - bash apply-kube-vip.sh
+        reset:
+          before:
+            - bash reset-cilium.sh
+          after:
+            - bash reset-system.sh
+    - role: controller+worker
+      ssh:
+        address: "10.17.8.11"
+        user: "root"
+      installFlags:
+        - --disable-components=metrics-server
+        - --no-taints
+      files:
+        - name: bootstrap-scripts
+          src: scripts
+      hooks:
+        apply:
+          before:
+            - bash apply-system.sh "k8s1"
+            - bash apply-kube-vip.sh
+        reset:
+          before:
+            - bash reset-cilium.sh
+          after:
+            - bash reset-system.sh
+    - role: worker
+      ssh:
+        address: "10.17.8.24"
+        user: "root"
+      files:
+        - name: bootstrap-scripts
+          src: scripts
+      hooks:
+        apply:
+          before:
+            - bash apply-system.sh "k8s4"
+        reset:
+          before:
+            - bash reset-cilium.sh
+          after:
+            - bash reset-system.sh
+    - role: worker
+      ssh:
+        address: "10.17.8.25"
+        user: "root"
+      files:
+        - name: bootstrap-scripts
+          src: scripts
+      hooks:
+        apply:
+          before:
+            - bash apply-system.sh "k8s5"
+        reset:
+          before:
+            - bash reset-cilium.sh
+          after:
+            - bash reset-system.sh
+    - role: worker
+      ssh:
+        address: "10.17.8.26"
+        user: "root"
+      files:
+        - name: bootstrap-scripts
+          src: scripts
+      hooks:
+        apply:
+          before:
+            - bash apply-system.sh "k8s6"
+        reset:
+          before:
+            - bash reset-cilium.sh
+          after:
+            - bash reset-system.sh
+  k0s:
+    # renovate: datasource=github-releases depName=k0sproject/k0s
+    version: v1.29.1+k0s.0
+    dynamicConfig: false
+    config:
+      spec:
+        telemetry:
+          enabled: false
+        controllerManager:
+          extraArgs:
+            bind-address: "0.0.0.0"
+        scheduler:
+          extraArgs:
+            bind-address: "0.0.0.0"
+        storage:
+          etcd:
+            extraArgs:
+              listen-metrics-urls: http://0.0.0.0:2381
+        api:
+          sans:
+            - "10.17.8.98"
+            - "10.17.8.12"
+            - "k8s2"
+            - "10.17.8.13"
+            - "k8s3"
+            - "10.17.8.11"
+            - "k8s1"
+        network:
+          podCIDR: "10.42.0.0/16"
+          serviceCIDR: "10.43.0.0/16"
+          provider: custom
+          kubeProxy:
+            disabled: true
+          nodeLocalLoadBalancing:
+            enabled: true
+            type: EnvoyProxy
+        extensions:
+          helm:
+            repositories:
+              - name: cilium
+                url: https://helm.cilium.io
+            charts:
+              - name: cilium
+                chartname: cilium/cilium
+                # renovate: datasource=helm depName=cilium repository=https://helm.cilium.io
+                version: 1.14.6
+                namespace: kube-system
+                values: |2
+                  autoDirectNodeRoutes: true
+                  bpf:
+                    masquerade: true
+                  bgp:
+                    enabled: false
+                  cluster:
+                    name: home-kubernetes
+                    id: 1
+                  containerRuntime:
+                    integration: containerd
+                    socketPath: /var/run/k0s/containerd.sock
+                  endpointRoutes:
+                    enabled: true
+                  hubble:
+                    enabled: false
+                  ipam:
+                    mode: kubernetes
+                  ipv4NativeRoutingCIDR: "10.42.0.0/16"
+                  k8sServiceHost: localhost
+                  k8sServicePort: 7443
+                  kubeProxyReplacement: true
+                  kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
+                  l2announcements:
+                    enabled: true
+                    # https://github.com/cilium/cilium/issues/26586
+                    leaseDuration: 120s
+                    leaseRenewDeadline: 60s
+                    leaseRetryPeriod: 1s
+                  loadBalancer:
+                    algorithm: maglev
+                    mode: dsr
+                  localRedirectPolicy: true
+                  operator:
+                    replicas: 1
+                    rollOutPods: true
+                  rollOutCiliumPods: true
+                  routingMode: native
+                  securityContext:
+                    privileged: true
