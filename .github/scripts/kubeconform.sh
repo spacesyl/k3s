@@ -1,1 +1,1 @@
-../../.taskfiles/Kubernetes/kubeconform.sh
+../../scripts/kubeconform.sh
