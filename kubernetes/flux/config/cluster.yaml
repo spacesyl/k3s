@@ -6,9 +6,9 @@ metadata:
   namespace: flux-system
 spec:
   interval: 30m
+  url: "https://github.com/spacesyl/k3s"
   ref:
     branch: "main"
-  url: "https://github.com/spacesyl/k3s.git"
   ignore: |
     # exclude all
     /*
