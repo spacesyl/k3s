@@ -9,7 +9,7 @@ spec:
   dependsOn:
     - name: openebs
     - name: external-secrets-doppler
-    - name: nginx-internal
+    - name: ingress-nginx-internal
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
