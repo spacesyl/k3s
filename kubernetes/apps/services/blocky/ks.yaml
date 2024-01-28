@@ -8,8 +8,7 @@ spec:
   targetNamespace: services
   dependsOn:
     - name: redis
-    - name: nginx-internal
-    - name: nginx-external
+    - name: ingress-nginx-internal
     - name: cert-manager
   path: ./kubernetes/apps/services/blocky/app
   prune: true
