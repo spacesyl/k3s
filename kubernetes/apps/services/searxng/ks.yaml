@@ -6,8 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: nginx-internal
-    - name: nginx-external
+    - name: ingress-nginx-internal
     - name: redis
   path: ./kubernetes/apps/services/searxng/app
   prune: true
