@@ -12,8 +12,7 @@ spec:
     name: home-kubernetes
   dependsOn:
     - name: cloudnative-pg-clusters
-    - name: nginx-internal
-    - name: nginx-external
+    - name: ingress-nginx-internal
   wait: false
   interval: 30m
   retryInterval: 1m
