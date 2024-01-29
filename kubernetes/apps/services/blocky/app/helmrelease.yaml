@@ -103,6 +103,7 @@ spec:
         className: internal
         annotations:
           hajimari.io/enable: "false"
+          cert-manager.io/cluster-issuer: letsencrypt-production
           cert-manager.io/ip-sans: *lbs
         hosts:
           - host: &host blocky.${SECRET_DOMAIN}
