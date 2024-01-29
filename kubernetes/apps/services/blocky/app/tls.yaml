@@ -4,10 +4,11 @@ kind: Certificate
 metadata:
   name: blocky
 spec:
-  secretName: blocky-doh
+  secretName: tls.blocky
   issuerRef:
     name: letsencrypt-production
     kind: ClusterIssuer
   commonName: "dns.${SECRET_DOMAIN}"
   dnsNames:
     - "dns.${SECRET_DOMAIN}"
+    - "blocky.${SECRET_DOMAIN}"
