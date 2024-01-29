@@ -21,7 +21,7 @@ bootstrapDns:
   - 1.1.1.1
 
 ede:
-  enable: true
+  enable: false
 
 redis:
   address: redis.databases.svc:6379
