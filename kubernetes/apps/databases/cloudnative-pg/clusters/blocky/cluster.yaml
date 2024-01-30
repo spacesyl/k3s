@@ -26,6 +26,7 @@ spec:
   postgresql:
     parameters:
       max_connections: "300"
+      max_slot_wal_keep_size: 2GB
       shared_buffers: 512MB
   monitoring:
     enablePodMonitor: true
