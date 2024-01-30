@@ -155,7 +155,7 @@ Once you have installed Talos or Debian on your nodes, there are six stages to g
 
 You have two different options for setting up your local workstation.
 
-- First option is using a `devcontainer` which requires you to have Docker and VSCode installed. This method is the fastest to get going because all the required CLI tools are provided for you in my [devcontainer](https://github.com/onedr0p/flux-cluster-template/pkgs/container/flux-cluster-template%2Fdevcontainer) image.
+- First option is using a `devcontainer` which requires you to have Docker and VSCode installed. This method is the fastest to get going because all the required CLI tools are provided for you in my [devcontainer](https://github.com/onedr0p/cluster-template/pkgs/container/cluster-template%2Fdevcontainer) image.
 - The second option is setting up the CLI tools directly on your workstation.
 
 #### Devcontainer method
@@ -212,9 +212,9 @@ You have two different options for setting up your local workstation.
 ### 🔧 Stage 3: Bootstrap configuration
 
 > [!NOTE]
-> The [config.sample.yaml](https://github.com/onedr0p/flux-cluster-template/blob/main/config.sample.yaml) file contain necessary information that is **vital** to the bootstrap process.
+> The [config.sample.yaml](./config.sample.yaml) file contain necessary information that is **vital** to the bootstrap process.
 
-1. Generate the `config.yaml` from the [config.sample.yaml](https://github.com/onedr0p/flux-cluster-template/blob/main/config.sample.yaml) configuration file.
+1. Generate the `config.yaml` from the [config.sample.yaml](./config.sample.yaml) configuration file.
 
     ```sh
     task init
@@ -392,7 +392,7 @@ You have two different options for setting up your local workstation.
 
 ### 🔹 Stage 6: Install Flux in your cluster
 
-> [!IMPORTANT]
+> [!NOTE]
 > Skip this stage if you have **disabled** Flux in the `config.yaml`
 
 1. Verify Flux can be installed
@@ -406,6 +406,9 @@ You have two different options for setting up your local workstation.
     ```
 
 2. Install Flux and sync the cluster to the Git repository
+
+> [!IMPORTANT]
+> Run `task flux:github-deploy-key` first if using a private repository.
 
     ```sh
     task flux:bootstrap
@@ -463,7 +466,7 @@ The `external-dns` application created in the `networking` namespace will handle
 > 2. Restart dnsmasq on the server.
 > 3. Query an internal-only subdomain from your workstation (any `internal` class ingresses): `dig @${home-dns-server-ip} echo-server-internal.${bootstrap_cloudflare_domain}`. It should resolve to `${bootstrap_internal_ingress_addr}`.
 
-If you're having trouble with DNS be sure to check out these two GitHub discussions: [Internal DNS](https://github.com/onedr0p/flux-cluster-template/discussions/719) and [Pod DNS resolution broken](https://github.com/onedr0p/flux-cluster-template/discussions/635).
+If you're having trouble with DNS be sure to check out these two GitHub discussions: [Internal DNS](https://github.com/onedr0p/cluster-template/discussions/719) and [Pod DNS resolution broken](https://github.com/onedr0p/cluster-template/discussions/635).
 
 ... Nothing working? That is expected, this is DNS after all!
 
@@ -513,7 +516,7 @@ task k0s:reset
 
 To enable Renovate, click the 'Configure' button over at their [Github app page](https://github.com/apps/renovate) and select your repository. Renovate creates a "Dependency Dashboard" as an issue in your repository, giving an overview of the status of all updates. The dashboard has interactive checkboxes that let you do things like advance scheduling or reattempt update PRs you closed without merging.
 
-The base Renovate configuration in your repository can be viewed at [.github/renovate.json5](https://github.com/onedr0p/flux-cluster-template/blob/main/.github/renovate.json5). By default it is scheduled to be active with PRs every weekend, but you can [change the schedule to anything you want](https://docs.renovatebot.com/presets-schedule), or remove it if you want Renovate to open PRs right away.
+The base Renovate configuration in your repository can be viewed at [.github/renovate.json5](./.github/renovate.json5). By default it is scheduled to be active with PRs every weekend, but you can [change the schedule to anything you want](https://docs.renovatebot.com/presets-schedule), or remove it if you want Renovate to open PRs right away.
 
 ## 🐛 Debugging
 
@@ -563,8 +566,8 @@ Resolving problems that you have could take some tweaking of your YAML manifests
 
 ## 👉 Help
 
-- Make a post in this repository's Github [Discussions](https://github.com/onedr0p/flux-cluster-template/discussions).
-- Start a thread in the `#support` or `#flux-cluster-template` channels in the [Home Operations](https://discord.gg/home-operations) Discord server.
+- Make a post in this repository's Github [Discussions](https://github.com/onedr0p/cluster-template/discussions).
+- Start a thread in the `#support` or `#cluster-template` channels in the [Home Operations](https://discord.gg/home-operations) Discord server.
 
 ## ❔ What's next
 
@@ -579,95 +582,6 @@ To browse or get ideas on applications people are running, community member [@wh
 The included CSI (openebs in local-hostpath mode) is a great start for storage but soon you might find you need more features like replicated block storage, or to connect to a NFS/SMB/iSCSI server. If you need any of those features be sure to check out the projects like [rook-ceph](https://github.com/rook/rook), [longhorn](https://github.com/longhorn/longhorn), [openebs](https://github.com/openebs/openebs), [democratic-csi](https://github.com/democratic-csi/democratic-csi), [csi-driver-nfs](https://github.com/kubernetes-csi/csi-driver-nfs),
 and [synology-csi](https://github.com/SynologyOpenSource/synology-csi).
 
-#### Authenticate Flux over SSH
-
-<details>
-<summary><i>Click <b>here</b> to read guide on adding Flux SSH authentication</i></summary>
-
-Authenticating Flux to your git repository has a couple benefits like using a private git repository and/or using the Flux [Image Automation Controllers](https://fluxcd.io/docs/components/image/).
-
-By default this template only works on a public Github repository, it is advised to keep your repository public.
-
-The benefits of a public repository include:
-
-- Debugging or asking for help, you can provide a link to a resource you are having issues with.
-- Adding a topic to your repository of `kubesearch` to be included in the [Kubesearch](https://kubesearch.dev) results. This search helps people discover different configurations of Helm charts across others Flux based repositories.
-
-1. Generate new SSH key:
-
-    ```sh
-    ssh-keygen -t ecdsa -b 521 -C "github-deploy-key" -f ./kubernetes/bootstrap/github-deploy.key -q -P ""
-    ```
-
-2. Paste public key in the deploy keys section of your repository settings
-3. Create sops secret in `./kubernetes/bootstrap/github-deploy-key.sops.yaml` with the contents of:
-
-   ```yaml
-   apiVersion: v1
-   kind: Secret
-   metadata:
-     name: github-deploy-key
-     namespace: flux-system
-   stringData:
-     # 3a. Contents of github-deploy-key
-     identity: |
-       -----BEGIN OPENSSH PRIVATE KEY-----
-           ...
-       -----END OPENSSH PRIVATE KEY-----
-     # 3b. Output of curl --silent https://api.github.com/meta | jq --raw-output '"github.com "+.ssh_keys[]'
-     known_hosts: |
-       github.com ssh-ed25519 ...
-       github.com ecdsa-sha2-nistp256 ...
-       github.com ssh-rsa ...
-   ```
-
-4. Encrypt secret:
-
-    ```sh
-    sops --encrypt --in-place ./kubernetes/bootstrap/github-deploy-key.sops.yaml
-    ```
-
-5. Apply secret to cluster:
-
-    ```sh
-    sops --decrypt ./kubernetes/bootstrap/github-deploy-key.sops.yaml | kubectl apply -f -
-    ```
-
-6. Update `./kubernetes/flux/config/cluster.yaml`:
-
-    ```yaml
-    apiVersion: source.toolkit.fluxcd.io/v1beta2
-    kind: GitRepository
-    metadata:
-      name: home-kubernetes
-      namespace: flux-system
-    spec:
-      interval: 10m
-      # 6a: Change this to your user and repo names
-      url: ssh://git@github.com/$user/$repo
-      ref:
-        branch: main
-      secretRef:
-        name: github-deploy-key
-    ```
-
-7. Commit and push changes
-8. Force flux to reconcile your changes
-
-    ```sh
-    flux reconcile -n flux-system kustomization cluster --with-source
-    ```
-
-9. Verify git repository is now using SSH:
-
-    ```sh
-    flux get sources git -A
-    ```
-
-10. Optionally set your repository to Private in your repository settings.
-
-</details>
-
 ## 🙌 Related Projects
 
 If this repo is too hot to handle or too cold to hold check out these following projects.
@@ -681,7 +595,7 @@ If this repo is too hot to handle or too cold to hold check out these following 
 
 <div align="center">
 
-[![Star History Chart](https://api.star-history.com/svg?repos=onedr0p/flux-cluster-template&type=Date)](https://star-history.com/#onedr0p/flux-cluster-template&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=onedr0p/cluster-template&type=Date)](https://star-history.com/#onedr0p/cluster-template&Date)
 
 </div>
 
