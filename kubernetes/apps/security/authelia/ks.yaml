@@ -10,7 +10,7 @@ spec:
   targetNamespace: &namespace security
   dependsOn:
     - name: redis
-    - name: nginx-external
+    - name: ingress-nginx-external
     - name: cloudnative-pg-clusters
   path: './kubernetes/apps/security/authelia/app/'
   prune: true
