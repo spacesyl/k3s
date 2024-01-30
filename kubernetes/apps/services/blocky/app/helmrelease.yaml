@@ -30,7 +30,7 @@ spec:
         strategy: RollingUpdate
         annotations:
           configmap.reloader.stakater.com/reload: blocky-config
-          secret.reloader.stakater.com/reload: tls.blocky
+          secret.reloader.stakater.com/reload: blocky-tls
         containers:
           main:
             image:
@@ -119,7 +119,7 @@ spec:
                   name: main
                   port: 4000
         tls:
-          - secretName: tls.blocky
+          - secretName: blocky-tls
             hosts:
               - *host
               - *hostsvc
@@ -135,5 +135,5 @@ spec:
       certs:
         enabled: true
         type: secret
-        name: tls.blocky
+        name: blocky-tls
         readOnly: true
