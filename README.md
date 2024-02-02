@@ -105,7 +105,7 @@ Hopefully some of this peeked your interests!  If you are marching forward, now 
 <summary><i>Click <b>here</b> to read about using a RasPi4</i></summary>
 
 
-> [!IMPORTANT]
+> [!NOTE]
 > 1. It is recommended to have an 8GB RasPi model. Most important is to **boot from an external SSD/NVMe** rather than an SD card. This is [supported natively](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html), however if you have an early model you may need to [update the bootloader](https://www.tomshardware.com/how-to/boot-raspberry-pi-4-usb) first.
 > 2. Check the [power requirements](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#power-supply) if using a PoE Hat and a SSD/NVMe dongle.
 
@@ -214,7 +214,7 @@ You have two different options for setting up your local workstation.
 ### 🔧 Stage 3: Bootstrap configuration
 
 > [!NOTE]
-> The [config.sample.yaml](./config.sample.yaml) file contain necessary information that is **vital** to the bootstrap process.
+> The [config.sample.yaml](./config.sample.yaml) file contains config that is **vital** to the bootstrap process.
 
 1. Generate the `config.yaml` from the [config.sample.yaml](./config.sample.yaml) configuration file.
 
@@ -222,72 +222,17 @@ You have two different options for setting up your local workstation.
     task init
     ```
 
-#### 🔧 Stage 3: Flux
+2. Fill out the `config.yaml` configuration file using the comments in that file as a guide.
 
-📍 _Using [SOPS](https://github.com/getsops/sops) with [Age](https://github.com/FiloSottile/age) allows us to encrypt secrets and use them with Flux._
-
-1. Create a Age private / public key (this file is gitignored)
-
-    ```sh
-    task sops:age-keygen
-    ```
-
-2. Fill out the appropriate vars in `config.yaml`
-
-#### Stage 3: Flux with Cloudflare DNS
-
-> [!NOTE]
-> To use `cert-manager` with the Cloudflare DNS challenge you will need to create a API Token.
-
-1. Head over to Cloudflare and create a API Token by going [here](https://dash.cloudflare.com/profile/api-tokens).
-2. Under the `API Tokens` section click the blue `Create Token` button.
-3. Click the blue `Use template` button for the `Edit zone DNS` template.
-4. Name your token something like `home-kubernetes`
-5. Under `Permissions`, click `+ Add More` and add each permission below:
-
-   ```text
-   Zone - DNS - Edit
-   Account - Cloudflare Tunnel - Read
-   ```
-
-6. Limit the permissions to a specific account and zone resources.
-7. Fill out the appropriate vars in `config.yaml`
-
-#### Stage 3: Flux with Cloudflare Tunnel
-
-> [!NOTE]
-> To expose services to the internet you will need to create a [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/).
-
-
-1. Authenticate cloudflared to your domain
-
-    ```sh
-    cloudflared tunnel login
-    ```
-
-2. Create the tunnel
-
-    ```sh
-    cloudflared tunnel create k8s
-    ```
-
-3. In the `~/.cloudflared` directory there will be a json file with details you need. Ignore the `cert.pem` file.
-
-4. Fill out the appropriate vars in `config.yaml`
-
-#### Stage 3: Finishing up
-
-1. Complete filling out the rest of the `config.yaml` configuration file.
-
-2. Once done run the following command which will verify and generate all the files needed to continue.
+3. Run the following command which will generate all the files needed to continue.
 
     ```sh
     task configure
     ```
 
-3. Push you changes to git
+4. Push you changes to git
 
-   📍 **Verify** all the `*.sops.yaml` and `*.sops.yaml` files under `./kubernetes` directory is **encrypted** with SOPS
+   📍 _**Verify** all the `./kubernetes/**/*.sops.*` files are **encrypted** with SOPS_
 
     ```sh
     git add -A
@@ -295,11 +240,11 @@ You have two different options for setting up your local workstation.
     git push
     ```
 
-4.  Continue on to ⚡ [**Stage 4**](#-stage-4-prepare-your-nodes-for-kubernetes)
+5.  Continue on to ⚡ [**Stage 4**](#-stage-4-prepare-your-nodes-for-kubernetes)
 
 ### ⚡ Stage 4: Prepare your nodes for Kubernetes
 
-> [!IMPORTANT]
+> [!NOTE]
 > For **Talos** or **k0s** skip ahead to ⛵ [**Stage 5**](#-stage-5-install-kubernetes)
 
 #### k3s
@@ -409,8 +354,7 @@ You have two different options for setting up your local workstation.
 
 2. Install Flux and sync the cluster to the Git repository
 
-> [!IMPORTANT]
-> Run `task flux:github-deploy-key` first if using a private repository.
+  📍 _Run `task flux:github-deploy-key` first if using a private repository_
 
     ```sh
     task flux:bootstrap
@@ -419,7 +363,7 @@ You have two different options for setting up your local workstation.
     # ...
     ```
 
-3. Verify Flux components are running in the cluster
+1. Verify Flux components are running in the cluster
 
     ```sh
     kubectl -n flux-system get pods -o wide
@@ -436,7 +380,7 @@ _Mic check, 1, 2_ - In a few moments applications should be lighting up like Chr
 
 1. Output all the common resources in your cluster.
 
-    📍 _Feel free to use the provided [kubernetes tasks](.taskfiles/KubernetesTasks.yaml) for validation of cluster resources or continue to get familiar with the `kubectl` and `flux` CLI tools._
+    📍 _Feel free to use the provided [kubernetes tasks](.taskfiles/Kubernetes/Taskfile.yaml) for validation of cluster resources or continue to get familiar with the `kubectl` and `flux` CLI tools._
 
     ```sh
     task kubernetes:resources
@@ -482,7 +426,7 @@ By default this template will deploy a wildcard certificate using the Let's Encr
 
 By default Flux will periodically check your git repository for changes. In order to have Flux reconcile on `git push` you must configure Github to send `push` events to Flux.
 
-> [!IMPORTANT]
+> [!NOTE]
 > This will only work after you have switched over certificates to the Let's Encrypt Production servers.
 
 1. Obtain the webhook path

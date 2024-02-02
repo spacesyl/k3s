@@ -5,7 +5,7 @@ metadata:
   name: home-kubernetes
 spec:
   hosts:
-    {% for item in cluster.nodes.inventory %}
+    {% for item in nodes.inventory %}
     {% if item.controller %}
     - role: controller+worker
     {% else %}
@@ -14,11 +14,12 @@ spec:
       ssh:
         address: "{{ item.address }}"
         user: "{{ item.ssh_username }}"
-      {% if item.controller %}
       installFlags:
+        {% if item.controller %}
         - --disable-components=metrics-server
         - --no-taints
-      {% endif %}
+        {% endif %}
+        - --kubelet-extra-args="--image-gc-low-threshold=50 --image-gc-high-threshold=60"
       files:
         - name: bootstrap-scripts
           src: scripts
