@@ -1,7 +1,7 @@
 ---
 kubernetes:
   children:
-    master:
+    controllers:
       hosts:
         "k8s2":
           ansible_user: "root"
@@ -12,7 +12,7 @@ kubernetes:
         "k8s1":
           ansible_user: "root"
           ansible_host: "10.17.8.11"
-    worker:
+    workers:
       hosts:
         "k8s4":
           ansible_user: "root"
