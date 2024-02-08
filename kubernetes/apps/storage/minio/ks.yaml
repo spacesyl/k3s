@@ -2,31 +2,13 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app minio-operator
+  name: &app minio
   namespace: flux-system
 spec:
+  targetNamespace: storage
   dependsOn:
-    - name: local-path-provisioner
-  path: ./kubernetes/apps/storage/minio/operator
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: home-kubernetes
-  wait: false
-  interval: 30m
-  retryInterval: 1m
-  timeout: 5m
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: &app minio-tenant
-  namespace: flux-system
-spec:
-  dependsOn:
-    - name: local-path-provisioner
-    - name: minio-operator
-  path: ./kubernetes/apps/storage/minio/tenant
+    - name: openebs
+  path: ./kubernetes/apps/storage/minio/standalone
   prune: true
   sourceRef:
     kind: GitRepository
