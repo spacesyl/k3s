@@ -49,6 +49,7 @@ spec:
             - minio.${SECRET_DOMAIN}
     consoleIngress:
       enabled: true
+      ingressClassName: internal
       hosts:
         - mc.${SECRET_DOMAIN}
       tls:
