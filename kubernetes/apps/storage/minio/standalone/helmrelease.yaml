@@ -69,3 +69,9 @@ spec:
     envFrom:
     - secretRef:
         name: minio-secret
+    buckets:
+      - name: cnpg
+        policy: public
+        purge: true
+        versioning: false
+        objectlocking: false
