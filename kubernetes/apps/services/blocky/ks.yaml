@@ -10,6 +10,7 @@ spec:
     - name: redis
     - name: cert-manager
     - name: cloudnative-pg-clusters
+    - name: external-secrets-doppler
   path: ./kubernetes/apps/services/blocky/app
   prune: true
   sourceRef:
