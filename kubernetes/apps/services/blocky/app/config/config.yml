@@ -63,6 +63,10 @@ blocking:
       - trackers
     10.17.8.0/24:
       - noblock
+    10.17.0.5/32:
+      - noblock
+    10.17.0.12/32:
+      - noblock
 
 clientLookup:
   upstream: tcp+udp:10.17.0.4
