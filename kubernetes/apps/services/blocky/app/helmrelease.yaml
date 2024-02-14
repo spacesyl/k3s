@@ -135,8 +135,8 @@ spec:
     persistence:
       config:
         enabled: true
-        type: configMap
-        name: &config blocky-config
+        type: secret
+        name: blocky-secret
         globalMounts:
           - path: /app/config.yml
             subPath: config.yml
