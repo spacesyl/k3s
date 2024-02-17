@@ -24,6 +24,8 @@ spec:
     keepHistory: false
   values:
     autoDirectNodeRoutes: true
+    bgpControlPlane:
+      enabled: true
     bpf:
       masquerade: true
     cgroup:
@@ -31,8 +33,8 @@ spec:
         enabled: false
       hostRoot: /sys/fs/cgroup
     cluster:
-      name: home-kubernetes
       id: 1
+      name: home-kubernetes
     containerRuntime:
       integration: containerd
       socketPath: /var/run/k3s/containerd/containerd.sock
