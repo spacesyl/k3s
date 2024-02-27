@@ -23,14 +23,16 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    ndm:
+      enabled: false
     localprovisioner:
       nodeSelector:
         openebs.io/storage: "true"
+      enabled: true
+      deviceClass:
+        enabled: false
       hostpathClass:
         enabled: true
         name: openebs-hostpath
         isDefaultClass: false
         basePath: "/data/csi"
-    ndm:
-      nodeSelector:
-        openebs.io/storage: "true"
