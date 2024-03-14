@@ -23,22 +23,45 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    extraArgs:
-      - --enable-insecure-login
-      - --enable-skip-login
-      - --disable-settings-authorizer
-    ingress:
-      enabled: true
-      className: internal
-      annotations:
-        gethomepage.dev/enabled: "true"
-        gethomepage.dev/icon: kubernetes-dashboard.png
-        gethomepage.dev/name: Kubernetes Dashboard
-        gethomepage.dev/group: Observability
-      hosts:
-        - &host "kubernetes.${SECRET_DOMAIN}"
-      tls:
+    app:
+      image:
+        pullPolicy: IfNotPresent
+
+      ingress:
+        enabled: true
+        ingressClassName: internal
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/icon: kubernetes-dashboard.png
+          gethomepage.dev/name: Kubernetes Dashboard
+          gethomepage.dev/group: Observability
+          nginx.ingress.kubernetes.io/proxy-body-size: "100m"
+          nginx.ingress.kubernetes.io/configuration-snippet: |
+            auth_request_set $required_groups 'kubernetes_dashboard';
+        hosts:
+          - kubernetes.${CLUSTER_DOMAIN}
+          - kubernetes.home.${CLUSTER_DOMAIN}
+        secretName: null
+        tls:
         - hosts:
-            - *host
+          - kubernetes.${CLUSTER_DOMAIN}
+          - kubernetes.home.${CLUSTER_DOMAIN}
+      # protocolHttp: true
+    api:
+      containers:
+      # https://github.com/kubernetes/dashboard/blob/master/docs/common/arguments.md
+        args:
+          # When enabled, the skip button on the login page will be shown.
+          - --enable-skip-login
+          # When enabled, Dashboard settings page will not require user to be logged in and authorized to access settings page.
+          - --disable-settings-authorizer
+          # When enabled, Dashboard login view will also be shown when Dashboard is not served over HTTPS.
+          - --enable-insecure-login
     metricsScraper:
       enabled: true
+    nginx:
+      enabled: false
+    cert-manager:
+      enabled: false
+    metrics-server:
+      enabled: false
