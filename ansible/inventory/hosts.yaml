@@ -3,12 +3,12 @@ kubernetes:
   children:
     controllers:
       hosts:
-        "k8s2":
-          ansible_user: "root"
-          ansible_host: "10.17.8.12"
         "k8s3":
           ansible_user: "root"
           ansible_host: "10.17.8.13"
+        "k8s2":
+          ansible_user: "root"
+          ansible_host: "10.17.8.12"
         "k8s1":
           ansible_user: "root"
           ansible_host: "10.17.8.11"
