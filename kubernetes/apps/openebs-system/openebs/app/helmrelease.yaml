@@ -20,14 +20,10 @@ spec:
     cleanupOnFail: true
     remediation:
       retries: 3
-  uninstall:
-    keepHistory: false
   values:
     ndm:
       enabled: false
     localprovisioner:
-      nodeSelector:
-        openebs.io/storage: "true"
       enabled: true
       deviceClass:
         enabled: false
@@ -35,4 +31,4 @@ spec:
         enabled: true
         name: openebs-hostpath
         isDefaultClass: false
-        basePath: "/data/csi"
+        basePath: /var/openebs/local
