@@ -56,7 +56,7 @@ def validate_node(node: dict, node_cidr: str, distribution: str) -> None:
         raise ValueError(f"A node is missing a name")
     if not re.match(r"^[a-z0-9-\.]+$", node.get('name')):
         raise ValueError(f"Node {node.get('name')} has an invalid name")
-    if not node.get("ssh_user") and distribution not in ["k3s"]:
+    if not node.get("ssh_user") and distribution in ["k3s"]:
         raise ValueError(f"Node {node.get('name')} is missing ssh_user")
     if not node.get("talos_disk") and distribution in ["talos"]:
         raise ValueError(f"Node {node.get('name')} is missing talos_disk")
@@ -134,4 +134,6 @@ def validate(data: dict) -> None:
     validate_distribution(data)
     validate_timezone(data)
     validate_age(data)
-    validate_nodes(data)
+
+    if not data.get("skip_tests", False):
+        validate_nodes(data)
