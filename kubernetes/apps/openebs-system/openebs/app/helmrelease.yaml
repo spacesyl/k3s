@@ -23,6 +23,8 @@ spec:
   values:
     ndm:
       enabled: false
+    ndmOperator:
+      enabled: false
     localprovisioner:
       enabled: true
       deviceClass:
@@ -31,4 +33,4 @@ spec:
         enabled: true
         name: openebs-hostpath
         isDefaultClass: false
-        basePath: /var/openebs/local
+        basePath: /data/csi
