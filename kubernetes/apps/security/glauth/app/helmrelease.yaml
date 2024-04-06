@@ -26,23 +26,51 @@ spec:
     keepHistory: false
 
   values:
-
-    defaultPodOptions:
-      securityContext:
-        runAsUser: 568
-        runAsGroup: 568
-        fsGroup: 568
-        fsGroupChangePolicy: OnRootMismatch
-
     controllers:
-      main:
-        replicas: 1
+      glauth:
+        replicas: 2
         strategy: RollingUpdate
-
         annotations:
           reloader.stakater.com/auto: "true"
-
+        containers:
+          app:
+            image:
+              repository: docker.io/glauth/glauth
+              tag: v2.3.2
+            command:
+              - /app/glauth
+            args:
+              - -c
+              - /config
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: &port 5555
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 128Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
         pod:
+          securityContext:
+            runAsUser: 65534
+            runAsGroup: 65534
+            runAsNonRoot: true
           topologySpreadConstraints:
             - maxSkew: 1
               topologyKey: kubernetes.io/hostname
@@ -50,21 +78,6 @@ spec:
               labelSelector:
                 matchLabels:
                   app.kubernetes.io/name: *app
-
-        containers:
-          main:
-            image:
-              repository: docker.io/glauth/glauth
-              tag: v2.3.2
-            command: ["/app/glauth", "-c", "/config"]
-
-        resources:
-          requests:
-            cpu: 50m
-            memory: 20Mi
-          limits:
-            cpu: 500m
-            memory: 50Mi
 
     service:
       main:
