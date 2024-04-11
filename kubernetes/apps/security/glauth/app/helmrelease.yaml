@@ -68,11 +68,12 @@ spec:
 
     service:
       glauth:
+        controller: *app
         ports:
           http:
             port: 5555
       ldap:
-        controller: glauth
+        controller: *app
         type: LoadBalancer
         externalTrafficPolicy: Cluster
         annotations:
@@ -91,6 +92,7 @@ spec:
     serviceMonitor:
       glauth:
         enabled: false
+        serviceName: *app
         endpoints:
           - port: metrics
             scheme: http
