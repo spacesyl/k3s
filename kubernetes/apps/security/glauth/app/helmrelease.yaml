@@ -91,7 +91,6 @@ spec:
 
     serviceMonitor:
       glauth:
-        enabled: false
         serviceName: *app
         endpoints:
           - port: metrics
