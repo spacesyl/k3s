@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 3.1.0
+      version: 2.6.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -35,7 +35,7 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
 
     controllers:
-      glauth:
+      main:
         replicas: 1
         strategy: RollingUpdate
 
@@ -52,7 +52,7 @@ spec:
                   app.kubernetes.io/name: *app
 
         containers:
-          glauth:
+          main:
             image:
               repository: docker.io/glauth/glauth
               tag: v2.3.2
@@ -67,13 +67,12 @@ spec:
             memory: 50Mi
 
     service:
-      glauth:
-        controller: *app
+      main:
         ports:
           http:
             port: 5555
       ldap:
-        controller: *app
+        controller: main
         type: LoadBalancer
         externalTrafficPolicy: Cluster
         annotations:
@@ -90,8 +89,8 @@ spec:
             port: 636
 
     serviceMonitor:
-      glauth:
-        serviceName: *app
+      main:
+        enabled: false
         endpoints:
           - port: metrics
             scheme: http
