@@ -62,11 +62,12 @@ spec:
 
     service:
       app:
+        controller: *app
         ports:
           http:
             port: 5555
       ldap:
-        controller: main
+        controller: *app
         type: LoadBalancer
         externalTrafficPolicy: Cluster
         annotations:
