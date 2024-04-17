@@ -37,13 +37,13 @@ spec:
               repository: docker.io/glauth/glauth
               tag: v2.3.2
             command: ["/app/glauth", "-c", "/config"]
-        resources:
-          requests:
-            cpu: 50m
-            memory: 20Mi
-          limits:
-            cpu: 500m
-            memory: 50Mi
+            resources:
+              requests:
+                cpu: 50m
+                memory: 20Mi
+              limits:
+                cpu: 500m
+                memory: 50Mi
 
     defaultPodOptions:
       securityContext:
