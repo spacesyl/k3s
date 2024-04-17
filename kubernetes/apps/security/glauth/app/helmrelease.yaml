@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.1.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -24,40 +24,19 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
-
   values:
-
-    defaultPodOptions:
-      securityContext:
-        runAsUser: 568
-        runAsGroup: 568
-        fsGroup: 568
-        fsGroupChangePolicy: OnRootMismatch
-
     controllers:
-      main:
+      glauth:
         replicas: 1
         strategy: RollingUpdate
-
         annotations:
           reloader.stakater.com/auto: "true"
-
-        pod:
-          topologySpreadConstraints:
-            - maxSkew: 1
-              topologyKey: kubernetes.io/hostname
-              whenUnsatisfiable: DoNotSchedule
-              labelSelector:
-                matchLabels:
-                  app.kubernetes.io/name: *app
-
         containers:
-          main:
+          app:
             image:
               repository: docker.io/glauth/glauth
               tag: v2.3.2
             command: ["/app/glauth", "-c", "/config"]
-
         resources:
           requests:
             cpu: 50m
@@ -66,8 +45,23 @@ spec:
             cpu: 500m
             memory: 50Mi
 
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+        runAsGroup: 65534
+        seccompProfile: { type: RuntimeDefault }
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: *app
+
+
     service:
-      main:
+      app:
         ports:
           http:
             port: 5555
@@ -89,10 +83,10 @@ spec:
             port: 636
 
     serviceMonitor:
-      main:
-        enabled: false
+      app:
+        serviceName: *app
         endpoints:
-          - port: metrics
+          - port: http
             scheme: http
             path: /metrics
             interval: 1m
@@ -100,7 +94,7 @@ spec:
 
     persistence:
       config:
-        enabled: true
+        # enabled: true
         type: secret
         name: glauth-secret
         globalMounts:
@@ -114,7 +108,7 @@ spec:
             subPath: users.toml
             readOnly: true
       tls:
-        enabled: true
+        # enabled: true
         type: secret
         name: glauth-tls
         globalMounts:
