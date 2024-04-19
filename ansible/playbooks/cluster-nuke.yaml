@@ -96,7 +96,7 @@
 
     - name: Remove local storage path
       ansible.builtin.file:
-        path: /var/openebs/local
+        path: /data/csi
         state: absent
 
     - name: Reboot
