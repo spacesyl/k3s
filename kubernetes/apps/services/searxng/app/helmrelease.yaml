@@ -32,12 +32,12 @@ spec:
     global:
       fullnameOverride: *app
     controllers:
-      main:
+      searxng:
         pod:
           annotations:
             setGateway: "true"
         containers:
-          main:
+          app:
             image:
               repository: docker.io/searxng/searxng
               tag: 2023.11.1-b5a8ddfec
@@ -59,13 +59,21 @@ spec:
                     key: SEARXNG_SECRET
               SEARXNG_REDIS_URL: "redis://redis.databases.svc.cluster.local:6379"
     service:
-      main:
+      app:
+        controller: *app
         ports:
           http:
             port: *http
-
+    defaultPodOptions:
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: *app
     ingress:
-      main:
+      app:
         enabled: true
         primary: true
         className: internal
@@ -77,7 +85,7 @@ spec:
             paths:
               - path: /
                 service:
-                  name: main
+                  name: app
                   port: http
         tls:
           - hosts:
@@ -87,8 +95,8 @@ spec:
         type: configMap
         name: searxng-config
         advancedMounts:
-          main:
-            main:
+          searxng:
+            app:
               - path: /etc/searxng/settings.yml
                 subPath: settings.yml
                 readOnly: true
