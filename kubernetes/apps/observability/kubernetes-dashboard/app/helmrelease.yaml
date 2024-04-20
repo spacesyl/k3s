@@ -26,12 +26,9 @@ spec:
           hajimari.io/icon: logos:kubernetes
           hajimari.io/info: Kubernetes dashboard
           hajimari.io/group: admin
-          nginx.ingress.kubernetes.io/proxy-body-size: "100m"
-          nginx.ingress.kubernetes.io/configuration-snippet: |
-            auth_request_set $required_groups 'kubernetes_dashboard';
         hosts:
           - dashboard.${SECRET_DOMAIN}
-        secretName: "${SECRET_DOMAIN/./-}-tls"
+        # secretName: "${SECRET_DOMAIN/./-}-tls"
         tls:
         - hosts:
           - dashboard.${SECRET_DOMAIN}
