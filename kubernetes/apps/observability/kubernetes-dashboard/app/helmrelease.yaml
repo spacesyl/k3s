@@ -28,7 +28,7 @@ spec:
           hajimari.io/group: admin
         hosts:
           - dashboard.${SECRET_DOMAIN}
-        # secretName: "${SECRET_DOMAIN/./-}-tls"
+        secretName: k8s-dash-tls
         tls:
         - hosts:
           - dashboard.${SECRET_DOMAIN}
