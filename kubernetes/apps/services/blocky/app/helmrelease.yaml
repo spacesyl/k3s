@@ -146,7 +146,7 @@ spec:
 
     persistence:
       config:
-        enabled: true
+        # enabled: true
         type: secret
         name: blocky-secret
         globalMounts:
@@ -154,7 +154,8 @@ spec:
             subPath: config.yml
             readOnly: true
       certs:
-        enabled: true
+        # enabled: true
         type: secret
         name: blocky-tls
-        readOnly: true
+        globalMounts:
+          - readOnly: true
