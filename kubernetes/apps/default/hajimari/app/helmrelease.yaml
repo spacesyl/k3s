@@ -35,11 +35,11 @@ spec:
       TZ: ${TIMEZONE}
     hajimari:
       title: Apps
-      lightTheme: tron
+      lightTheme: paper
       darkTheme: tron
       alwaysTargetBlank: true
-      showSearch: false
-      showGreeting: false
+      showSearch: true
+      showGreeting: true
       showAppGroups: false
       showAppStatus: false
       showBookmarkGroups: false
