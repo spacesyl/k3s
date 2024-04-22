@@ -42,7 +42,7 @@ spec:
       showGreeting: true
       showAppGroups: false
       showAppStatus: false
-      showBookmarkGroups: false
+      showBookmarkGroups: true
       showGlobalBookmarks: false
       showAppUrls: false
       defaultEnable: true
