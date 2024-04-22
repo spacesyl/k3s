@@ -46,6 +46,12 @@ spec:
       showGlobalBookmarks: false
       showAppUrls: false
       defaultEnable: true
+      searchProviders:
+        - name: MySearch
+          token: s
+          icon: mdi:search-web
+          searchUrl: https://search.${SECRET_DOMAIN}/search?q={query}
+          url: https://search.${SECRET_DOMAIN}
       namespaceSelector:
         matchNames:
           - default
@@ -66,7 +72,7 @@ spec:
         - group: Kubernetes
           bookmarks:
             - name: SpaceSyl/home-ops
-              icon: ''
+              icon: mdi:github
               url: https://github.com/spacesyl/k3s
               targetBlank: false
             - name: SpaceSyl/containers
