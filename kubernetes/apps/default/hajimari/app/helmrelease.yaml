@@ -48,7 +48,7 @@ spec:
       defaultEnable: true
       searchProviders:
         - name: MySearch
-          token: s
+          token: 'e'
           icon: simple-icons:searxng
           searchUrl: https://search.${SECRET_DOMAIN}/search?q={query}
           url: https://search.${SECRET_DOMAIN}
