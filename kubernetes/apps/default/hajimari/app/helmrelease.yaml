@@ -40,11 +40,11 @@ spec:
       alwaysTargetBlank: true
       showSearch: true
       showGreeting: true
-      showAppGroups: false
-      showAppStatus: false
+      showAppGroups: true
+      showAppStatus: true
       showBookmarkGroups: true
-      showGlobalBookmarks: false
-      showAppUrls: false
+      showGlobalBookmarks: true
+      showAppUrls: true
       defaultEnable: true
       searchProviders:
         - name: MySearch
