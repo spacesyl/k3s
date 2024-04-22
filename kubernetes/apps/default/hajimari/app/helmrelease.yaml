@@ -49,16 +49,46 @@ spec:
       searchProviders:
         - name: MySearch
           token: s
-          icon: mdi:search-web
+          icon: simple-icons:searxng
           searchUrl: https://search.${SECRET_DOMAIN}/search?q={query}
           url: https://search.${SECRET_DOMAIN}
+        - name: Google
+          token: g
+          icon: simple-icons:google
+          searchUrl: https://www.google.com/search?q={query}
+          url: https://www.google.com
+        - name: DuckDuckGo
+          token: d
+          icon: simple-icons:duckduckgo
+          searchUrl: https://duckduckgo.com/?q={query}
+          url: https://duckduckgo.com
+        - name: IMDB
+          token: i
+          icon: simple-icons:imdb
+          searchUrl: https://www.imdb.com/find?q={query}
+          url: https://www.imdb.com
+        - name: Reddit
+          token: r
+          icon: simple-icons:reddit
+          searchUrl: https://www.reddit.com/search?q={query}
+          url: https://www.reddit.com
+        - name: YouTube
+          token: 'y'
+          icon: simple-icons:youtube
+          searchUrl: https://www.youtube.com/results?search_query={query}
+          url: https://www.youtube.com
+        - name: Spotify
+          token: s
+          icon: simple-icons:spotify
+          searchUrl: hhttps://open.spotify.com/search/{query}
+          url: https://open.spotify.com
       namespaceSelector:
         matchNames:
           - default
           - flux-system
           - monitoring
           - networking
-          - rook-ceph
+          - services
       customApps:
         - group: servers
           apps:
@@ -72,11 +102,11 @@ spec:
         - group: Kubernetes
           bookmarks:
             - name: SpaceSyl/home-ops
-              icon: mdi:github
+              icon: simple-icons:github
               url: https://github.com/spacesyl/k3s
               targetBlank: false
             - name: SpaceSyl/containers
-              icon: ''
+              icon: 'simple-icons:linux containers'
               url: https://github.com/spacesyl/container-freeradius
               targetBlank: false
             - name: k8s-at-home-search
