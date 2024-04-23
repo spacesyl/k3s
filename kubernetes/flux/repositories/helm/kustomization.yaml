@@ -12,6 +12,7 @@ resources:
   - ./deliveryhero.yaml
   - ./democratic-csi.yaml
   - ./descheduler.yaml
+  - ./dex.yaml
   - ./emberstack.yaml
   - ./external-dns.yaml
   - ./external-secrets.yaml
