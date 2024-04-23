@@ -89,6 +89,7 @@ spec:
           - monitoring
           - networking
           - services
+          - observability
       customApps:
         - group: servers
           apps:
