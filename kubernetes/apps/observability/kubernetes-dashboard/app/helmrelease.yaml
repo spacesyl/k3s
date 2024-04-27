@@ -16,26 +16,39 @@ spec:
         namespace: flux-system
 
   values:
-    image:
-      repository: kubernetesui/dashboard
-      tag: v2.7.0
-    protocolHttps: true
-    ingress:
-      enabled: true
-      className: internal
-      annotations:
-        hajimari.io/enable: "true"
-        hajimari.io/appName: "Kubernetes Dashboard"
-        hajimari.io/icon: mdi:monitor-dashboard
-        hajimari.io/group: "monitoring"
-      hosts:
-        - dashboard.${SECRET_DOMAIN}
-      tls:
-        - secretName: "${SECRET_DOMAIN/./-}-tls"
-          hosts:
-            - "dashboard.${SECRET_DOMAIN}"
-    extraArgs:
-      - --enable-skip-login
-      - --disable-settings-authorizer
+    app:
+      image:
+        pullPolicy: IfNotPresent
+
+      ingress:
+        enabled: true
+        annotations:
+          hajimari.io/enable: "true"
+          hajimari.io/icon: logos:kubernetes
+          hajimari.io/info: Kubernetes dashboard
+          hajimari.io/group: admin
+          nginx.ingress.kubernetes.io/proxy-body-size: "100m"
+        hosts:
+          - dashboard.${SECRET_DOMAIN}
+        secretName: null
+        tls:
+        - hosts:
+          - dashboard.${SECRET_DOMAIN}
+    api:
+      containers:
+      # https://github.com/kubernetes/dashboard/blob/master/docs/common/arguments.md
+        args:
+          # When enabled, the skip button on the login page will be shown.
+          - --enable-skip-login
+          # When enabled, Dashboard settings page will not require user to be logged in and authorized to access settings page.
+          - --disable-settings-authorizer
+          # When enabled, Dashboard login view will also be shown when Dashboard is not served over HTTPS.
+          - --enable-insecure-login
     metricsScraper:
       enabled: true
+    nginx:
+      enabled: false
+    cert-manager:
+      enabled: false
+    metrics-server:
+      enabled: false
