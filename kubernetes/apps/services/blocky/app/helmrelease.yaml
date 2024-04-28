@@ -31,14 +31,14 @@ spec:
         annotations:
           configmap.reloader.stakater.com/reload: blocky-config
           secret.reloader.stakater.com/reload: blocky-tls, blocky-secret
-        initContainers:
-          init-db:
-            image:
-              repository: ghcr.io/onedr0p/postgres-init
-              tag: 16
-            envFrom:
-              - secretRef:
-                  name: blocky-secret
+        # initContainers:
+        #   init-db:
+        #     image:
+        #       repository: ghcr.io/onedr0p/postgres-init
+        #       tag: 16
+        #     envFrom:
+        #       - secretRef:
+        #           name: blocky-secret
         containers:
           app:
             image:
