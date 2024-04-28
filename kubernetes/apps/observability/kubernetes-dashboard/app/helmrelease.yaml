@@ -30,9 +30,9 @@ spec:
           nginx.ingress.kubernetes.io/proxy-body-size: "100m"
         hosts:
           - dashboard.${SECRET_DOMAIN}
-        secretName: null
         tls:
-        - hosts:
+          secretName: null
+          hosts:
           - dashboard.${SECRET_DOMAIN}
     api:
       containers:
