@@ -132,16 +132,16 @@ prometheus:
 
 ports:
   dns: 53
-  # https: 443
-  # tls: 853
+  https: 443
+  tls: 853
   http: 4000
-# certFile: /certs/tls.crt
-# keyFile: /certs/tls.key
+certFile: /certs/tls.crt
+keyFile: /certs/tls.key
 log:
   level: info
   format: text
 
-# queryLog:
-#   type: postgresql
-#   target: postgresql://{{ .POSTGRES_BLOCKY_USER }}:{{ .POSTGRES_BLOCKY_PASS }}@cnpg-blocky-rw.databases.svc.cluster.local:5432/blocky
-#   logRetentionDays: 10
+queryLog:
+  type: postgresql
+  target: postgresql://{{ .POSTGRES_BLOCKY_USER }}:{{ .POSTGRES_BLOCKY_PASS }}@cnpg-blocky-rw.databases.svc.cluster.local:5432/blocky
+  logRetentionDays: 10
