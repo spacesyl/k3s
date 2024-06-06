@@ -45,7 +45,7 @@ spec:
     endpointRoutes:
       enabled: true
     hubble:
-      enabled: true
+      enabled: false
       metrics:
         enabled:
           - dns:query
