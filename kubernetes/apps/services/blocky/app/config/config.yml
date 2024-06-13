@@ -31,7 +31,7 @@ redis:
   connectionCooldown: 3s
 
 blocking:
-  blackLists:
+  denylists:
     ads: # Ref: https://firebog.net
       - https://adaway.org/hosts.txt
       - https://v.firebog.net/hosts/AdguardDNS.txt
@@ -91,7 +91,7 @@ blocking:
 
     noblock: []
 
-  whiteLists:
+  allowlists:
     ads: &whiteList
       - https://raw.githubusercontent.com/anudeepND/whitelist/master/domains/whitelist.txt
     malicious: *whiteList
