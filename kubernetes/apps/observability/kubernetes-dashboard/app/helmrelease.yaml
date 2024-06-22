@@ -45,7 +45,7 @@ spec:
             - *host
 
     metricsScraper:
-      enabled: true
+      enabled: false
     nginx:
       enabled: false
     cert-manager:
