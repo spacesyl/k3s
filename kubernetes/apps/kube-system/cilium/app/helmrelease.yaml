@@ -107,6 +107,8 @@ spec:
       enabled: true
       annotations:
         grafana_folder: Cilium
+    envoy:
+      enabled: false
     rollOutCiliumPods: true
     routingMode: native
     securityContext:
