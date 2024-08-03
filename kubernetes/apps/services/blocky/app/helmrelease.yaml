@@ -48,11 +48,11 @@ spec:
               TZ: ${TZ}
             resources:
               requests:
-                cpu: 50m
-                memory: 128M
+                cpu: 128M
+                memory: 256M
               limits:
                 cpu: 500m
-                memory: 512M
+                memory: 512m
             # probes:
             #   liveness: &probes
             #     enabled: true
