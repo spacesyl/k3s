@@ -49,10 +49,10 @@ spec:
             resources:
               requests:
                 cpu: 128m
-                memory: 256m
+                memory: 256Mi
               limits:
-                cpu: 500m
-                memory: 512m
+                cpu: 1
+                memory: 512Mi
             # probes:
             #   liveness: &probes
             #     enabled: true
@@ -162,8 +162,8 @@ spec:
     persistence:
       config:
         # enabled: true
-        type: secret
-        name: blocky-secret
+        type: configMap
+        name: blocky-config
         globalMounts:
           - path: /app/config.yml
             subPath: config.yml
