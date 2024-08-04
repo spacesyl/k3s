@@ -48,8 +48,8 @@ spec:
               TZ: ${TZ}
             resources:
               requests:
-                cpu: 128M
-                memory: 256M
+                cpu: 128m
+                memory: 256m
               limits:
                 cpu: 500m
                 memory: 512m
