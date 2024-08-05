@@ -4,7 +4,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: security
 resources:
-  - "https://github.com/sbordeyne/kanidm-operator/tree/master/manifests/crds"
-  - "https://github.com/sbordeyne/kanidm-operator/tree/master/manifests/operator"
+  # - "https://github.com/sbordeyne/kanidm-operator/tree/master/manifests/crds"
+  # - "https://github.com/sbordeyne/kanidm-operator/tree/master/manifests/operator"
   # - tls.yaml
   # - helmrelease.yaml
