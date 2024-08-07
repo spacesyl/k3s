@@ -230,6 +230,7 @@ spec:
               static_use_hash: true
               infinite_scroll: true
               default_theme: "simple"
+              center_alignment: true
               theme_args:
                 simple_style: "light"
             enabled_plugins:
