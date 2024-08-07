@@ -95,16 +95,16 @@ spec:
     persistence:
       config:
         type: secret
-        name: glauth-secret
+        name: glauth-secrets
         globalMounts:
           - path: /config/server.toml
-            subPath: server.toml
+            subPath: glauth_server.toml
             readOnly: true
           - path: /config/groups.toml
-            subPath: groups.toml
+            subPath: glauth_groups.toml
             readOnly: true
           - path: /config/users.toml
-            subPath: users.toml
+            subPath: glauth_users.toml
             readOnly: true
       tls:
         type: secret
