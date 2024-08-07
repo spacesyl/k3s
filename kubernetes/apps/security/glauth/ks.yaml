@@ -10,6 +10,7 @@ spec:
   targetNamespace: &namespace security
   dependsOn:
     - name: cert-manager-issuers
+    - name: external-secrets-doppler
   path: './kubernetes/apps/security/glauth/app/'
   prune: true
   sourceRef:
