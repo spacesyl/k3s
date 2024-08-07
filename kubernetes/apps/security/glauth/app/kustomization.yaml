@@ -6,6 +6,7 @@ resources:
   - helmrelease.yaml
   - tls.yaml
   - hpa.yaml
+  - secrets.yaml
 secretGenerator:
   - name: glauth-secret
     files:
