@@ -3,157 +3,114 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: &app kanidm
-  namespace: security
 spec:
-  interval: 10m
+  interval: 30m
   chart:
     spec:
       chart: app-template
-      version: 3.3.2
+      version: 3.2.1
       sourceRef:
-        name: bjw-s
         kind: HelmRepository
+        name: bjw-s
         namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  dependsOn:
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
+    - name: volsync
+      namespace: storage
   values:
-    defaultPodOptions:
-      nodeSelector:
-        openebs.io/storage: "true"
-    automountServiceAccountToken: false
-    controller:
-      type: statefulset
-    image:
-      repository: docker.io/kanidm/server
-      tag: latest@sha256:3f089e478ccc9cd91690d2580ba014dc27534eede09053a1cfd9a160adbb3050
-    env:
-      TZ: "${TZ}"
-    service:
-      main:
-        enabled: true
-        type: LoadBalancer
-        externalTrafficPolicy: Local
+    controllers:
+      kanidm:
         annotations:
-          coredns.io/hostname: "idm.${SECRET_DOMAIN}"
-          "io.cilium/lb-ipam-ips": "10.17.8.7"
-        externalIPs:
-          - "10.17.8.7"
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: docker.io/kanidm/server
+              tag: 1.2.3@sha256:a77460ef91253f48d270546dbe5c15608af258bb0e440b5010c6a736675b3044
+            env:
+              TZ: ${TIMEZONE}
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 10m
+                memory: 128Mi
+              limits:
+                memory: 512Mi
+        pod:
+          enableServiceLinks: false
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+            runAsNonRoot: true
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
+    service:
+      app:
+        controller: kanidm
+        annotations:
+          traefik.ingress.kubernetes.io/service.serversscheme: https
         ports:
           http:
-            enabled: true
-            port: 443
-            targetPort: 8443
-            protocol: HTTPS
+            port: 8443
           ldap-tcp:
-            enabled: true
             port: 636
             targetPort: 3636
             protocol: TCP
           ldap-udp:
-            enabled: true
             port: 636
             targetPort: 3636
             protocol: UDP
     ingress:
-      main:
-        enabled: true
-        primary: true
-        ingressClassName: internal
+      app:
+        className: traefik-internal
         annotations:
-          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-          # https://github.com/kubernetes/ingress-nginx/issues/6728
-          nginx.ingress.kubernetes.io/server-snippet: |
-            proxy_ssl_name idm.${SECRET_DOMAIN};
-            proxy_ssl_server_name on;
-            large_client_header_buffers 4 8k;
-            client_header_buffer_size 8k;
-          # without header buffer size, will get following errors due to hardening ingress-nginx number of header buffers to 2 and header buffer size to 1k:
-          # HTTP1.1 /v1/auth/valid: 400 Request Header Or Cookie Too Large
-          # HTTP2 /v1/auth/valid: HTTP/2 stream was not closed cleanly before end of the underlying stream
+          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+          traefik.ingress.kubernetes.io/router.middlewares: "networking-traefik-middleware-chain-no-auth@kubernetescrd"
         hosts:
-          - host: &host "idm.${SECRET_DOMAIN}"
+          - host: &host "kanidm.${SECRET_DOMAIN}"
             paths:
               - path: /
-                pathType: Prefix
+                service:
+                  identifier: app
+                  port: http
         tls:
           - hosts:
               - *host
-#     dnsConfig:
-#       options:
-#         - name: ndots
-#           value: "1"
-    podSecurityContext:
-      runAsUser: &uid 1500
-      runAsGroup: *uid
-      fsGroup: *uid
-      fsGroupChangePolicy: Always
-    volumeClaimTemplates:
-      - name: data
-        mountPath: /data
-        accessMode: ReadWriteOnce
-        size: 500Mi
-        storageClass: openebs-hostpath
-      - name: backup
-        mountPath: /backup
-        accessMode: ReadWriteOnce
-        size: 500Mi
-        storageClass: openebs-hostpath
+            secretName: "${SECRET_DOMAIN/./-}-production-tls"
     persistence:
       config:
-        enabled: true
         type: configMap
-        name: kanidm-config
-        subPath: server.toml
-        mountPath: /data/server.toml
-        readOnly: true
-      tls-fullchain:
-        enabled: true
+        name: kanidm-configmap
+        defaultMode: 0400
+        globalMounts:
+          - path: /data/server.toml
+            subPath: server.toml
+            readOnly: true
+      # data:
+      #   existingClaim: kanidm
+      #   globalMounts:
+      #     - path: /data
+      tls:
         type: secret
-        name: kanidm-tls
-        subPath: tls.crt
-        mountPath: /tls/fullchain.pem
-        readOnly: true
-      tls-privkey:
-        enabled: true
-        type: secret
-        name: kanidm-tls
-        subPath: tls.key
-        mountPath: /tls/privkey.pem
-        readOnly: true
-    configMaps:
-      config:
-        enabled: true
-        data:
-          server.toml: |-
-            domain = "idm.${SECRET_DOMAIN}"
-            origin = "https://idm.${SECRET_DOMAIN}"
-            tls_chain = "/tls/fullchain.pem"
-            tls_key = "/tls/privkey.pem"
-            role = "WriteReplica"
-            log_level = "verbose"
-            bindaddress = "[::]:8443"
-            ldapbindaddress = "[::]:3636"
-            trust_x_forward_for = true
-            db_path = "/data/kanidm.db"
-            db_fs_type = "other"
-            [online_backup]
-            path = "/backup/"
-            schedule = "0 0 22 * * * *"
-            versions = 7
-    resources:
-      requests:
-        cpu: 10m
-        memory: 128Mi
-      limits:
-        memory: 6000Mi
-    initContainers:
-      01-init-kanidm-admin-password:
-        command:
-        - /bin/sh
-        - -c
-        - '[ -s /data/kanidm.db ] || /sbin/kanidmd recover_account -c /data/server.toml admin'
-        image: docker.io/kanidm/server:latest@sha256:3f089e478ccc9cd91690d2580ba014dc27534eede09053a1cfd9a160adbb3050
-        imagePullPolicy: IfNotPresent
-        volumeMounts:
-        - mountPath: /data
-          name: data
-        - mountPath: /config
-          name: config
+        name: "${SECRET_DOMAIN/./-}-production-tls"
+        defaultMode: 0400
+        globalMounts:
+          - subPath: tls.crt
+            path: /tls/fullchain.pem
+            readOnly: true
+          - subPath: tls.key
+            path: /tls/privkey.pem
+            readOnly: true
