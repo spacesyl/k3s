@@ -9,7 +9,7 @@ spec:
   dependsOn:
     - name: external-secrets-doppler
     - name: cert-manager
-  path: ./kubernetes/main/apps/security/kanidm/app
+  path: ./kubernetes/apps/security/kanidm/app
   prune: true
   sourceRef:
     kind: GitRepository
