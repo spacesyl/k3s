@@ -7,7 +7,8 @@ metadata:
 spec:
   targetNamespace: security
   dependsOn:
-    - name: external-secrets-stores
+    - name: external-secrets-doppler
+    - name: cert-manager
   path: ./kubernetes/main/apps/security/kanidm/app
   prune: true
   sourceRef:
