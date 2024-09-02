@@ -20,6 +20,6 @@ kubernetes:
         "k8s5":
           ansible_user: "root"
           ansible_host: "10.17.8.25"
-        "k8s6":
-          ansible_user: "root"
-          ansible_host: "10.17.8.26"
+        # "k8s6":
+        #   ansible_user: "root"
+        #   ansible_host: "10.17.8.26"
