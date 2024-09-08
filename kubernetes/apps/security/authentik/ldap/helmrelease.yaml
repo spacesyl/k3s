@@ -35,7 +35,7 @@ spec:
           main:
             image:
               repository: ghcr.io/goauthentik/ldap
-              tag: "2024.8.0"
+              tag: "2024.8.1"
             env:
               TZ: "${TZ}"
               AUTHENTIK_HOST: "https://id.${SECRET_DOMAIN}"
