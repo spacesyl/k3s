@@ -26,11 +26,10 @@ spec:
   values:
     fullnameOverride: ingress-nginx-external
     controller:
-      replicaCount: 1
       service:
         annotations:
           external-dns.alpha.kubernetes.io/hostname: "external.${SECRET_DOMAIN}"
-          io.cilium/lb-ipam-ips: "#{ bootstrap_cloudflare.tunnel.ingress_vip }#"
+          lbipam.cilium.io/ips: "#{ bootstrap_cloudflare.tunnel.ingress_vip }#"
         externalTrafficPolicy: Cluster
       ingressClassResource:
         name: external
@@ -73,19 +72,8 @@ spec:
         #% else %#
         default-ssl-certificate: "network/${SECRET_DOMAIN/./-}-staging-tls"
         #% endif %#
-      topologySpreadConstraints:
-        - maxSkew: 1
-          topologyKey: kubernetes.io/hostname
-          whenUnsatisfiable: DoNotSchedule
-          labelSelector:
-            matchLabels:
-              app.kubernetes.io/name: ingress-nginx
-              app.kubernetes.io/instance: ingress-nginx-external
-              app.kubernetes.io/component: controller
       resources:
         requests:
           cpu: 100m
         limits:
           memory: 500Mi
-    defaultBackend:
-      enabled: false
