@@ -79,6 +79,7 @@ spec:
         annotations:
           hajimari.io/enable: "true"
           hajimari.io/icon: mdi:search-web
+          internal-dns.alpha.kubernetes.io/target: "internal.${SECRET_DOMAIN}"
         hosts:
           - host: &host "search.${SECRET_DOMAIN}"
             paths:
