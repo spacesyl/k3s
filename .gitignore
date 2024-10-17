@@ -24,4 +24,4 @@ Brewfile.lock.json
 # wiki
 wiki
 # Bootstrap
-/config.yaml
+/config.yaml*
