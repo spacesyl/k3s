@@ -100,7 +100,7 @@ You have two different options for setting up your local workstation.
 
 3. Install the additional **required** CLI tools
 
-   📍 _**Not using Homebrew or ArchLinux?** Try using the generic Linux task below, if that fails check out the [Brewfile](.taskfiles/Workstation/Brewfile)/[Archfile](.taskfiles/Workstation/Archfile) for what CLI tools needed and install them._
+   📍 _**Not using Homebrew or ArchLinux?** Try using the generic Linux task below, if that fails check out the [Brewfile](.taskfiles/workstation/Brewfile)/[Archfile](.taskfiles/workstation/Archfile) for what CLI tools needed and install them._
 
     ```sh
     # Homebrew
@@ -359,7 +359,7 @@ task talos:upgrade-node HOSTNAME=? VERSION=?
 ```sh
 # Upgrade cluster to a newer Kubernetes version
 task talos:upgrade-k8s VERSION=?
-# e.g. task talos:upgrade-k8s VERSION=1.30.1
+# e.g. task talos:upgrade-k8s VERSION=v1.30.1
 ```
 
 ## 👉 Help
