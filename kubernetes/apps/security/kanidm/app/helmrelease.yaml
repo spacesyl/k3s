@@ -31,7 +31,7 @@ spec:
           app:
             image:
               repository: docker.io/kanidm/server
-              tag: 1.4.1@sha256:131e1cf354f3bd9501e87fd720e693457a81710e313da91d94f302ebef6d1584
+              tag: 1.4.2@sha256:f9e397baf9294bab0539d27c267b62957a7ab1bb95241d96a6c98fcf60cc339e
             env:
               TZ: ${TIMEZONE}
             securityContext:
