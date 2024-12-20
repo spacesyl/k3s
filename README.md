@@ -20,8 +20,10 @@ The features included will depend on the type of configuration you want to use. 
 
 **Other features include:**
 
-- A [Renovate](https://www.mend.io/renovate)-ready repository with pull request diffs provided by [flux-local](https://github.com/allenporter/flux-local)
-- Integrated [GitHub Actions](https://github.com/features/actions) with helpful workflows.
+- Dev env managed w/ [mise](https://mise.jdx.dev/)
+- Workflow automation w/ [GitHub Actions](https://github.com/features/actions)
+- Dependency automation w/ [Renovate](https://www.mend.io/renovate)
+- Flux HelmRelease and Kustomization diffs w/ [flux-local](https://github.com/allenporter/flux-local)
 
 ## 💻 Machine Preparation
 
@@ -42,8 +44,6 @@ The features included will depend on the type of configuration you want to use. 
 
 2. Flash the iso or raw file to a USB drive and boot to Talos on your nodes with it.
 
-3. Continue on to 🚀 [**Getting Started**](#-getting-started)
-
 ## 🚀 Getting Started
 
 Once you have installed Talos on your nodes, there are six stages to getting a Flux-managed cluster up and running.
@@ -55,71 +55,24 @@ Once you have installed Talos on your nodes, there are six stages to getting a F
 
 1. Create a new **public** repository by clicking the big green "Use this template" button at the top of this page.
 
-2. Clone **your new repo** to you local workstation and `cd` into it.
-
-3. Continue on to 🌱 [**Stage 2**](#-stage-2-setup-your-local-workstation-environment)
+2. Use `git clone` to download **the repo you just created** to your local workstation and `cd` into it.
 
 ### 🌱 Stage 2: Setup your local workstation
 
-You have two different options for setting up your local workstation.
+1. **Install** and **activate** [mise](https://mise.jdx.dev/) following the instructions for your workstation [here](https://mise.jdx.dev/getting-started.html).
 
-- First option is using a `devcontainer` which requires you to have Docker and VSCode installed. This method is the fastest to get going because all the required CLI tools are provided for you in my [devcontainer](https://github.com/onedr0p/cluster-template/pkgs/container/cluster-template%2Fdevcontainer) image.
-- The second option is setting up the CLI tools directly on your workstation.
-
-#### Devcontainer method
-
-1. Start Docker and open your repository in VSCode. There will be a pop-up asking you to use the `devcontainer`, click the button to start using it.
-
-2. Continue on to 🔧 [**Stage 3**](#-stage-3-bootstrap-configuration)
-
-#### Non-devcontainer method
-
-1. Install the most recent version of [task](https://taskfile.dev/) and [direnv](https://direnv.net/)
+2. Use mise to install the **required** CLI tools.
 
     ```sh
-    # Homebrew
-    brew install direnv go-task
-    # or, Arch
-    pacman -S --noconfirm direnv go-task \
-      && ln -sf /usr/bin/go-task /usr/local/bin/task
+    mise trust
+    mise install
     ```
 
-2. [Hook `direnv` into your preferred shell](https://direnv.net/docs/hook.html), then run:
+3. Use mise to install the **required** Python dependencies.
 
     ```sh
-    task workstation:direnv
+    mise run install
     ```
-
-    📍 _**Verify** that `direnv` is setup properly by opening a new terminal and `cd`ing into your repository. You should see something like:_
-
-    ```sh
-    cd /path/to/repo
-    direnv: loading ... .envrc
-    direnv: export +VIRTUAL_ENV ... ~PATH
-    ```
-
-3. Install the additional **required** CLI tools
-
-   📍 _**Not using Homebrew or ArchLinux?** Try using the generic Linux task below, if that fails check out the [Brewfile](.taskfiles/workstation/Brewfile)/[Archfile](.taskfiles/workstation/Archfile) for what CLI tools needed and install them._
-
-    ```sh
-    # Homebrew
-    task workstation:brew
-    # or, Arch with yay/paru
-    task workstation:arch
-    # or, Generic Linux (YMMV, this pulls binaires in to ./bin)
-    task workstation:generic-linux
-    ```
-
-4. Setup a Python virtual environment by running the following task command.
-
-    📍 _This commands requires Python 3.11+ to be installed._
-
-    ```sh
-    task workstation:venv
-    ```
-
-5. Continue on to 🔧 [**Stage 3**](#-stage-3-bootstrap-configuration)
 
 ### 🔧 Stage 3: Bootstrap configuration
 
@@ -127,6 +80,8 @@ You have two different options for setting up your local workstation.
 > The [config.sample.yaml](./config.sample.yaml) file contains config that is **vital** to the bootstrap process.
 
 1. Generate the `config.yaml` from the [config.sample.yaml](./config.sample.yaml) configuration file.
+
+   📍 _If the below command fails `mise` is either not install or configured incorrectly._
 
     ```sh
     task init
@@ -158,7 +113,7 @@ You have two different options for setting up your local workstation.
     task bootstrap:talos
     ```
 
-2. ⚠️ It might take a while for the cluster to be setup (10+ minutes is normal), during which time you will see a variety of error messages like: "couldn't get current server API group list," "error: no matching resources found", etc. This is a normal. If this step gets interrupted, e.g. by pressing <kbd>Ctrl</kbd> + <kbd>C</kbd>, you likely will need to [nuke the cluster](#-Nuke) before trying again.
+2. ⚠️ It might take a while for the cluster to be setup (10+ minutes is normal), during which time you will see a variety of error messages like: "couldn't get current server API group list," "error: no matching resources found", etc. This is a normal. If this step gets interrupted, e.g. by pressing <kbd>Ctrl</kbd> + <kbd>C</kbd>, you likely will need to [reset the cluster](#-reset) before trying again.
 
 #### Cluster validation
 
@@ -166,16 +121,12 @@ You have two different options for setting up your local workstation.
 
 2. Verify the nodes are online
 
-    📍 _If this command **fails** you likely haven't configured `direnv` as [mentioned previously](#non-devcontainer-method) in the guide._
-
     ```sh
     kubectl get nodes -o wide
     # NAME           STATUS   ROLES                       AGE     VERSION
     # k8s-0          Ready    control-plane,etcd,master   1h      v1.30.1
     # k8s-1          Ready    worker                      1h      v1.30.1
     ```
-
-3. Continue on to 🔹 [**Stage 6**](#-stage-6-install-flux-in-your-cluster)
 
 ### 🔹 Stage 6: Install Flux in your cluster
 
