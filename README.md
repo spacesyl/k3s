@@ -70,10 +70,10 @@ Once you have installed Talos on your nodes, there are six stages to getting a F
     mise install
     ```
 
-3. Use mise to install the **required** Python dependencies.
+3. Use mise to install the **required** Python dependencies with `pip`.
 
     ```sh
-    mise run install
+    mise run pip
     ```
 
 ### 🔧 Stage 3: Bootstrap configuration
@@ -311,8 +311,6 @@ Below is a general guide on trying to debug an issue with an resource or applica
 
     ```sh
     kubectl -n <namespace> logs <pod-name> -f
-    # or
-    stern -n <namespace> <fuzzy-name>
     ```
 
 5. If a resource exists try to describe it to see what problems it might have.
@@ -364,7 +362,13 @@ If this repo is too hot to handle or too cold to hold check out these following 
 
 <div align="center">
 
-[![Star History Chart](https://api.star-history.com/svg?repos=onedr0p/cluster-template&type=Date)](https://star-history.com/#onedr0p/cluster-template&Date)
+<a href="https://star-history.com/#onedr0p/cluster-template&Date">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=onedr0p/cluster-template&type=Date&theme=dark" />
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=onedr0p/cluster-template&type=Date" />
+    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=onedr0p/cluster-template&type=Date" />
+  </picture>
+</a>
 
 </div>
 
