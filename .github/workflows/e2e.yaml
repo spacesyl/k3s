@@ -6,13 +6,14 @@ on:
   workflow_dispatch:
   pull_request:
     branches: ["main"]
+    paths-ignore:
+      - kubernetes/**
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
-
   configure:
     if: ${{ github.repository == 'onedr0p/cluster-template' }}
     name: configure
@@ -29,28 +30,23 @@ jobs:
       - name: Setup mise
         uses: jdx/mise-action@v2
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
-      - name: Install Python dependencies
-        shell: bash
-        run: mise run pip
+      - name: Install dependencies
+        run: mise run deps
 
-      - name: Run Sops Age key task
-        shell: bash
-        run: task bootstrap:age-keygen
+      - name: Run age task
+        run: task template:generate-age-key
 
-      - name: Run init tasks
-        shell: bash
+      - name: Run init task
         run: |
           task init
           cp ./.github/tests/config-${{ matrix.config-files }}.yaml ./config.yaml
-          export BOOTSTRAP_AGE_PUBLIC_KEY=$(sed -n 's/# public key: //gp' age.key)
+          export TEMPLATE_AGE_PUBLIC_KEY=$(sed -n 's/# public key: //gp' age.key)
           envsubst < ./config.yaml > ./config.yaml.tmp && mv ./config.yaml.tmp ./config.yaml
 
       - name: Run configure task
-        shell: bash
         run: task configure --yes
 
-      - name: Run clean
-        shell: bash
-        run: task bootstrap:clean
+      - name: Run cleanup task
+        run: task template:cleanup --yes
