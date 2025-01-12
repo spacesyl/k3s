@@ -3,7 +3,7 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./glauth/ks.yaml
-  # - ./authentik/ks.yaml
+  # - ./authelia/ks.yaml
   # - ./kanidm/ks.yaml
   # - ./lldap/ks.yaml
   - ./external-secrets/ks.yaml
