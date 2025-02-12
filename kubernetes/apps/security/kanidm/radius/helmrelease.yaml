@@ -31,7 +31,7 @@ spec:
           app:
             image:
               repository: docker.io/kanidm/radius
-              tag: 1.4.6@sha256:94ae0e19b8856b698ed893627ae829c11e61c556849d011aec2641e41f1d342a
+              tag: 1.5.0@sha256:188ea326b4a1f316e1a2bb43c48b7105febbe65bc0091884e61c5cecbfd5b339
             env:
               TZ: ${TIMEZONE}
             securityContext:
