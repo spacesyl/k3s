@@ -19,3 +19,6 @@ talosconfig
 .venv/
 .DS_Store
 Thumbs.db
+# Bootstrap
+/config.yaml*
+cloudflared.json
