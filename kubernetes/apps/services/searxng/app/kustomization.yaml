@@ -5,3 +5,8 @@ namespace: services
 resources:
   - ./secret.yaml
   - ./helmrelease.yaml
+configMapGenerator:
+  - name: searxng
+    files:
+      - ./resources/limiter.toml
+      - ./resources/settings.yml
