@@ -1,0 +1,34 @@
+apiVersion: longhorn.io/v1beta2
+kind: RecurringJob
+metadata:
+  name: daily-backup
+  namespace: longhorn-system
+spec:
+  cron: 45 23 * * *
+  name: daily-backup
+  retain: 7
+  task: backup
+---
+apiVersion: longhorn.io/v1beta2
+kind: RecurringJob
+metadata:
+  name: daily-snapshot-cleanup
+  namespace: longhorn-system
+spec:
+  cron: 30 23 * * *
+  groups:
+    - base
+  name: daily-snapshot-cleanup
+  task: snapshot-cleanup
+---
+apiVersion: longhorn.io/v1beta2
+kind: RecurringJob
+metadata:
+  name: weekly-trim
+  namespace: longhorn-system
+spec:
+  cron: 0 0 * * 0
+  groups:
+    - base
+  name: weekly-trim
+  task: filesystem-trim

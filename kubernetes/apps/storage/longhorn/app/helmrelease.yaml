@@ -1,0 +1,30 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: longhorn
+  namespace: storage
+spec:
+  interval: 1m
+  chart:
+    spec:
+      chart: longhorn
+      version: 1.8.1
+      sourceRef:
+        kind: HelmRepository
+        name: longhorn
+        namespace: flux-system
+  values:
+    # all nodes are supposed to be used for storage
+    # this also needs to be applied to `engine-image-ei-*` and probably `longhorn-csi-plugin`, which is not possible via chart
+    # patched in the respective flux kustomization
+    global:
+      tolerations:
+        - operator: Exists
+    persistence:
+      defaultFsType: "xfs"
+      recurringJobSelector:
+        enabled: true
+    defaultSettings:
+      backupTarget: nfs://nash.${INTERNAL_SECRET_DOMAIN}:/backup/longhorn
+      backupCompressionMethod: None
+      rwxVolumeFastFailover: true
