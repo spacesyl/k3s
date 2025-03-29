@@ -8,6 +8,12 @@ upstreams:
       - https://dns.quad9.net/dns-query
   timeout: 2s
 
+customDNS:
+  mapping:
+    printer.${SECRET_INTERNAL_DOMAIN}: 10.17.1.11
+    9.1.17.10.in-addr.arpa: nash.${SECRET_INTERNAL_DOMAIN}
+    11.1.17.10.in-addr.arpa: printer.${SECRET_INTERNAL_DOMAIN}
+
 conditional:
   mapping:
     ${SECRET_INTERNAL_DOMAIN}: tcp+udp:10.17.8.1
