@@ -21,10 +21,10 @@ spec:
       tolerations:
         - operator: Exists
     persistence:
-      defaultFsType: "xfs"
+      defaultFsType: "ext4"
       recurringJobSelector:
         enabled: true
     defaultSettings:
-      backupTarget: nfs://nash.${INTERNAL_SECRET_DOMAIN}:/backup/longhorn
+      backupTarget: nfs://nash.${SECRET_INTERNAL_DOMAIN}:/backup/longhorn
       backupCompressionMethod: None
       rwxVolumeFastFailover: true
