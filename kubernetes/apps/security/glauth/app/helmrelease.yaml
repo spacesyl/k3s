@@ -9,6 +9,7 @@ spec:
     kind: OCIRepository
     name: app-template
     version: "3.3.2"
+    namespace: flux-system
   maxHistory: 3
   install:
     createNamespace: true
