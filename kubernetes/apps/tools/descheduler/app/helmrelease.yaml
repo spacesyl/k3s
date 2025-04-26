@@ -12,7 +12,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: descheduler
-        namespace: flux-system
+        namespace: tools
   install:
     remediation:
       retries: 3
