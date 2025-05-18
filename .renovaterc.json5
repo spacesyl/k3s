@@ -10,41 +10,23 @@
     ':semanticCommits',
   ],
   dependencyDashboard: true,
-  dependencyDashboardTitle: 'Renovate Dashboard 🤖',
-  suppressNotifications: [
-    'prEditedNotification',
-    'prIgnoreNotification',
-  ],
-  schedule: [
-    'every weekend',
-  ],
-  ignorePaths: [
-    '**/*.sops.*',
-  ],
+  dependencyDashboardTitle: "Renovate Dashboard 🤖",
+  schedule: ["every weekend"],
+  ignorePaths: ["**/*.sops.*"],
   flux: {
-    managerFilePatterns: [
-      '/(^|/)kubernetes/.+\\.ya?ml(?:\\.j2)?$/',
-    ],
+    managerFilePatterns: ["/(^|/)kubernetes/.+\\.ya?ml(?:\\.j2)?$/"],
   },
-  'helm-values': {
-    managerFilePatterns: [
-      '/(^|/)kubernetes/.+\\.ya?ml(?:\\.j2)?$/',
-    ],
+  "helm-values": {
+    managerFilePatterns: ["/(^|/)kubernetes/.+\\.ya?ml(?:\\.j2)?$/"],
   },
   helmfile: {
-    managerFilePatterns: [
-      '/(^|/)helmfile\\.ya?ml(?:\\.j2)?$/',
-    ],
+    managerFilePatterns: ["/(^|/)helmfile\\.ya?ml(?:\\.j2)?$/"],
   },
   kubernetes: {
-    managerFilePatterns: [
-      '/(^|/)kubernetes/.+\\.ya?ml(?:\\.j2)?$/',
-    ],
+    managerFilePatterns: ["/(^|/)kubernetes/.+\\.ya?ml(?:\\.j2)?$/"],
   },
   kustomize: {
-    managerFilePatterns: [
-      '/(^|/)kustomization\\.ya?ml(?:\\.j2)?$/',
-    ],
+    managerFilePatterns: ["/^kustomization\\.ya?ml(?:\\.j2)?$/"],
   },
   packageRules: [
     {
@@ -232,12 +214,12 @@
   ],
   customManagers: [
     {
-      description: 'Process annotated dependencies',
-      customType: 'regex',
+      description: "Process annotated dependencies",
+      customType: "regex",
       managerFilePatterns: [
-        '/(^|/).+\\.env(?:\\.j2)?$/',
-        '/(^|/).+\\.sh(?:\\.j2)?$/',
-        '/(^|/).+\\.ya?ml(?:\\.j2)?$/',
+        "/(^|/).+\\.env(?:\\.j2)?$/",
+        "/(^|/).+\\.sh(?:\\.j2)?$/",
+        "/(^|/).+\\.ya?ml(?:\\.j2)?$/",
       ],
       matchStrings: [
         'datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( repository=(?<registryUrl>\\S+))?\\n.+(:\\s|=)(&\\S+\\s)?(?<currentValue>\\S+)',
