@@ -98,12 +98,18 @@
       ignoreTests: true,
     },
     {
-      matchUpdateTypes: [
-        'major',
-      ],
-      semanticCommitType: 'feat',
-      commitMessagePrefix: '{{semanticCommitType}}({{semanticCommitScope}})!:',
-      commitMessageExtra: '( {{currentVersion}} → {{newVersion}} )',
+      description: "Auto-merge Mise Tools",
+      matchManagers: ["mise"],
+      automerge: true,
+      automergeType: "branch",
+      matchUpdateTypes: ["patch"],
+      ignoreTests: true,
+    },
+    {
+      matchUpdateTypes: ["major"],
+      semanticCommitType: "feat",
+      commitMessagePrefix: "{{semanticCommitType}}({{semanticCommitScope}})!:",
+      commitMessageExtra: "( {{currentVersion}} → {{newVersion}} )",
     },
     {
       matchUpdateTypes: [
@@ -156,12 +162,13 @@
       commitMessageTopic: 'release {{depName}}',
     },
     {
-      matchUpdateTypes: [
-        'major',
-      ],
-      labels: [
-        'type/major',
-      ],
+      matchManagers: ["mise"],
+      semanticCommitScope: "mise",
+      commitMessageTopic: "tool {{depName}}",
+    },
+    {
+      matchUpdateTypes: ["major"],
+      labels: ["type/major"],
     },
     {
       matchUpdateTypes: [
