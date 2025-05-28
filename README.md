@@ -2,7 +2,7 @@
 
 Welcome to my template designed for deploying a single Kubernetes cluster. Whether you're setting up a cluster at home on bare-metal or virtual machines (VMs), this project aims to simplify the process and make Kubernetes more accessible. This template is inspired by my personal [home-ops](https://github.com/onedr0p/home-ops) repository, providing a practical starting point for anyone interested in managing their own Kubernetes environment.
 
-At its core, this project leverages [makejinja](https://github.com/mirkolenz/makejinja), a powerful tool for rendering templates. By reading configuration files—such as [cluster.yaml](./cluster.sample.yaml) and [nodes.yaml](./nodes.sample.yaml)—Makejinja generates the necessary configurations to deploy a Kubernetes cluster with the following features:  
+At its core, this project leverages [makejinja](https://github.com/mirkolenz/makejinja), a powerful tool for rendering templates. By reading configuration files—such as [cluster.yaml](./cluster.sample.yaml) and [nodes.yaml](./nodes.sample.yaml)—Makejinja generates the necessary configurations to deploy a Kubernetes cluster with the following features:
 
 - Easy configuration through YAML files.
 - Compatibility with home setups, whether on physical hardware or VMs.
@@ -152,6 +152,8 @@ There are **5 stages** outlined below for completing this project, make sure you
     task bootstrap:apps
     ```
 
+   📍 _**Having trouble with 403 errors?** You probably need to logout of `ghcr`, you can do that by running `helm registry logout ghcr.io` and `docker logout ghcr.io`_
+
 4. Watch the rollout of your cluster happen:
 
     ```sh
@@ -194,7 +196,7 @@ There are **5 stages** outlined below for completing this project, make sure you
 5. Check the status of your wildcard `Certificate`:
 
     ```sh
-    kubectl -n cert-manager describe certificates
+    kubectl -n kube-system describe certificates
     ```
 
 ### 🌐 Public DNS
