@@ -78,6 +78,13 @@ There are **5 stages** outlined below for completing this project, make sure you
 
    📍 _**Having trouble compiling Python?** Try running `mise settings python.compile=0` and then run these commands again_
 
+4. Logout of GitHub Container Registry (GHCR) as this may cause authorization problems when using the public registry:
+
+    ```sh
+    docker logout ghcr.io
+    helm registry logout ghcr.io
+    ```
+
 ### Stage 3: Cloudflare configuration
 
 > [!WARNING]
